@@ -9,7 +9,6 @@
 
     <version name="1.1d" url="http://openacs.org/repository/download/apm/edit-this-page-1.1.d.apm">
     <database-support>
-        <database>oracle</database>
         <database>postgresql</database>
     </database-support>
         <owner url="mailto:luke@museatech.net">Luke Pond</owner>
