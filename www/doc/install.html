@@ -1,0 +1,62 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>Installation instructions</title></head>
+<body bgcolor="white"><table border="1" width="100%"><tbody><tr><td><table border="1" bgcolor="#ffffff" cellpadding="10" cellspacing="0" width="100%" color="#ffffff"><tbody><tr><td><font face="arial,sans-serif" color="black" size="-1">This is <b><font color="#0039b6">G</font> <font color="#c41200">o</font> <font color="#f3c518">o</font> <font color="#0039b6">g</font> <font color="#30a72f">l</font> <font color="#c41200">e</font></b>'s <a href="http://www.google.com/help/features.html#cached"><font color="blue">cache</font></a> of <a href="http://etp.museatech.net/etpdoc/install"><font color="blue">http://etp.museatech.net/etpdoc/install</font></a>.<br>
+<b><font color="#0039b6">G</font> <font color="#c41200">o</font> <font color="#f3c518">o</font> <font color="#0039b6">g</font> <font color="#30a72f">l</font> <font color="#c41200">e</font></b>'s cache is the snapshot that we took of the page as we crawled the web.<br>
+The page may have changed since that time.  Click here for the <a href="http://etp.museatech.net/etpdoc/install"><font color="blue">current page</font></a> without highlighting.<br>To link to or bookmark this page, use the following url: <code>http://www.google.com/search?q=cache:ReiRsgzboSsC:etp.museatech.net/etpdoc/install+etp+documentation+site:etp.museatech.net&amp;hl=en&amp;ie=UTF-8</code></font><br><br><center><font size="-2"><i>Google is not affiliated with the authors of this page nor responsible for its content.</i></font></center></td></tr>
+<tr><td>
+<table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td><font face="arial,sans-serif" color="black" size="-1">These search terms have been highlighted: </font></td><td bgcolor="#ffff66"><b><font face="arial,sans-serif" color="black" size="-1">etp </font></b></td><td bgcolor="#a0ffff"><b><font face="arial,sans-serif" color="black" size="-1">documentation </font></b></td></tr></tbody></table>
+</td></tr></tbody></table></td></tr></tbody></table>
+<hr>
+ 
+
+
+
+
+
+
+<a href="http://www.museatech.net/">
+<img border="0" align="right" width="179" height="115" src="install_files/musealogo.jpg" alt="A Musea Technologies Project">
+</a>
+
+<h2>Installation instructions</h2>
+
+<span class="text">
+<a href="http://etp.museatech.net/">Edit This Page Demonstration</a> : <a href="http://etp.museatech.net/etpdoc/"><b style="color: black; background-color: rgb(255, 255, 102);">ETP </b><b style="color: black; background-color: rgb(160, 255, 255);">Documentation</b></a> : Installation instructions
+</span>
+
+<br clear="right">
+<hr>
+
+<span class="text">I'm assuming you've already installed OpenACS 4, loaded
+the data model, and you can see the "Congratulations!" page in your web browser.
+ First, install the <b style="color: black; background-color: rgb(255, 255, 102);">ETP</b> package by navigating to the package manager (found at <code>acs-admin/apm</code>), and selecting "Load a new package from a URL or local directory".  You may install the latest <b style="color: black; background-color: rgb(255, 255, 102);">ETP</b> distribution by entering  <code>http://<b style="color: black; background-color: rgb(255, 255, 102);">etp</b>.museatech.net/download/editthispage-1.0.apm</code>.
+<p>
+The Package Manager will retrieve the package code, place it in your server's 
+<code>packages/editthispage</code> directory, and perform the necessary database
+setup.  When that's done, you'll need to restart your server to load all
+of the package's tcl code.</p><p>
+Now you may test the package by visiting the Site Map (found at <code>admin/site-map</code>),
+creating a new directory, selecting "new application", and choosing Edit
+This Page.  Within that directory, anyone who has "write" permission will
+see a link that takes them to the <b style="color: black; background-color: rgb(255, 255, 102);">ETP</b> interface from which they may edit the content of the page.
+</p><p>However, you're not really having fun until you can modify your home
+page through your web browser.  By entering the following commands, you'll
+set up your site so that Edit This Page can also serve pages at the top level
+of the URL hierarchy, including your home page.  Doing this will not prevent
+access to the top-level admin pages; the acs-subsite package remains mounted
+at the top level.</p><blockquote><pre>cd /web/MYSERVER/www
+mkdir index-backup
+mv index* index-backup
+ln -s ../packages/edittthispage/www/index.vuh .
+</pre></blockquote>
+
+</span>
+
+<hr>
+<table width="100%">
+<tbody><tr>
+<td><address><a href="mailto:luke@museatech.net">luke@museatech.net</a></address></td>
+
+</tr>
+</tbody></table>
+
+</body></html>
