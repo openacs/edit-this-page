@@ -66,3 +66,5 @@ begin
   return 1;
 end;
 ' language 'plpgsql';
+
+/i ../edit-this-page-sc-create.sql
