@@ -16,12 +16,21 @@ etp::check_write_access
 
 set package_id [ad_conn package_id]
 
-if {[db_0or1row get_node_id ""]} {
-    site_map_unmount_application -delete_p "t" $node_id    
+db_transaction {
+
+    if {[db_0or1row get_node_id ""]} {
+	site_map_unmount_application -delete_p "t" $node_id    
+    }
+
+    # If an item with the same name is already in the trash,
+    # rename this item to "Copy of foo".
+    while {[db_string matching_name ""] > 0} {
+	db_dml update_name ""
+    }
+
+    db_dml trash_item ""
+
 }
-
-db_dml trash_item ""
-
 ad_returnredirect "etp"
 ad_script_abort
 
