@@ -1,4 +1,8 @@
 Edit This Page version history
+22 September 2003
+
+-Added support for enhanched text widget to content attribute
+-Converted etp-edit to use ad_form/form-builder
 
 25 January 2003
 -Oracle is broken. We will fix it later.

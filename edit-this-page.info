@@ -7,7 +7,7 @@
     <initial-install-p>f</initial-install-p>
     <singleton-p>f</singleton-p>
 
-    <version name="1.4" url="http://openacs.org/repository/download/apm/edit-this-page-1.4.apm">
+    <version name="1.5" url="http://openacs.org/repository/download/apm/edit-this-page-1.5.apm">
     <database-support>
         <database>postgresql</database>
     </database-support>

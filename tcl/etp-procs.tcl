@@ -183,7 +183,7 @@ ad_proc -public get_application_params { {app ""} } {
 }
 
 
-ad_proc -public make_page { name {title "Untitled"} } {
+ad_proc -public make_page { name {title "Untitled"} {item_id ""}} {
     @author Luke Pond
     @creation-date 2001-05-31
     @param name the name of the page you wish to create 
@@ -317,6 +317,8 @@ ad_proc -private get_pa { package_id name {content_type ""} } {
 	# revision_id was set by index.vuh
 	db_1row get_page_attributes_other_revision "" -column_array pa
     }
+
+	    set pa(content) [template::util::richtext get_property html_value [list $pa(content) $pa(mime_type)]]
 
     # add in the context bar
     if { $name == "index" } {
@@ -696,6 +698,13 @@ ad_proc -public check_write_access {} {
 	contact your webmaster if you believe this to be in error."
 	ad_script_abort
     }
+}
+
+ad_proc -public get_folder_id { package_id } {
+    @param package_id
+    @returns content folder associated with package_id etp package instance
+} {
+    return [db_exec_plsql get_folder_id ""]
 }
 
 }

@@ -48,6 +48,7 @@ select site_node__url(node_id) as package_url from site_nodes where object_id = 
 <fullquery name="etp::make_page.page_create">      
 <querytext>
 	select etp__create_page(
+	  :item_id,
 	  :package_id,
 	  :name,
           :title,
@@ -74,7 +75,7 @@ select site_node__url(node_id) as package_url from site_nodes where object_id = 
 
 <fullquery name="etp::get_pa.get_page_attributes">      
 <querytext>
-	select i.item_id, i.name, r.revision_id, r.title, 
+	select i.item_id, i.name, r.revision_id, r.title, r.mime_type,
 	       r.description, r.publish_date, r.content $extended_attributes
 	  from cr_items i, cr_revisions r
 	 where i.parent_id = etp__get_folder_id(:package_id)
@@ -86,7 +87,7 @@ select site_node__url(node_id) as package_url from site_nodes where object_id = 
  
 <fullquery name="etp::get_pa.get_page_attributes_other_revision">      
 <querytext>
-	select i.item_id, i.name, r.revision_id, r.title, 
+	select i.item_id, i.name, r.revision_id, r.title, r.mime_type,
 	       r.description, r.publish_date, r.content $extended_attributes
 	  from cr_items i, cr_revisions r
 	 where i.parent_id = etp__get_folder_id(:package_id)
@@ -165,5 +166,11 @@ select child.name, child.node_id, child.object_id as package_id,
              etp__get_description(i.item_id, r.description) as description      
    </querytext>
 </partialquery>
+
+<fullquery name="etp::get_folder_id.get_folder_id">
+	<querytext>
+	select etp__get_folder_id(:package_id)
+	</querytext>
+</fullquery>
 
 </queryset>
