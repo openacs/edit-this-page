@@ -35,7 +35,7 @@ if {[empty_string_p $name] || $name == "index"} {
     # where the acs-subsite package is mounted rather than
     # the editthispage package.  normally the request processor 
     # finds these before invoking this file.
-    set path "$server_root/packages/editthispage/www/$name"
+    set path "$server_root/packages/edit-this-page/www/$name"
 } else {
 
     set path "$server_root/[etp::get_application_param content_template]"
