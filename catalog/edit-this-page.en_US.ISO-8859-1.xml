@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<message_catalog package_key="edit-this-page" package_version="1.7" locale="en_US" charset="ISO-8859-1">
+<message_catalog package_key="edit-this-page" package_version="1.8b2" locale="en_US" charset="ISO-8859-1">
 
   <msg key="A">A:</msg>
   <msg key="Application">Application:</msg>
@@ -14,6 +14,7 @@
   <msg key="Create_a_new">Create a new</msg>
   <msg key="Create_a_new_external_link">Create a new external link</msg>
   <msg key="Create_a_new_subtopic">Create a new subtopic</msg>
+  <msg key="create_new_subtopic">Subtopic %subtopic_name%</msg>
   <msg key="Created">Created</msg>
   <msg key="current">current</msg>
   <msg key="current_news_items">current news items</msg>
