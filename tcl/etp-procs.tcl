@@ -297,6 +297,7 @@ if {![exists_and_not_null package_id]} {
 	# further processing on this page
 	ad_script_abort
     }
+
 }
 
 
@@ -327,8 +328,10 @@ ad_proc -private get_pa { package_id name {content_type ""} } {
     if {[empty_string_p $pa(mime_type)]} {
 	set pa(mime_type) "text/html"
     }
-	    set pa(content) [template::util::richtext get_property html_value [list $pa(content) $pa(mime_type)]]
 
+    if {![string equal "text/html" $pa(mime_type)]} {
+	set pa(content) [template::util::richtext get_property html_value [list $pa(content) $pa(mime_type)]]
+    }
     # add in the context bar
     if { $name == "index" } {
 	set cb [ad_context_bar]
