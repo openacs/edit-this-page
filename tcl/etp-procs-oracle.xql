@@ -118,7 +118,7 @@
            and i.live_revision = r.revision_id(+)
      ) attributes
      where $extra_where_clauses
-     order by item_id)
+     order by $orderby)
    $limit_clause
 </querytext>
 </fullquery>
