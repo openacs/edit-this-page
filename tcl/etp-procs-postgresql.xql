@@ -41,7 +41,7 @@
 
 <fullquery name="etp::make_page.page_create">      
 <querytext>
-	select etp_create_page(
+	select etp__create_page(
 	  :package_id,
 	  :name,
           :title,

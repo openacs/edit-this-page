@@ -7,7 +7,7 @@ create sequence t_etp_auto_page_number_seq;
 create view etp_auto_page_number_seq as
 select nextval('t_etp_auto_page_number_seq') as nextval;
 
-create function etp_get_attribute_value (integer, integer) 
+create function etp__get_attribute_value (integer, integer) 
 returns varchar as '
 declare
   p_object_id alias for $1;
@@ -30,7 +30,7 @@ end;
 
 
 
-create function etp_create_page(integer, varchar, varchar, varchar)
+create function etp__create_page(integer, varchar, varchar, varchar)
 returns integer as '
 declare
   p_package_id alias for $1;
@@ -44,7 +44,7 @@ declare
 begin
   v_item_id := acs_object__new(null, ''content_item'', now(), null, null, p_package_id);
 
-  v_folder_id := etp_get_folder_id(p_package_id);
+  v_folder_id := etp__get_folder_id(p_package_id);
 
   insert into cr_items (
     item_id, parent_id, name, content_type
@@ -70,7 +70,7 @@ begin
 end;
 ' language 'plpgsql';
 
-create function etp_create_extlink(integer, varchar, varchar, varchar)
+create function etp__create_extlink(integer, varchar, varchar, varchar)
 returns integer as '
 declare
   p_package_id alias for $1;
@@ -81,12 +81,12 @@ declare
   v_folder_id integer;
 begin
   v_item_id := acs_object__new(null, ''content_extlink'');
-  v_folder_id := etp_get_folder_id(p_package_id);
+  v_folder_id := etp__get_folder_id(p_package_id);
 
   insert into cr_items (
     item_id, parent_id, name, content_type
   ) values (
-    v_item_id, v_folder_id, ''extlink '' || etp_auto_page_number_seq.nextval, ''content_extlink''
+    v_item_id, v_folder_id, ''extlink '' || etp__auto_page_number_seq.nextval, ''content_extlink''
   );
 
   insert into cr_extlinks
@@ -98,7 +98,7 @@ begin
 end;
 ' language 'plpgsql';
 
-create function etp_create_symlink(integer, integer)
+create function etp__create_symlink(integer, integer)
 returns integer as '
 declare
   p_package_id alias for $1;
@@ -107,12 +107,12 @@ declare
   v_folder_id integer;
 begin
   v_item_id := acs_object__new(null, ''content_symlink'');
-  v_folder_id := etp_get_folder_id(p_package_id);
+  v_folder_id := etp__get_folder_id(p_package_id);
 
   insert into cr_items (
     item_id, parent_id, name, content_type
   ) values (
-    v_item_id, v_folder_id, ''symlink '' || etp_auto_page_number_seq.nextval, ''content_symlink''
+    v_item_id, v_folder_id, ''symlink '' || etp__auto_page_number_seq.nextval, ''content_symlink''
   );
 
   insert into cr_symlinks
@@ -124,7 +124,7 @@ begin
 end;
 ' language 'plpgsql';
 
-create function etp_create_new_revision(integer, varchar, integer)
+create function etp__create_new_revision(integer, varchar, integer)
 returns integer as '
 declare
   p_package_id alias for $1;
@@ -139,7 +139,7 @@ begin
     into v_revision_id
     from cr_revisions r, cr_items i
    where i.name = p_name
-     and i.parent_id = etp_get_folder_id(p_package_id)
+     and i.parent_id = etp__get_folder_id(p_package_id)
      and r.item_id = i.item_id;
 
   select object_type
@@ -176,7 +176,7 @@ end;
 alter table cr_folders
 add package_id integer references apm_packages;
 
-create function etp_get_folder_id (integer)
+create function etp__get_folder_id (integer)
 returns integer as '
 declare
     p_package_id alias for $1;
@@ -206,7 +206,7 @@ end;
 ' language 'plpgsql';
 
 
-create function etp_get_relative_url(integer, varchar)
+create function etp__get_relative_url(integer, varchar)
 returns varchar as '
 declare
   p_item_id alias for $1;
@@ -259,7 +259,7 @@ begin
 end;
 ' language 'plpgsql';
 
-create function etp_get_title(integer, varchar)
+create function etp__get_title(integer, varchar)
 returns varchar as '
 declare
   p_item_id alias for $1;
@@ -295,7 +295,7 @@ begin
     select target_id into p_item_id
       from cr_symlinks
      where symlink_id = p_item_id;
-    return etp_get_title(p_item_id, null);
+    return etp__get_title(p_item_id, null);
   end if;
 
   if v_object_type = ''content_item'' then
@@ -311,7 +311,7 @@ begin
 end;
 ' language 'plpgsql';
 
-create function etp_get_description(integer, varchar)
+create function etp__get_description(integer, varchar)
 returns varchar as '
 declare
   p_item_id alias for $1;
@@ -348,7 +348,7 @@ begin
     select target_id into p_item_id
       from cr_symlinks
      where symlink_id = p_item_id;
-    return etp_get_description(p_item_id, null);
+    return etp__get_description(p_item_id, null);
   end if;
 
   if v_object_type = ''content_item'' then
