@@ -518,3 +518,6 @@ select content_type__create_type (
 	'etp_page_revision_id',              -- id_column
 	'content_revision__revision_name'  -- name_method
 );
+
+-- Include the search service contract implementation (olah)
+\i edit-this-page-sc-create.sql
