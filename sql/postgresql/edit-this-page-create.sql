@@ -86,7 +86,7 @@ begin
   insert into cr_items (
     item_id, parent_id, name, content_type
   ) values (
-    v_item_id, v_folder_id, ''extlink '' || etp__auto_page_number_seq.nextval, ''content_extlink''
+    v_item_id, v_folder_id, ''extlink '' || etp_auto_page_number_seq.nextval, ''content_extlink''
   );
 
   insert into cr_extlinks
@@ -112,7 +112,7 @@ begin
   insert into cr_items (
     item_id, parent_id, name, content_type
   ) values (
-    v_item_id, v_folder_id, ''symlink '' || etp__auto_page_number_seq.nextval, ''content_symlink''
+    v_item_id, v_folder_id, ''symlink '' || etp_auto_page_number_seq.nextval, ''content_symlink''
   );
 
   insert into cr_symlinks
