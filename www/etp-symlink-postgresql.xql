@@ -17,7 +17,8 @@
            and o.object_type in ('content_item', 'content_folder')
            and i.name != 'index'
            and i2.item_id = -400
-           and i.tree_sortkey not between i2.tree_sortkey and tree_right(i2.tree_sortkey)
+           and tree_root_key(i.tree_sortkey) <>
+                (select tree_sortkey from cr_items where item_id=-400)
          order by i.tree_sortkey
 </querytext>
 </fullquery>
