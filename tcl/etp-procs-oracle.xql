@@ -1,3 +1,4 @@
+
 <?xml version="1.0"?>
 <queryset>
    <rdbms><type>oracle</type><version>8.1.6</version></rdbms>
@@ -146,6 +147,7 @@ select child.name, child.node_id, child.object_id as package_id,
 
 <partialquery name="etp::get_content_items.gci_orderby">
   <querytext>
+	sort_order
   </querytext>
 </partialquery>
 
