@@ -31,5 +31,17 @@
 	   and r.revision_id = :revision_id
 </querytext>
 </fullquery>
+
+<fullquery name="create_new_revision">
+<querytext>
+	begin
+		:1 := etp.create_new_revision(
+			:package_id,
+			:name, :user_id,
+			:revision_id
+		);
+	end;
+</querytext>
+</fullquery>
  
 </queryset>
