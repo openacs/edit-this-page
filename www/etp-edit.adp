@@ -6,7 +6,7 @@
 @form_vars;noquote@
 <table>
 <tr><td>
-@notification_chunk;noquote@
+@widget;noquote@
 </td></tr>
 <tr><td align=center>
 <input type="submit" value="Submit">
