@@ -4,20 +4,19 @@
 
    <partialquery name="archive_where_clause">
       <querytext>
-         current_timestamp between to_date(attributes.release_date, 'Month DD, YYYY') and
-           to_date(attributes.archive_date, 'Month DD, YYYY')
+         current_timestamp between attributes.release_date and attributes.archive_date
       </querytext>
    </partialquery>
 
    <partialquery name="no_archive_where_clause">
       <querytext>
-         current_timestamp >= to_date(attributes.archive_date, 'Month DD, YYYY')
+         current_timestamp >= attributes.archive_date
       </querytext>
    </partialquery>
 
    <partialquery name="orderby_clause">
       <querytext>
-         to_date(attributes.release_date, 'Month DD, YYYY') desc
+         attributes.release_date desc
       </querytext>
    </partialquery>
 
