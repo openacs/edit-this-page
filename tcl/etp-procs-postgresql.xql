@@ -114,7 +114,7 @@
    select $columns
    from cr_items i left join cr_revisions r on (i.live_revision = r.revision_id)
    where i.parent_id = etp__get_folder_id(:package_id) and i.name != 'index'
-     $extra_where_clauses
+     and $extra_where_clauses
    order by $orderby
    $limit_clause
 </querytext>
@@ -142,7 +142,7 @@ select child.name, child.node_id, child.object_id as package_id,
 
 <partialquery name="etp::get_content_items.gci_orderby">
    <querytext>
-      attributes.sort_order
+      sort_order
    </querytext>
 </partialquery>
 
