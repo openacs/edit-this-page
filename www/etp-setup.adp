@@ -15,12 +15,12 @@ this content section.
 <tr>
 <th valign="top">Application:</th>
 <td>
-<select name="app">@app_options@</select>
+<select name="app">@app_options;noquote@</select>
 </td></tr>
 <tr>
 <th valign="top">Subtopic Application:</th>
 <td>
-<select name="subtopic_app">@subtopic_app_options@</select>
+<select name="subtopic_app">@subtopic_app_options;noquote@</select>
 <p>
 </td></tr>
 <tr>
