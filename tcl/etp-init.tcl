@@ -5,7 +5,7 @@ ad_library {
 
     @cvs-id $Id$
     @author Luke Pond dlpond@pobox.com
-    @date 31 May 2001
+    @creation-date 31 May 2001
 }
 
 # Definitions of the attributes that belong to special content types

@@ -5,7 +5,7 @@ ad_library {
 
     @cvs-id $Id$
     @author Pat Colgan pat@museatech.net
-    @date 20 June 2001
+    @creation-date 20 June 2001
 }
 
 namespace eval etp {
