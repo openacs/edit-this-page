@@ -12,6 +12,17 @@
 -- If you have any other items with a NULL content_type this will capture them
 -- Please confirm and test this before running on a production database.
 
+select content_type__create_type (
+        'etp_page_revision',        -- content_type
+	'content_revision',         -- supertype
+	'ETP managed page',       -- pretty_name
+	'ETP managed pages',      -- pretty_plural
+	'etp_page_revisions',            -- table_name
+	'etp_page_revision_id',              -- id_column
+	'content_revision__revision_name'  -- name_method
+);
+
+
 update cr_items set content_type='etp_page_revision' where content_type is NULL;
 
 -- this is untested DAVEB
