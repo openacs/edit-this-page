@@ -6,7 +6,7 @@
 <querytext>
   select tree_sortkey, item_id
     from cr_items
-   where parent_id = etp_get_folder_id(:package_id)
+   where parent_id = etp__get_folder_id(:package_id)
      and tree_sortkey < :sort_key
    order by tree_sortkey desc
 </querytext>

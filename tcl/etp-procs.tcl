@@ -615,7 +615,7 @@ ad_proc -public get_content_items { args } {
 	    if { ![empty_string_p $attr_desc] } {
 		ns_log Notice "adding it"
 		set lookup_sql [etp::get_attribute_lookup_sql $attr_desc]
-                nslog Error "LU: $lookup_sql"
+                ns_log Error "LU: $lookup_sql"
 		append columns ",\n $lookup_sql"
 	    }
 	}
