@@ -20,9 +20,7 @@ etp::check_write_access
 if { $confirmed == "t" } {
     if { [empty_string_p $subtopic_name] ||
          [regexp {[^a-zA-Z0-9\-_]} $subtopic_name] } {
-	ad_return_complaint 1 "The subtopic name must be a short identifier
-	containing no spaces.  It will be the final part of the URL that 
-	identifies this subtopic."
+	ad_return_complaint 1 "[_ edit-this-page.The_subtopic_name_must_be_a_short_identifier]"
     } else {
 	set new_package_id [subsite::auto_mount_application \
 	    -instance_name $subtopic_name \
@@ -48,5 +46,5 @@ if { $confirmed == "t" } {
     set form_vars [export_form_vars confirmed]
 }
 
-set page_title "Create a new subtopic"
-set context [list [list "etp" "Edit"] "New subtopic"]
+set page_title "[_ edit-this-page.Create_a_new_subtopic]"
+set context [list [list "etp" "[_ acs-kernel.common_Edit]"] "[_ edit-this-page.New_subtopic]"]

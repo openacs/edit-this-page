@@ -1,12 +1,13 @@
 <master src="etp-master">
- <property name="title">Confirm revert operation for @name;noquote@</property>
+ <property name="title">#edit-this-page.lt_Confirm_revert_operation#</property>
 
 <p>
-  Are you sure you want to delete version @version_number@?
+  #edit-this-page.lt_Are_you_sure_you_want_2#
 </p>
 
 <form method="post" action="etp-revision-delete">
   @form_vars;noquote@
   <input type="submit" value="Yes, I'm sure">
 </form>
+
 

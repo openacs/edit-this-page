@@ -52,11 +52,11 @@ if { ![empty_string_p $target_id] } {
 	    from cr_symlinks 
 	    where symlink_id = :item_id
 	}
-	set page_title "Edit a link to local content"
-	set context [list [list "etp" "Edit"] "Edit internal link"]
+	set page_title "[_ edit-this-page.Edit_a_link_to_local_content]"
+	set context [list [list "etp" "[_ acs-kernel.common_Edit]"] "[_ edit-this-page.Edit_internal_link]"]
     } else {
-	set page_title "Create a link to local content"
-	set context [list [list "etp" "Edit"] "New internal link"]
+	set page_title "[_ edit-this-page.Create_a_link_to_local_content]"
+	set context [list [list "etp" "[_ acs-kernel.common_Edit]"] "[_ edit-this-page.New_internal_link]"]
     }
 
     db_multirow all_pages all_pages {
