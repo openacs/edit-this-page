@@ -472,14 +472,13 @@ ad_proc -public get_attribute_lookup_sql { attribute_desc } {
     return "$lookup_sql as $attribute_name"
 }
 
-ad_proc -public get_etp_link { } {
+ad_proc -public get_etp_url { } {
     @author Luke Pond
     @creation-date 2001-05-31
 
     If the current package is an instance of Edit This Page,
     and the user has write access, returns 
-    the html "Edit This Page" link which should be
-    displayed at the bottom of the page.
+    the URL to where you can edit the current page.
     <p>
     This may be called either from your master template,
     or from individual pages that are used within an ETP 
@@ -498,10 +497,33 @@ ad_proc -public get_etp_link { } {
 	set name [etp::get_name]
 
 	if { ![regexp "^etp" $name] } {
-	    return "<a href=\"etp?name=$name\">Edit This Page</a>\n"
+	    return "etp?[export_vars { name }]"
 	}
     } 
     return ""
+}
+
+ad_proc -public get_etp_link { } {
+    @author Luke Pond
+    @creation-date 2001-05-31
+
+    If the current package is an instance of Edit This Page,
+    and the user has write access, returns 
+    the html "Edit This Page" link which should be
+    displayed at the bottom of the page.
+    <p>
+    This may be called either from your master template,
+    or from individual pages that are used within an ETP 
+    package instance.  It incurs 1 database hit to
+    do the permissions check.  The package type is acquired
+    via the in-memory copy of the site-nodes layout.
+
+} {
+    set etp_url [get_etp_url]
+    if { ![empty_string_p $etp_url] } {
+        return "<a href=\"$etp_url\">Edit This Page</a>\n"
+    } 
+    return {}
 }
 
 ad_proc -public get_name { } {
