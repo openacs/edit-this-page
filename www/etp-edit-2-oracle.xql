@@ -5,7 +5,7 @@
 <fullquery name="create_new_revision">
 <querytext>
 begin
-  etp_create_new_revision(:package_id, :name, :user_id) from dual;
+  etp.create_new_revision(:package_id, :name, :user_id) from dual;
 end;
 </querytext>
 </fullquery>

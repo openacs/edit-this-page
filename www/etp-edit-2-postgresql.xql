@@ -4,7 +4,7 @@
 
 <fullquery name="create_new_revision">
 <querytext>
-select etp_create_new_revision(:package_id, :name, :user_id);
+select etp__create_new_revision(:package_id, :name, :user_id);
 </querytext>
 </fullquery>
  
