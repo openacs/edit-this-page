@@ -173,4 +173,4 @@ begin
 end;
 ' language 'plpgsql';
 
-/i ../edit-this-page-sc-create.sql
+\i ../edit-this-page-sc-create.sql
