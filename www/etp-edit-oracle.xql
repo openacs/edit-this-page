@@ -15,7 +15,7 @@
 
 <fullquery name="get_extended_attribute">
 <querytext>
-	select etp_get_attribute_value(r.revision_id, :attribute_id) as value,
+	select etp.get_attribute_value(r.revision_id, :attribute_id) as value,
 	       r.title as page_title
 	  from cr_items i, cr_revisions r
 	 where i.parent_id = etp.get_folder_id(:package_id)

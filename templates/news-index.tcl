@@ -20,12 +20,12 @@ ad_page_contract {
 }
 
 if { $archive_p == "f" } {
-    set where "sysdate() between to_date(attributes.release_date, 'YYYY-MM-DD') and to_date(attributes.archive_date, 'YYYY-MM-DD')"
+    set where [db_map archive_where_clause]
 } else {
-    set where "sysdate() >= to_date(attributes.archive_date, 'YYYY-MM-DD')"
+    set where [db_map no_archive_where_clause]
 }
 
-set orderby "to_date(attributes.release_date, 'YYYY-MM-DD') desc"
+set orderby [db_map orderby_clause]
 
 etp::get_page_attributes
 etp::get_content_items -where $where -orderby $orderby release_date archive_date

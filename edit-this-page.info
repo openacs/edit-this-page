@@ -24,6 +24,7 @@
             <file path="Changes"/>
             <file type="package_spec" path="edit-this-page.info"/>
             <file type="data_model_create" db_type="oracle" path="sql/oracle/edit-this-page-create.sql"/>
+            <file type="data_model_drop" db_type="oracle" path="sql/oracle/edit-this-page-drop.sql"/>
             <file type="data_model_create" db_type="postgresql" path="sql/postgresql/edit-this-page-create.sql"/>
             <file type="data_model_drop" db_type="postgresql" path="sql/postgresql/edit-this-page-drop.sql"/>
             <file type="tcl_util" path="tcl/etp-gc.tcl"/>
@@ -46,6 +47,8 @@
             <file type="template" path="templates/journal-issue.tcl"/>
             <file type="template" path="templates/news-content.adp"/>
             <file type="template" path="templates/news-content.tcl"/>
+            <file type="query_file" db_type="oracle" path="templates/news-index-oracle.xql"/>
+            <file type="query_file" db_type="postgresql" path="templates/news-index-postgresql.xql"/>
             <file type="template" path="templates/news-index.adp"/>
             <file type="template" path="templates/news-index.tcl"/>
             <file type="content_page" path="www/etp-create-2.tcl"/>
@@ -112,9 +115,9 @@
             <file type="content_page" path="www/index.vuh"/>
         </files>
         <parameters>
-            <parameter datatype="string"  min_n_values="1"  max_n_values="1"  name="subtopic_application"  default="default" description="Name of the ETP application to use when creating a subtopic"/>
-            <parameter datatype="number"  min_n_values="1"  max_n_values="1"  name="cache_max_age"  default="600" description="number of seconds to keep requested page attributes in the cache"/>
             <parameter datatype="string"  min_n_values="1"  max_n_values="1"  name="application"  default="default" description="Name of the ETP application to use (default, faq, news, or create your own with the etp::define_applicaton procedure)"/>
+            <parameter datatype="number"  min_n_values="1"  max_n_values="1"  name="cache_max_age"  default="600" description="number of seconds to keep requested page attributes in the cache"/>
+            <parameter datatype="string"  min_n_values="1"  max_n_values="1"  name="subtopic_application"  default="default" description="Name of the ETP application to use when creating a subtopic"/>
         </parameters>
 
     </version>
