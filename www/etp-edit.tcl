@@ -72,7 +72,7 @@ if { [info commands $default] != "" } {
 	set widget [ad_dateentrywidget datevalue $value]
     }
 } else {
-    set widget "<input type=\"text\" name=\"$attribute\" value=\"$value\" $html>\n"
+    set widget "<input type=\"text\" name=\"$attribute\" value=\"[ad_quotehtml $value]\" $html>\n"
 }
 
 set form_vars [export_form_vars name attribute]
