@@ -40,6 +40,8 @@ if { $site_node_url == "/" } {
 
     db_transaction {
 	set folder_id [db_exec_plsql create_folder ""]
+	db_exec_plsql register_types ""
+	db_exec_plsql register_folders ""
 	db_dml set_folder_package ""
 	etp::make_page "index" $title
     }

@@ -14,7 +14,21 @@
    end;
 </querytext>
 </fullquery>
- 
+
+<fullquery name="register_types">
+    <querytext>
+      select
+      content_folder.register_content_type(:folder_id,'content_revision','t')
+    </querytext>
+</fullquery>
+
+<fullquery name="register_folders">
+    <querytext>
+      select
+      content_folder.register_content_type(:folder_id,'content_folder','f')
+    </querytext>
+</fullquery>
+
 <fullquery name="get_section_name">
 <querytext>
    select acs_object.name(:package_id) as title from dual
