@@ -173,4 +173,14 @@ begin
 end;
 ' language 'plpgsql';
 
+select content_type__create_type (
+        'etp_page_revision',        -- content_type
+	'content_revision',         -- supertype
+	'ETP managed page',       -- pretty_name
+	'ETP managed pages',      -- pretty_plural
+	'etp_page_revisions',            -- table_name
+	'etp_page_revision_id',              -- id_column
+	'content_revision__revision_name'  -- name_method
+);
+
 \i ../edit-this-page-sc-create.sql
