@@ -114,10 +114,11 @@ ad_form -export { name attribute  widget} -form $form_list -edit_request {
     # usually we are creating a new revision
     set extra_sql ""
     if {[info exists datevalue]} {
-	set date_string $datevalue(date)
+	ns_log notice "DAVEB! new_data datevalue = $datevalue"
+	
 	# The date is given in YYYY-MM-DD.  Transform to desired format.
-	set date_format [etp::get_application_param date_format]
-	set value $date_string
+#	set date_format [etp::get_application_param date_format]
+	set value "[template::util::date::get_property year $datevalue]-[template::util::date::get_property month $datevalue]-[template::util::date::get_property day $datevalue]"
     } elseif {[string equal $widget "(richtext)"]} {
 	    set value [template::util::richtext get_property contents [set $element]]
 	    set mime_type [template::util::richtext get_property format [set $element]]
@@ -168,7 +169,6 @@ ad_form -export { name attribute  widget} -form $form_list -edit_request {
     ad_returnredirect "etp?[export_url_vars name]"
     ad_script_abort
 }
-
 
 set page_title "$attribute_title for page '$page_title'"
 
