@@ -93,7 +93,7 @@ select child.name, child.node_id, child.object_id as package_id,
  where parent.object_id = :package_id
    and child.parent_id = parent.node_id
    and child.object_id = p.package_id
-   and p.package_key = 'editthispage'
+   and p.package_key = 'edit-this-page'
 </querytext>
 </fullquery>
  

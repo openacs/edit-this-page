@@ -41,7 +41,7 @@ select v.attr_value as subtopic_application
 select parameter_id
   from apm_parameters p
  where p.parameter_name = 'application'
-   and package_key = 'editthispage'
+   and package_key = 'edit-this-page'
 
 </querytext>
 </fullquery>
