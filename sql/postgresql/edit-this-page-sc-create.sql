@@ -23,3 +23,8 @@ select acs_sc_impl_alias__new(
 	'etp::revision_url',		-- impl_alias
 	'TCL'				-- impl_pl
 );
+
+select acs_sc_binding__new (
+	'FtsContentProvider',
+	'etp_page_revision'
+);
