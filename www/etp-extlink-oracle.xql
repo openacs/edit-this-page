@@ -4,7 +4,9 @@
 
 <fullquery name="create_extlink">
 <querytext>
-    select etp.create_extlink(:package_id, :url, :label, :description);
+  begin
+    :1 := etp.create_extlink(:package_id, :url, :label, :description);
+  end;
 </querytext>
 </fullquery>
  

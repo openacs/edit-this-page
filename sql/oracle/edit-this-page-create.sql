@@ -350,7 +350,7 @@ as
         select target_id into v_item_id
         from cr_symlinks
         where symlink_id = get_title.item_id;
-        return etp.get_title(item_id, null);
+        return etp.get_title(v_item_id, null);
       end if;
 
       if v_object_type = 'content_item' then

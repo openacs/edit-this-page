@@ -16,4 +16,10 @@
 </querytext>
 </fullquery>
 
+<partialquery name="etp::get_content_items.gci_where_clause">      
+<querytext>
+   1 = 1
+</querytext>
+</partialquery>
+
 </queryset>

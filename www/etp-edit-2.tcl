@@ -43,7 +43,22 @@ set attribute_desc [etp::get_attribute_desc $attribute $content_type]
 set attribute_id [etp::get_attribute_id $attribute_desc]
 if { $attribute_id == -1} {
     # standard attribute
-    db_dml update_attribute ""
+
+    # DRB: The following code's an absolute hack, but then again the original
+    # code's pretty much an absolute hack, too.   We need to sit down and make
+    # some decisions about how to stuff Oracle clob and PG (and other reasonable
+    # RDBMS's) long text type in an RDBMS-independent fashion.
+
+    # This isn't as ugly as it could be in the sense that the test for clobness is
+    # encapsulated in the query file.    So maybe it's not quite as ugly a hack
+    # as I make it out to be ... you decide!
+
+    if { ![empty_string_p [db_map update_${attribute}_attribute_clob]] } {
+        db_dml update_${attribute}_attribute_clob "" -blobs  [list $value]
+    } else {
+        db_dml update_attribute ""
+    }
+
 } else {
     # extended_attribute
     db_transaction {

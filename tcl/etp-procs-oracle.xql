@@ -109,7 +109,8 @@
 
 <fullquery name="etp::get_content_items.get_content_items">
 <querytext>
-     select * from (
+   select * from
+     (select * from (
 	select $columns
           from cr_items i, cr_revisions r
          where i.parent_id = etp.get_folder_id(:package_id)
@@ -117,8 +118,8 @@
            and i.live_revision = r.revision_id(+)
      ) attributes
      where $extra_where_clauses
-     order by item_id
-     $limit_clause
+     order by item_id)
+   $limit_clause
 </querytext>
 </fullquery>
 
@@ -137,22 +138,28 @@ select child.name, child.node_id, child.object_id as package_id,
 </fullquery>
  
 
-   <partialquery name="etp::get_attribute_lookup_sql.archive_where_clause">
-      <querytext>
-        etp.get_attribute_value(r.revision_id, $attribute_id)
-      </querytext>
-   </partialquery>
+<partialquery name="etp::get_attribute_lookup_sql.archive_where_clause">
+  <querytext>
+    etp.get_attribute_value(r.revision_id, $attribute_id)
+  </querytext>
+</partialquery>
 
-   <partialquery name="etp::get_content_items.gci_columns_clause">
-      <querytext>
-       i.item_id, i.name,
-                 to_char(r.publish_date, 'Mon DD, YYYY') as publish_date,
-                 (select object_type from acs_objects 
-                   where object_id = i.item_id) as object_type,
-                 etp.get_relative_url(i.item_id, i.name) as url,
-                 etp.get_title(i.item_id, r.title) as title,
-                 etp.get_description(i.item_id, r.description) as description
-      </querytext>
-   </partialquery>
+<partialquery name="etp::get_content_items.gci_orderby">
+  <querytext>
+  </querytext>
+</partialquery>
+
+<partialquery name="etp::get_content_items.gci_columns_clause">
+  <querytext>
+   i.item_id, i.name,
+             to_char(r.publish_date, 'Mon DD, YYYY') as publish_date, rownum as sort_order,
+             (select object_type from acs_objects 
+               where object_id = i.item_id) as object_type,
+             etp.get_relative_url(i.item_id, i.name) as url,
+             etp.get_title(i.item_id, r.title) as title,
+             etp.get_description(i.item_id, r.description) as description
+  </querytext>
+</partialquery>
+
 
 </queryset>

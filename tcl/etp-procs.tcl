@@ -565,9 +565,9 @@ ad_proc -public get_content_items { args } {
     set content_type [etp::get_content_type]
     set result_name "content_items"
 
-    set orderby "attributes.sort_order"
+    set orderby [db_map gci_orderby]
 
-    set extra_where_clauses "1 = 1"
+    set extra_where_clauses [db_map gci_where_clause]
     
     set columns [db_map gci_columns_clause]
     ns_log warning "columns: $columns"
