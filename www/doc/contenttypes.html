@@ -11,10 +11,13 @@
 
 The content repository data model (a standard part of OpenACS 4) primarily keeps track of <i>content items</i>, each of which may have multiple <i>content revisions</i>.  The <code>content_revision</code> object type refers to a row in the <code>cr_revisions</code> table.  Each revision contains the standard attributes of the pages you create with ETP, such as Title, Description, and Content.  Additionally, the standard <code>acs_object</code> attributes are stored for each revision, such as the creation date and creating user.
 <p>
-Referring back to the definition of the default ETP application, you'll notice that it specifies that the <code>content_revision</code>
+Referring back to the definition of the default ETP application, you'll notice that it specifies that the <code>etp_page_revision</code>
 content type is to be used for the index page and for all content pages.
- This means that the page templates used by the default application may refer
-to only the standard page attributes stored in the <code>cr_revisions</code> table.
+ etp_page_revision is a subtype of content_revision, but does not add
+	  any additional attributes. It is just for easier integration
+	  with the search package. The page templates used by the default application may refer
+to only the standard page attributes stored in the
+	  <code>cr_revisions</code> table. 
 
 </p><h3>Extended page attributes: why do we need them?</h3>The standard page
 attributes, while providing all the basic functionality for a collaboratively
