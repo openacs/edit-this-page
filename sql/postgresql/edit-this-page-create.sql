@@ -57,7 +57,7 @@ begin
   -- the dynamic sql in acs_object__delete.  so just use content_revision.
 
   v_content_type := ''content_revision'';
-  v_revision_id := acs_object__new(null, v_content_type);
+  v_revision_id := acs_object__new(null, v_content_type, now(), null, null, v_item_id);
 
   insert into cr_revisions (revision_id, item_id, title, 
                             publish_date, mime_type) 
@@ -124,13 +124,14 @@ begin
 end;
 ' language 'plpgsql';
 
-create function etp__create_new_revision(integer, varchar, integer)
+create or replace function etp__create_new_revision(integer, varchar, integer)
 returns integer as '
 declare
   p_package_id alias for $1;
   p_name alias for $2;
   p_user_id alias for $3;
   v_revision_id integer;
+  v_item_id integer;
   v_new_revision_id integer;
   v_content_type varchar;
 begin
@@ -141,6 +142,11 @@ begin
    where i.name = p_name
      and i.parent_id = etp__get_folder_id(p_package_id)
      and r.item_id = i.item_id;
+
+  select item_id
+    into v_item_id
+    from cr_revisions
+   where revision_id = v_revision_id;
 
   select object_type
     into v_content_type
@@ -153,8 +159,8 @@ begin
   select acs_object_id_seq.nextval
     into v_new_revision_id from dual;
 
-  insert into acs_objects (object_id, object_type, creation_date, creation_user)
-  values (v_new_revision_id, v_content_type, now(), p_user_id);
+  insert into acs_objects (object_id, object_type, creation_date, creation_user, context_id)
+  values (v_new_revision_id, v_content_type, now(), p_user_id, v_item_id);
 
   insert into cr_revisions (revision_id, item_id, title, description, content, mime_type) 
   select v_new_revision_id, item_id, title, description, content, mime_type
