@@ -16,7 +16,7 @@ select o.creation_user as creation_user_id,
 from cr_revisions r, cr_items i, acs_objects o
 where r.item_id = i.item_id
 and o.object_id = r.revision_id
-and i.parent_id = etp_get_folder_id(:package_id)
+and i.parent_id = etp__get_folder_id(:package_id)
 and i.name = :name
 order by r.revision_id
 
