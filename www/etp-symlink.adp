@@ -3,7 +3,7 @@
 <property name="context">@context;noquote@</property>
 
 <multiple name="all_pages">
-@all_pages.indent@
+e@all_pages.indent;noquote@
 <if @all_pages.item_id@ eq @target_id@>
 <em>@all_pages.title@</em><br>
 </if>
