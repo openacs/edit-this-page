@@ -95,7 +95,7 @@ as
     begin
        v_item_id := acs_object.new (
            null, 
-           create_page.content_type, 
+           'content_item',
            sysdate(), 
            null, 
            null, 
