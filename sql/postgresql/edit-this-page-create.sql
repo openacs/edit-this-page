@@ -367,6 +367,10 @@ end;
 -- add the ETP parameters to the acs-subsite package so that
 -- we can serve the site's home page and top level pages.
 
+-- DRB: This page was setting the parameter default values explicitly.   apm__register_parameter
+-- is supposed to do this - there was a mistake in the Oracle->PostgreSQL port of this function.
+-- I fixed the bug and removed the code that was here ...
+
 create function inline_0 () 
 returns integer as '
 declare
@@ -381,8 +385,8 @@ begin
        ''string'',
        ''default'',
        ''EditThisPage'',
-       ''1'',
-       ''1''
+       1,
+       1
       );
   perform apm__register_parameter(
        NULL,
@@ -392,26 +396,9 @@ begin
        ''string'',
        ''default'',
        ''EditThisPage'',
-       ''1'',
-       ''1''
+       1,
+       1
       );
-
-  select package_id into ss_package_id
-    from apm_packages
-   where package_key = ''acs-subsite'';
-
-  for cur_val in select parameter_id, default_value
-     from apm_parameters
-     where package_key = ''acs-subsite''
-     and section_name = ''EditThisPage''
-  loop
-      perform apm_parameter_value__new(
-        null,
-        ss_package_id,
-        cur_val.parameter_id,
-        cur_val.default_value
-      ); 
-  end loop;   
 
   return 0;
 end;

@@ -15,10 +15,34 @@ drop function etp__get_relative_url(integer, varchar);
 drop function etp__get_title(integer, varchar);
 drop function etp__get_description(integer, varchar);
 
---
--- need to unregister parameters here, but the interface to do so is a pain in the ASS
---
+create function inline_0 () 
+returns integer as '
+declare
+  v_cur_val record;
+begin
+  for v_cur_val in
+    select v.value_id
+    from apm_parameter_values v, apm_parameters p
+    where p.package_key = ''acs-subsite''
+      and p.section_name = ''EditThisPage''
+      and p.parameter_id = v.parameter_id
+  loop
+      perform apm_parameter_value__delete (v_cur_val.value_id);
+  end loop;   
 
+  for v_cur_val in
+    select parameter_id
+    from apm_parameters
+    where package_key = ''acs-subsite''
+      and section_name = ''EditThisPage''
+  loop
+      perform apm__unregister_parameter(v_cur_val.parameter_id);
+  end loop;
+  return 0;
+end;' language 'plpgsql';
+
+select inline_0 ();
+drop function inline_0 ();
 
 -- this will error if any deleted content exists
 
@@ -31,6 +55,6 @@ perform content_folder__delete (
 return 0;
 end;
 ' language 'plpgsql';
-
 select inline_1 ();
 drop function inline_1 ();
+
