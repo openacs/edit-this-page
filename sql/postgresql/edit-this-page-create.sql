@@ -364,23 +364,6 @@ end;
 
 
 
--- this is a workaround for a bug in postgresql 7.1
--- that causes the cr_revision__delete function to 
--- trigger a "data change violation" as a result of
--- a row being inserted and then deleted from the
--- cr_item_publish_audit table in the same transaction.
--- see http://openacs.org/bboard/q-and-a-fetch-msg.tcl?msg_id=0001x3&topic_id=12&topic=OpenACS%204%2e0%20Design
-
--- this effectively drops all constraints (foreign key and otherwise)
--- from the audit table.
-
-create table cr_audit_temp as select * from cr_item_publish_audit;
-drop table cr_item_publish_audit;
-create table cr_item_publish_audit as select * from cr_audit_temp;
-drop table cr_audit_temp;
-
-
-
 -- add the ETP parameters to the acs-subsite package so that
 -- we can serve the site's home page and top level pages.
 
