@@ -1,4 +1,3 @@
-
 ad_page_contract {
     @author Luke Pond (dlpond@museatech.net)
     @creation-date 2001-06-10
@@ -72,7 +71,7 @@ lappend form_list $widget_list
 
 lappend form_list [list page_title:text(hidden)]
 
-ad_form -export { name attribute  widget} -form $form_list -edit_request {
+ad_form -name etp_edit -export { name attribute  widget} -form $form_list -edit_request {
 
 
     if { [lsearch -exact {title description content} $attribute] >= 0 } {
