@@ -63,7 +63,7 @@ begin
 
   insert into cr_revisions (revision_id, item_id, title, 
                             publish_date, mime_type) 
-  values (v_revision_id, v_item_id, p_title, now(), ''text/html'');
+  values (v_revision_id, v_item_id, p_title, now(), ''text/enhanced'');
 
   update cr_items set live_revision = v_revision_id
                   where item_id = v_item_id;
@@ -110,7 +110,7 @@ begin
 
   insert into cr_revisions (revision_id, item_id, title, 
                             publish_date, mime_type) 
-  values (v_revision_id, v_item_id, p_title, now(), ''text/html'');
+  values (v_revision_id, v_item_id, p_title, now(), ''text/enhanced'');
 
   update cr_items set live_revision = v_revision_id
                   where item_id = v_item_id;
@@ -118,7 +118,7 @@ begin
   return 1;
 end;
 ' language 'plpgsql';
-
+ 
 create function etp__create_extlink(integer, varchar, varchar, varchar)
 returns integer as '
 declare
