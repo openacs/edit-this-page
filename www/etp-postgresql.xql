@@ -9,7 +9,7 @@
                content_revision__get_number(i.live_revision) as live_revision,
 	       r.description, r.publish_date, r.content $extended_attributes
 	  from cr_items i, cr_revisions r
-	 where i.parent_id = etp_get_folder_id(:package_id)
+	 where i.parent_id = etp__get_folder_id(:package_id)
 	   and i.name = :name
 	   and i.item_id = r.item_id
 	   and r.revision_id = :revision_id
