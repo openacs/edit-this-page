@@ -15,11 +15,7 @@ drop function etp__get_relative_url(integer, varchar);
 drop function etp__get_title(integer, varchar);
 drop function etp__get_description(integer, varchar);
 
-
--- can't do this in PG
---alter table cr_folders drop column package_id cascade;
-
---- 
+--
 -- need to unregister parameters here, but the interface to do so is a pain in the ASS
 --
 

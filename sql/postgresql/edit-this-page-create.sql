@@ -172,14 +172,6 @@ end;
 ' language 'plpgsql';
 
 
--- Since we can't drop columns in PG we need to check here if this 
--- was ever mounted.
-
-alter table cr_folders
-add package_id integer references apm_packages;
-
---
-
 create function etp__get_folder_id (integer)
 returns integer as '
 declare
