@@ -1,6 +1,13 @@
 <?xml version="1.0"?>
 <queryset>
 
+<fullquery name="transform_date">
+<querytext>
+select to_char(to_date(:date_string, 'YYYY-MM-DD'), :date_format)
+from dual
+</querytext>
+</fullquery>
+
 <fullquery name="update_attribute">
 <querytext>
 update cr_revisions

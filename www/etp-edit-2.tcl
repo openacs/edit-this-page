@@ -7,6 +7,7 @@ ad_page_contract {
 } {
     name
     attribute    
+    datevalue:array,date,optional
 } -properties {
     page_title:onevalue
     attribute_title:onevalue
@@ -15,12 +16,19 @@ ad_page_contract {
 
 etp::check_write_access
 
-set form [ns_getform]
-if { [empty_string_p $form] || [ns_set find $form $attribute] == -1 } {
-    ad_return_error "This is a bug" "Form must provide value for $attribute"
-    ad_script_abort
+if {[info exists datevalue]} {
+    set date_string $datevalue(date)
+    # The date is given in YYYY-MM-DD.  Transform to desired format.
+    set date_format [etp::get_application_param date_format]
+    set value [db_string transform_date ""]
+} else {
+    set form [ns_getform]
+    if { [empty_string_p $form] || [ns_set find $form $attribute] == -1 } {
+	ad_return_error "This is a bug" "Form must provide value for $attribute"
+	ad_script_abort
+    }
+    set value [ns_set get $form $attribute]
 }
-set value [ns_set get $form $attribute]
 
 # TODO: validate the html that was given to us
 

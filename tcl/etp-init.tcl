@@ -48,33 +48,48 @@ etp::define_application default {
     allow_symlinks        t
 
     auto_page_name        ""
+
+    date_format           "Month DD, YYYY"
 }
 
-if { [catch {etp::define_content_type journal_issue "Journal Issue" "Journal Issues" {
-                { publication_date "Publication Date" "Publication Dates" string "size=60" "" }
-                { issue_name "Issue name" "Issue names" string "size=60" "" }
-            }} errmsg]} {
+if { [catch {
+
+    etp::define_content_type journal_issue "Journal Issue" "Journal Issues" {
+	{ publication_date "Publication Date" "Publication Dates" date "" "" }
+	{ issue_name "Issue name" "Issue names" string "size=60" "" }
+    }
+
+} errmsg]} {
     ns_log Notice "ETP: define 'Journal Issue' failed: $errmsg"
 }
 
-if { [catch {etp::define_content_type journal_article "Journal Article" "Journal Articles" {
-                { section Section Sections string "" "" }
-                { byline Byline Bylines string "" "" }
-                { abstract Abstract Abstracts string "rows=24 cols=80" "" }
-                { citation Citation Citations string "rows=4 cols=80" "" }
-            }} errmsg]} {
+if { [catch {
+
+    etp::define_content_type journal_article "Journal Article" "Journal Articles" {
+	{ section Section Sections string "" "" }
+	{ byline Byline Bylines string "" "" }
+	{ abstract Abstract Abstracts string "rows=24 cols=80" "" }
+	{ citation Citation Citations string "rows=4 cols=80" "" }
+    }
+
+} errmsg]} {
     ns_log Notice "ETP: define 'Journal Articles' failed: $errmsg"
 }
 
 
-if { [catch {etp::define_content_type news_item "News Item" "News Items" {
-                { location "Location" "Location" string "size=80" "" }
-                { subtitle "Subtitle" "Subtitle" string "rows=4 cols=80" "" }
-                { release_date "Release Date" "Release Dates" string "size=60" "" }
-                { archive_date "Archive Date" "Archive Dates" string "size=60" "" }
-            }} errmsg]} {
+if { [catch {
+
+    etp::define_content_type news_item "News Item" "News Items" {
+	{ location "Location" "Location" string "size=80" "" }
+	{ subtitle "Subtitle" "Subtitle" string "rows=4 cols=80" "" }
+	{ release_date "Release Date" "Release Dates" date "size=60" "" }
+	{ archive_date "Archive Date" "Archive Dates" date "size=60" "" }
+    }
+
+} errmsg]} {
     ns_log Notice "ETP: define 'News Items' failed: $errmsg"
 } else {
+
     etp::define_application news {
         index_template                packages/edit-this-page/templates/news-index
         content_template              packages/edit-this-page/templates/news-content

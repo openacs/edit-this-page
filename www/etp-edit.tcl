@@ -62,6 +62,15 @@ if { [info commands $default] != "" } {
     append widget "</select>\n"
 } elseif {$type == "string" && [regexp -nocase {(rows|cols)} $html]} {
     set widget "<textarea name=\"$attribute\" $html>$value</textarea>\n"
+} elseif {$type == "date"} {
+    if [empty_string_p $value] {
+	set widget [ad_dateentrywidget datevalue]
+    } else {
+	# Put the date back into YYYY-MM-DD format
+	set date_format [etp::get_application_param date_format]
+	set value [db_string transform_date ""]
+	set widget [ad_dateentrywidget datevalue $value]
+    }
 } else {
     set widget "<input type=\"text\" name=\"$attribute\" value=\"$value\" $html>\n"
 }

@@ -2,6 +2,12 @@
 <queryset>
    <rdbms><type>postgresql</type><version>7.1</version></rdbms>
 
+<fullquery name="transform_date">
+<querytext>
+	select to_char(to_date(:value, :date_format), 'YYYY-MM-DD')
+</querytext>
+</fullquery>
+
 <fullquery name="get_standard_attribute">
 <querytext>
         select $attribute as value, r.title as page_title

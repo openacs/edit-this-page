@@ -2,6 +2,13 @@
 <queryset>
    <rdbms><type>oracle</type><version>8.1.6</version></rdbms>
 
+<fullquery name="transform_date">
+<querytext>
+	select to_char(to_date(:value, :date_format), 'YYYY-MM-DD')
+	from dual
+</querytext>
+</fullquery>
+
 <fullquery name="get_standard_attribute">
 <querytext>
         select $attribute as value, r.title as page_title
