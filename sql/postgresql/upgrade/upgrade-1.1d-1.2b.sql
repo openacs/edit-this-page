@@ -17,7 +17,7 @@ update cr_items set content_type='etp_page_revision' where content_type is NULL;
 -- this is untested DAVEB
 update acs_objects set object_type='etp_page_revision'
     where exists
-	(select 1 from cr_revisions cr, cr_items cr
+	(select 1 from cr_revisions cr, cr_items ci
 	 where cr.item_id=ci.item_id
 	 and ci.content_type='etp_page_revision'
 	 and cr.revision_id=object_id);
