@@ -20,6 +20,9 @@ ad_page_contract {
 
 etp::check_write_access
 
+# lets make etp subsite aware
+# get the cloest ancestor acs-subsite
+set subsite_url [site_node_closest_ancestor_package_url -package_key "acs-subsite"]
 array set application_params [etp::get_application_params]
 set subtopic_object_name [etp::get_application_param index_object_name [ad_parameter subtopic_application "default"]]
 
@@ -33,7 +36,9 @@ set extended_attributes [etp::get_ext_attribute_columns $content_type]
 # the results aren't cached.
 
 set revision_id [etp::get_latest_revision_id $package_id $name]
-db_1row get_current_page_attributes "" -column_array pa
+if {![db_0or1row get_current_page_attributes "" -column_array pa]} {
+    ad_return_warning "Page $name does not exist" "No page by the name of $name exists"
+}
 
 template::multirow create page_attributes name pretty_name value
 

@@ -38,7 +38,7 @@
 <fullquery name="trash_item">
 <querytext>
   update cr_items
-     set parent_id = -400
+     set parent_id = -400, live_revision = NULL
    where item_id = :item_id
 </querytext>
 </fullquery>
