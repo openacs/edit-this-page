@@ -456,7 +456,7 @@ show errors;
 -- which I might have to change...
 
 begin
-	content_type__create_type (
+	content_type.create_type (
         content_type => 'etp_page_revision',        -- content_type
 	supertype => 'content_revision',         -- supertype
 	pretty_name => 'ETP managed page',       -- pretty_name
