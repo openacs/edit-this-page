@@ -221,13 +221,15 @@ ad_proc -public get_content_type { {name ""} } {
 }
 
 
-ad_proc -public get_page_attributes { } {
+ad_proc -public get_page_attributes { 
+    {-package_id}
+} {
     @author Luke Pond
     @creation-date 2001-05-31
     @param Optionally may specify an object type containing
-           extended page attributes to be returned.
+    extended page attributes to be returned.
     @return Creates the pa variable in the caller's context.
-
+    
     Creates an array variable called pa in the caller's stack frame,
     containing all attributes necessary to render the current page.
     These attributes include the standard elements from the cr_revisions
@@ -260,8 +262,12 @@ ad_proc -public get_page_attributes { } {
     # running out of memory
 
     set max_age [ad_parameter cache_max_age edit-this-page]
-
+    
+if {![exists_and_not_null package_id]} {
+    set package_id [ad_conn package_id]
+}
     set name [etp::get_name]
+
     set content_type [etp::get_content_type $name]
 
     upvar pa pa
@@ -269,7 +275,7 @@ ad_proc -public get_page_attributes { } {
     if { [catch {
 	if {[empty_string_p [ad_conn -get revision_id]]} {
 	    # asking for the live published revision
-	    set code "etp::get_pa [ad_conn package_id] $name $content_type"
+	    set code "etp::get_pa $package_id $name $content_type"
 	    array set pa [util_memoize $code $max_age]
 	} else {
 	    # an admin is browsing other revisions - do not use caching.
@@ -601,7 +607,9 @@ ad_proc -public get_content_items { args } {
     and currently is never cached.  
 
 } {    
-    set package_id [ad_conn package_id]
+    if ![exists_and_not_null package_id] {
+        set package_id [ad_conn package_id]
+    }
     set content_type [etp::get_content_type]
     set result_name "content_items"
 
