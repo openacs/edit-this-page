@@ -11,7 +11,7 @@ ad_page_contract {
     name
 } -properties {
     page_title:onevalue
-    context_bar:onevalue
+    context:onevalue
     name:onevalue
     live_revision_id:onevalue
     revisions:multirow
@@ -26,9 +26,9 @@ set live_revision_id [etp::get_live_revision_id $package_id $name]
 set page_title "Revision history for $name"
 
 if {$name == "index"} {
-    set context_bar [ad_context_bar [list "etp?[export_url_vars name]" Edit] "History"]
+    set context [list [list "etp?[export_url_vars name]" Edit] "History"]
 } else {
-    set context_bar [ad_context_bar [list $name $name] [list "etp?[export_url_vars name]" Edit] "History"]
+    set context [list [list $name $name] [list "etp?[export_url_vars name]" Edit] "History"]
 }
 
 

@@ -9,7 +9,7 @@ ad_page_contract {
     attribute
 } -properties {
     page_title:onevalue
-    context_bar:onevalue
+    context:onevalue
     attribute_title:onevalue
     widget:onevalue
     form_vars:onevalue
@@ -80,9 +80,9 @@ set form_vars [export_form_vars name attribute]
 set page_title "$attribute_title for page \"$page_title\""
 
 if {$name == "index"} {
-    set context_bar [ad_context_bar [list "etp?[export_url_vars name]" Edit] $attribute_title]
+    set context [list [list "etp?[export_url_vars name]" Edit] $attribute_title]
 } else {
-    set context_bar [ad_context_bar [list $name $name] [list "etp?[export_url_vars name]" Edit] $attribute_title]
+    set context [list [list $name $name] [list "etp?[export_url_vars name]" Edit] $attribute_title]
 }
 
 

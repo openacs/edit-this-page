@@ -15,7 +15,7 @@ ad_page_contract {
 } -properties {
     app_options:onevalue
     subtopic_app_options:onevalue
-    context_bar:onevalue
+    context:onevalue
 }
 
 etp::check_write_access
@@ -46,7 +46,7 @@ if { $confirmed == "f" } {
 	}
     }
     set page_title "Change ETP application in use for content section \"$page_title\""
-    set context_bar [ad_context_bar {"etp" "Edit"} "Setup"]
+    set context [list {"etp" "Edit"} "Setup"]
     
     ad_return_template
 

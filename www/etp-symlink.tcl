@@ -10,7 +10,7 @@ ad_page_contract {
     { item_id "" }
 } -properties {
     page_title:onevalue
-    context_bar:onevalue
+    context:onevalue
     item_id:onevalue
     all_pages:multirow
 }
@@ -53,10 +53,10 @@ if { ![empty_string_p $target_id] } {
 	    where symlink_id = :item_id
 	}
 	set page_title "Edit a link to local content"
-	set context_bar [ad_context_bar [list "etp" "Edit"] "Edit internal link"]
+	set context [list [list "etp" "Edit"] "Edit internal link"]
     } else {
 	set page_title "Create a link to local content"
-	set context_bar [ad_context_bar [list "etp" "Edit"] "New internal link"]
+	set context [list [list "etp" "Edit"] "New internal link"]
     }
 
     db_multirow all_pages all_pages {

@@ -14,7 +14,7 @@ ad_page_contract {
     page_url:onevalue
     content_pages:multirow
     page_title:onevalue
-    context_bar:onevalue
+    context:onevalue
     subtopics:multirow
 }
 
@@ -57,9 +57,9 @@ foreach attribute $attributes {
 
 set page_title "Attributes for page \"$pa(title)\""
 if { $name == "index" } {
-    set context_bar [ad_context_bar "Edit"]
+    set context [list "Edit"]
 } else {
-    set context_bar [ad_context_bar [list $name $name] "Edit"]
+    set context [list [list $name $name] "Edit"]
 }
 
 set url_dir "[file dirname [ad_conn url]]"

@@ -8,7 +8,7 @@ ad_page_contract {
 } -properties {
     new_page_name
     page_title
-    context_bar
+    context
 }
 
 etp::check_write_access
@@ -26,4 +26,4 @@ if {$auto_page_name == "number"} {
 }
 
 set page_title "Create a new content page"
-set context_bar [ad_context_bar [list "etp" "Edit"] "New page"]
+set context [list [list "etp" "Edit"] "New page"]

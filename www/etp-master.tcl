@@ -5,8 +5,8 @@
 if { ![info exists title] } {
     set title [ad_system_name]
 }	
-if { ![info exists context_bar] } {
-    set context_bar ""
+if { ![info exists context] } {
+    set context ""
 }	
 if { ![info exists signatory] } {
     set signatory [ad_system_owner]

@@ -1,6 +1,6 @@
 <master src="etp-master">
 <property name="title">@page_title@</property>
-<property name="context_bar">@context_bar@</property>
+<property name="context">@context@</property>
 
 The ETP application in use for a content section determines the
 appearance and content of its pages.  You may also specify the

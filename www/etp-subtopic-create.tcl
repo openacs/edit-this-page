@@ -11,7 +11,7 @@ ad_page_contract {
     { confirmed f }
 } -properties {
     page_title:onevalue
-    context_bar:onevalue
+    context:onevalue
     form_vars:onevalue
 }
 
@@ -49,4 +49,4 @@ if { $confirmed == "t" } {
 }
 
 set page_title "Create a new subtopic"
-set context_bar [ad_context_bar [list "etp" "Edit"] "New subtopic"]
+set context [list [list "etp" "Edit"] "New subtopic"]

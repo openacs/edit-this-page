@@ -12,7 +12,7 @@ ad_page_contract {
     { confirmed "f" }
 } -properties {
     page_title:onevalue
-    context_bar:onevalue
+    context:onevalue
     form_vars:onevalue
 }
 
@@ -50,10 +50,10 @@ if { $confirmed == "t" } {
 	    where extlink_id = :item_id
 	}
 	set page_title "Edit an external link"
-	set context_bar [ad_context_bar [list "etp" "Edit"] "Edit external link"]
+	set context [list [list "etp" "Edit"] "Edit external link"]
     } else {
 	set page_title "Create a new external link"
-	set context_bar [ad_context_bar [list "etp" "Edit"] "New external link"]
+	set context [list [list "etp" "Edit"] "New external link"]
     }
 }
 

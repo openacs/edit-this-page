@@ -1,6 +1,6 @@
 <master src="etp-master">
 <property name="title">@page_title@</property>
-<property name="context_bar">@context_bar@</property>
+<property name="context">@context@</property>
 
 <form method="post" action="etp-edit-2">
 @form_vars@

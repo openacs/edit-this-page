@@ -1,24 +1,14 @@
-<html>
-<head>
-<title>@title@</title>
-</head>
-<body bgcolor="white">
-
+<master>
+<property name="title">@title@</property>
+<property name="context">@context@</property>
 <h2>@title@</h2>
-@context_bar@
+<%= [eval ad_context_bar $context ] %>
+
 <hr>
 
 <slave>
-
-<hr>
-<table width="100%">
-<tr>
-<td><address><a href="mailto:@signatory@">@signatory@</a></address></td>
 <if @etp_link@ not nil>
-<td align="right">@etp_link@</td>
-</if>
-</tr>
+<table width="100%">
+<tr><td align="right">@etp_link@</td></tr>
 </table>
-
-</body>
-</html>
+</if>
