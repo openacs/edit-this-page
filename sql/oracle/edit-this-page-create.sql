@@ -219,7 +219,7 @@ as
 	      select acs_object_id_seq.nextval
 	      into v_new_revision_id from dual;
       else
-	      v_new_revison_id := create_new_revision.revision_id;
+	      v_new_revision_id := create_new_revision.revision_id;
       end if;
 
       insert into acs_objects 
@@ -455,7 +455,8 @@ show errors;
 -- this references a non-existant table
 -- which I might have to change...
 
-select content_type__create_type (
+begin
+	content_type__create_type (
         content_type => 'etp_page_revision',        -- content_type
 	supertype => 'content_revision',         -- supertype
 	pretty_name => 'ETP managed page',       -- pretty_name
@@ -463,4 +464,6 @@ select content_type__create_type (
 	table_name => 'etp_page_revisions',            -- table_name
 	id_column => 'etp_page_revision_id',              -- id_column
 	name_method => 'content_revision__revision_name'  -- name_method
-) from dual;
+	);
+end;
+/
