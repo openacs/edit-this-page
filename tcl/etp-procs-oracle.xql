@@ -146,6 +146,7 @@ select child.name, child.node_id, child.object_id as package_id,
 
 <partialquery name="etp::get_content_items.gci_orderby">
   <querytext>
+	sort_order
   </querytext>
 </partialquery>
 
