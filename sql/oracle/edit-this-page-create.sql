@@ -9,52 +9,52 @@ create sequence etp_auto_page_number_seq;
 create or replace package etp
 as 
     function get_attribute_value ( 
-      p_object_id    in acs_objects.object_id%TYPE,
-      p_attribute_id in acs_attribute_values.attribute_id%TYPE
+      object_id    in acs_objects.object_id%TYPE,
+      attribute_id in acs_attribute_values.attribute_id%TYPE
     ) return varchar;
 
     function create_page (
-      p_package_id in apm_packages.package_id%TYPE,
-      p_name       in varchar,
-      p_title      in varchar,
-      p_content_type in varchar default 'content_revision'
+      package_id in apm_packages.package_id%TYPE,
+      name       in varchar,
+      title      in varchar,
+      content_type in varchar default 'content_revision'
     ) return integer;
 
     function create_extlink (
-      p_package_id in apm_packages.package_id%TYPE,
-      p_url         in varchar,
-      p_title       in varchar,
-      p_description in varchar
+      package_id in apm_packages.package_id%TYPE,
+      url         in varchar,
+      title       in varchar,
+      description in varchar
     ) return integer;
 
     function create_symlink (
-      p_package_id in apm_packages.package_id%TYPE,
-      p_target_id  in integer
+      package_id in apm_packages.package_id%TYPE,
+      target_id  in integer
     ) return integer;
 
     function create_new_revision (
-      p_package_id in apm_packages.package_id%TYPE,
-      p_name in varchar,
-      p_user_id    in users.user_id%TYPE
+      package_id in apm_packages.package_id%TYPE,
+      name in varchar,
+      user_id    in users.user_id%TYPE
     ) return integer;
 
     function get_folder_id (
-      p_package_id in apm_packages.package_id%TYPE
+      package_id in apm_packages.package_id%TYPE
     ) return integer;
 
     function get_relative_url (
-      p_item_id in cr_items.item_id%TYPE,
-      p_name    in varchar
+      item_id in cr_items.item_id%TYPE,
+      name    in varchar
     ) return varchar;
 
     function get_title (
-      p_item_id in cr_items.item_id%TYPE,
-      p_revision_title in varchar
+      item_id in cr_items.item_id%TYPE,
+      revision_title in varchar
     ) return varchar;
 
     function get_description (
-      p_item_id in cr_items.item_id%TYPE,
-      p_revision_description in varchar
+      item_id in cr_items.item_id%TYPE,
+      revision_description in varchar
     ) return varchar;
 
 end etp;
@@ -66,28 +66,26 @@ show errors
 create or replace package body etp
 as 
     function get_attribute_value ( 
-      p_object_id    in acs_objects.object_id%TYPE,
-      p_attribute_id in acs_attribute_values.attribute_id%TYPE
+      object_id    in acs_objects.object_id%TYPE,
+      attribute_id in acs_attribute_values.attribute_id%TYPE
     ) return varchar is
       v_value acs_attribute_values.attr_value%TYPE;
     begin
         select attr_value
         into v_value
         from acs_attribute_values
-        where object_id = p_object_id
-        and attribute_id = p_attribute_id;
-
-        exception when no_data_found then v_value := '';
-
+        where object_id = object_id
+        and attribute_id = attribute_id;
         return v_value;
+        exception when no_data_found then return null;
     end get_attribute_value;
 
 
     function create_page (
-      p_package_id in apm_packages.package_id%TYPE,
-      p_name       in varchar,
-      p_title      in varchar,
-      p_content_type in varchar default 'content_revision'
+      package_id in apm_packages.package_id%TYPE,
+      name       in varchar,
+      title      in varchar,
+      content_type in varchar default 'content_revision'
     ) return integer 
     is
         v_item_id cr_items.item_id%TYPE;
@@ -101,17 +99,17 @@ as
            sysdate(), 
            null, 
            null, 
-           p_package_id
+           package_id
        );
 
-       v_folder_id := etp.get_folder_id(p_package_id);
+       v_folder_id := etp.get_folder_id(package_id);
 
        insert into cr_items 
            (item_id, parent_id, name, content_type) 
        values 
-           (v_item_id, v_folder_id, p_name, v_content_type);
+           (v_item_id, v_folder_id, name, v_content_type);
 
-      -- would like to use p_content_type here, but since there''s 
+      -- would like to use content_type here, but since there''s 
       -- no table that corresponds to it, we get an error from
       -- the dynamic sql in acs_object__delete.  so just use content_revision.
 
@@ -120,7 +118,7 @@ as
 
       insert into cr_revisions (revision_id, item_id, title, 
                             publish_date, mime_type) 
-      values (v_revision_id, v_item_id, p_title, sysdate, 'text/html');
+      values (v_revision_id, v_item_id, title, sysdate, 'text/html');
 
       update cr_items 
           set live_revision = v_revision_id
@@ -130,10 +128,10 @@ as
     end create_page;
 
     function create_extlink (
-      p_package_id in apm_packages.package_id%TYPE,
-      p_url         in varchar,
-      p_title       in varchar,
-      p_description in varchar
+      package_id in apm_packages.package_id%TYPE,
+      url         in varchar,
+      title       in varchar,
+      description in varchar
     ) return integer
     is
       v_item_id cr_items.item_id%TYPE;
@@ -144,7 +142,7 @@ as
           'content_extlink'
       );
       
-      v_folder_id := etp.get_folder_id(p_package_id);
+      v_folder_id := etp.get_folder_id(package_id);
 
       insert into cr_items 
         (item_id, parent_id, name, content_type) 
@@ -156,21 +154,21 @@ as
       insert into cr_extlinks
         (extlink_id, url, label, description)
       values
-        (v_item_id, p_url, p_title, p_description);
+        (v_item_id, url, title, description);
 
       return 1;
     end create_extlink;
 
     function create_symlink (
-      p_package_id in apm_packages.package_id%TYPE,
-      p_target_id  in integer
+      package_id in apm_packages.package_id%TYPE,
+      target_id  in integer
     ) return integer
     is
       v_item_id cr_items.item_id%TYPE;
       v_folder_id cr_folders.folder_id%TYPE;
     begin 
       v_item_id := acs_object.new(null, 'content_symlink');
-      v_folder_id := etp.get_folder_id(p_package_id);
+      v_folder_id := etp.get_folder_id(package_id);
 
       insert into cr_items 
         ( item_id, parent_id, name, content_type) 
@@ -182,15 +180,15 @@ as
       insert into cr_symlinks
         (symlink_id, target_id)
       values
-        (v_item_id, p_target_id);
+        (v_item_id, target_id);
 
       return 1;
     end create_symlink;
 
     function create_new_revision (
-      p_package_id in apm_packages.package_id%TYPE,
-      p_name in varchar,
-      p_user_id    in users.user_id%TYPE
+      package_id in apm_packages.package_id%TYPE,
+      name in varchar,
+      user_id    in users.user_id%TYPE
     ) return integer
     is
       v_revision_id cr_revisions.revision_id%TYPE;
@@ -201,8 +199,8 @@ as
       select max(r.revision_id)
       into v_revision_id
       from cr_revisions r, cr_items i
-      where i.name = p_name
-      and i.parent_id = etp.get_folder_id(p_package_id)
+      where i.name = name
+      and i.parent_id = etp.get_folder_id(package_id)
       and r.item_id = i.item_id;
 
       select object_type
@@ -219,7 +217,7 @@ as
       insert into acs_objects 
         ( object_id, object_type, creation_date, creation_user)
       values 
-        (v_new_revision_id, v_content_type, sysdate, p_user_id);
+        (v_new_revision_id, v_content_type, sysdate, user_id);
 
       insert into cr_revisions 
         (revision_id, item_id, title, description, content, mime_type) 
@@ -241,23 +239,21 @@ as
     end create_new_revision;
 
     function get_folder_id (
-      p_package_id in apm_packages.package_id%TYPE
+      package_id in apm_packages.package_id%TYPE
     ) return integer
     is
       v_folder_id cr_folders.folder_id%TYPE;
     begin
       select folder_id into v_folder_id
       from cr_folders
-      where package_id = p_package_id;
-    
-      exception when no_data_found then v_folder_id := content_item.c_root_folder_id;
-
+      where package_id = get_folder_id.package_id;
       return v_folder_id;
+      exception when no_data_found then return content_item.c_root_folder_id;
     end get_folder_id;
 
     function get_relative_url (
-      p_item_id in cr_items.item_id%TYPE,
-      p_name    in varchar
+      item_id in cr_items.item_id%TYPE,
+      name    in varchar
     ) return varchar
     is
       v_url cr_extlinks.url%TYPE;
@@ -276,28 +272,28 @@ as
 
       select object_type into v_object_type
       from acs_objects
-      where object_id = p_item_id;
+      where object_id = get_relative_url.item_id;
 
       if v_object_type = 'content_item' then
-        return p_name;
+        return name;
       end if;
 
       -- is this portable? wouldn't seperator be better
       if v_object_type = 'content_folder' then
-        return p_name || '/';
+        return name || '/';
       end if;
 
       if v_object_type = 'content_extlink' then
         select url into v_url
         from cr_extlinks
-        where extlink_id = p_item_id;
+        where extlink_id = get_relative_url.item_id;
         return v_url;
       end if;
 
       if v_object_type = 'content_symlink' then
         select target_id into v_item_id
         from cr_symlinks
-        where symlink_id = p_item_id;
+        where symlink_id = get_relative_url.item_id;
 
         open v_link_rec;
         fetch v_link_rec into v_package_id, v_name;
@@ -317,27 +313,27 @@ as
 
 
     function get_title(
-      p_item_id in cr_items.item_id%TYPE,
-      p_revision_title in varchar
+      item_id in cr_items.item_id%TYPE,
+      revision_title in varchar
     ) return varchar
     is
       v_title cr_revisions.title%TYPE;
       v_object_type acs_objects.object_type%TYPE;
       v_item_id cr_items.item_id%TYPE;
     begin
-      if p_revision_title is not null then
-        return p_revision_title;
+      if revision_title is not null then
+        return revision_title;
       end if;
 
       select object_type into v_object_type
       from acs_objects
-      where object_id = p_item_id;
+      where object_id = get_title.item_id;
 
       if v_object_type = 'content_folder' then
         select r.title 
         into v_title
         from cr_items i, cr_revisions r
-        where i.parent_id = p_item_id
+        where i.parent_id = get_title.item_id
         and i.name = 'index'
         and i.live_revision = r.revision_id;
         return v_title;    
@@ -346,21 +342,21 @@ as
       if v_object_type = 'content_extlink' then
         select label into v_title
         from cr_extlinks
-        where extlink_id = p_item_id;
+        where extlink_id = get_title.item_id;
         return v_title;
       end if;
 
       if v_object_type = 'content_symlink' then
         select target_id into v_item_id
         from cr_symlinks
-        where symlink_id = p_item_id;
-        return etp.get_title(p_item_id, null);
+        where symlink_id = get_title.item_id;
+        return etp.get_title(item_id, null);
       end if;
 
       if v_object_type = 'content_item' then
         select r.title into v_title
         from cr_items i, cr_revisions r
-        where i.item_id = p_item_id
+        where i.item_id = get_title.item_id
         and i.live_revision = r.revision_id;
         return v_title;
       end if;  
@@ -370,27 +366,27 @@ as
     end get_title;
 
     function get_description(
-      p_item_id in cr_items.item_id%TYPE,
-      p_revision_description in varchar
+      item_id in cr_items.item_id%TYPE,
+      revision_description in varchar
     ) return varchar
     is 
       v_description cr_revisions.description%TYPE;
       v_object_type acs_objects.object_type%TYPE;
       v_item_id cr_items.item_id%TYPE;
     begin
-      if p_revision_description is not null then
-        return p_revision_description;
+      if revision_description is not null then
+        return revision_description;
       end if;
 
       select object_type into v_object_type
       from acs_objects
-      where object_id = p_item_id;
+      where object_id = get_description.item_id;
 
       if v_object_type = 'content_folder' then
         select r.description 
         into v_description
         from cr_items i, cr_revisions r
-        where i.parent_id = p_item_id
+        where i.parent_id = get_description.item_id
         and i.name = 'index'
         and i.live_revision = r.revision_id
         and i.item_id = r.item_id;
@@ -400,21 +396,21 @@ as
       if v_object_type = 'content_extlink' then
         select description into v_description
         from cr_extlinks
-        where extlink_id = p_item_id;
+        where extlink_id = get_description.item_id;
         return v_description;
       end if;
 
       if v_object_type = 'content_symlink' then
         select target_id into v_item_id
         from cr_symlinks
-        where symlink_id = p_item_id;
-        return etp.get_description(p_item_id, null);
+        where symlink_id = get_description.item_id;
+        return etp.get_description(item_id, null);
       end if;
 
       if v_object_type = 'content_item' then
         select r.description into v_description
         from cr_items i, cr_revisions r
-        where i.item_id = p_item_id
+        where i.item_id = get_description.item_id
         and i.live_revision = r.revision_id;
         return v_description;
       end if;  

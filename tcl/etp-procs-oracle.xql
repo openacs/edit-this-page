@@ -2,42 +2,34 @@
 <queryset>
    <rdbms><type>oracle</type><version>8.1.6</version></rdbms>
 
-<fullquery name="etp::make_content_type.object_type_create">      
+<fullquery name="etp::define_content_type.object_type_create">      
 <querytext>
 	begin
 	    acs_object_type.create_type (
-	        :content_type,
-	        :pretty_name,
-	        :pretty_plural,
-	        'content_revision',
-	        :content_type,
-	        :content_type,
-	        null,
-	        'f',
-	        null,
-	        null
+	        object_type    => :content_type,
+	        pretty_name    => :pretty_name,
+	        pretty_plural  => :pretty_plural,
+	        supertype      => 'content_revision',
+	        table_name     => :content_type,
+	        id_column      => :content_type
 	    );
 	end;
 </querytext>
 </fullquery>
 
-<fullquery name="etp::make_content_type.attribute_create">      
+<fullquery name="etp::define_content_type.attribute_create">      
 <querytext>
 	begin
 		:1 := acs_attribute.create_attribute (
-		    :content_type,
-		    :a_name,
-		    :a_datatype,
-		    :a_pretty_name,
-		    :a_pretty_plural,
-		    null,
-		    null,
-		    :a_default,
-		    1,
-		    1,
-		    null,
-		    'generic',
-		    'f'
+		    object_type      => :content_type,
+		    attribute_name   => :a_name,
+		    datatype         => :a_datatype,
+		    pretty_name      => :a_pretty_name,
+		    pretty_plural    => :a_pretty_plural,
+		    default_value    => :a_default,
+		    min_n_values     => 1,
+		    max_n_values     => 1,
+		    storage          => 'generic'
 		);
 	end;
 </querytext>
@@ -46,12 +38,12 @@
 <fullquery name="etp::make_page.page_create">
 <querytext>
 	begin
-	etp.create_page(
-	  :package_id,
-	  :name,
-          :title,
-	  :content_type
-	);
+	  :1 := etp.create_page(
+	           package_id     => :package_id,
+	           name           => :name,
+                   title          => :title,
+	           content_type   => :content_type
+	        );
 	end;
 </querytext>
 </fullquery>
@@ -119,13 +111,11 @@
 <querytext>
      select * from (
 	select $columns
-          from cr_items i 
-                 left join 
-               cr_revisions r
-            on (i.live_revision = r.revision_id)
+          from cr_items i, cr_revisions r
          where i.parent_id = etp.get_folder_id(:package_id)
 	   and i.name != 'index'
-     ) as attributes
+           and i.live_revision = r.revision_id(+)
+     ) attributes
      where $extra_where_clauses
      order by $orderby
      $limit_clause

@@ -6,7 +6,7 @@
 <querytext>
 	select i.item_id, i.name, r.revision_id, r.title, 
                content_revision.get_number(r.revision_id) as latest_revision,
-               content_revision.get_number(r.live_revision) as live_revision,
+               content_revision.get_number(i.live_revision) as live_revision,
 	       r.description, r.publish_date, r.content $extended_attributes
 	  from cr_items i, cr_revisions r
 	 where i.parent_id = :package_id
