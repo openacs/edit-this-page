@@ -34,7 +34,6 @@ if { ![empty_string_p $target_id] } {
 
     if { [empty_string_p $item_id] } {
 	db_exec_plsql create_symlink {
-	    select etp_create_symlink(:package_id, :target_id);
 	}
     } else {
 	db_dml update_symlink {
@@ -61,16 +60,6 @@ if { ![empty_string_p $target_id] } {
     }
 
     db_multirow all_pages all_pages {
-	select i.item_id, i.name, etp_get_title(i.item_id, null) as title,
-               repeat('&nbsp;',(tree_level(i.tree_sortkey) - 1) * 4) as indent
-          from cr_items i, acs_objects o
-         where i.item_id = o.object_id
-           and o.object_type in ('content_item', 'content_folder')
-           and i.name != 'index'
-           and i.tree_sortkey not like (select tree_sortkey 
-                                          from cr_items
-                                         where item_id = -400) || '%'
-         order by i.tree_sortkey
     }
 
 }
