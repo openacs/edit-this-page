@@ -501,7 +501,7 @@ ad_proc -public get_etp_url { } {
 
 } {
     set url_stub [ns_conn url]
-    array set site_node [site_node $url_stub]
+    array set site_node [site_node::get -url $url_stub]
     set urlc [regexp -all "/" $url_stub]
     if { ($site_node(package_key) == "edit-this-page" ||
           $site_node(package_key) == "acs-subsite") &&

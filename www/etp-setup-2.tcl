@@ -30,7 +30,7 @@ if { $site_node_url == "/" } {
     set name [db_string site_node_name ""]
     set parent_url [file dirname $site_node_url]
 
-    array set parent_site_node [site_node $parent_url]
+    array set parent_site_node [site_node::get -url $parent_url]
     set parent_package_id $parent_site_node(object_id)
 
 #    set parent_package_id [site_node_closest_ancestor_package -url "$parent_url" "edit-this-page"]

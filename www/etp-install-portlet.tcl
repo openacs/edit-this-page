@@ -37,7 +37,7 @@ set site_node_url [file dirname [ad_conn url]]
     set name [db_string site_node_name ""]
     set parent_url [file dirname $site_node_url]
     set name "$name $package_id"
-    array set parent_site_node [site_node $parent_url]
+    array set parent_site_node [site_node::get -url $parent_url]
     set parent_package_id $parent_site_node(object_id)
     db_transaction {
 	set folder_id [db_exec_plsql create_folder ""]
