@@ -318,6 +318,9 @@ ad_proc -private get_pa { package_id name {content_type ""} } {
 	db_1row get_page_attributes_other_revision "" -column_array pa
     }
 
+    if {[empty_string_p $pa(mime_type)]} {
+	set pa(mime_type) "text/html"
+    }
 	    set pa(content) [template::util::richtext get_property html_value [list $pa(content) $pa(mime_type)]]
 
     # add in the context bar
