@@ -7,7 +7,7 @@
     <initial-install-p>f</initial-install-p>
     <singleton-p>f</singleton-p>
 
-    <version name="1.2b" url="http://openacs.org/repository/download/apm/edit-this-page-1.2b.apm">
+    <version name="1.2" url="http://openacs.org/repository/download/apm/edit-this-page-1.2b.apm">
     <database-support>
         <database>postgresql</database>
     </database-support>
@@ -119,7 +119,8 @@
             <parameter datatype="string"  min_n_values="1"  max_n_values="1"  name="application"  default="default" description="Name of the ETP application to use (default, faq, news, or create your own with the etp::define_applicaton procedure)"/>
             <parameter datatype="number"  min_n_values="1"  max_n_values="1"  name="cache_max_age"  default="600" description="number of seconds to keep requested page attributes in the cache"/>
             <parameter datatype="string"  min_n_values="1"  max_n_values="1"  name="subtopic_application"  default="default" description="Name of the ETP application to use when creating a subtopic"/>
-        </parameters>
+	<parameter datatype="number" min_n_values="1" max_n_values="1" name="CommentsEnabledP" default="0" description="Are General Comments Enabled for this Subtopic?"/>
+	</parameters>
 
     </version>
 </package>
