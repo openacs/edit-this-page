@@ -413,8 +413,12 @@ drop function inline_0 ();
 
 create function inline_1 () 
 returns integer as '
+declare
+  v_folder_id integer;
 begin
-perform content_folder__new (
+select folder_id into v_folder_id from cr_folders where folder_id = -400;
+if not found then 
+  perform content_folder__new (
     ''trash'',
     ''Trash'', 
     ''Deleted content items get put here'',
@@ -425,6 +429,7 @@ perform content_folder__new (
     null,
     null
   );
+end if;
 return 0;
 end;
 ' language 'plpgsql';

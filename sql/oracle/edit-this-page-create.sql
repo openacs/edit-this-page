@@ -464,12 +464,14 @@ show errors;
 declare
   v_folder_id cr_folders.folder_id%TYPE;
 begin
-  v_folder_id := content_folder.new (
+  select folder_id into v_folder_id from cr_folders where folder_id = -400;
+  exception when no_data_found then 
+    v_folder_id := content_folder.new (
            name           => 'trash',
            label          => 'Trash', 
            description    => 'Deleted content items get put here',
            folder_id      => -400
-  );
+    );
 end;
 /
 show errors;

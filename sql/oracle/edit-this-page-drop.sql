@@ -43,10 +43,19 @@ end;
 /
 show errors;
 
-begin
-  content_folder.delete (
-           folder_id      => -400
-  );
-end;
-/
-show errors;
+-- although we don't attempt to delete content that was
+-- added via ETP, in order to delete the package we must
+-- remove the package reference from cr_folders that were
+-- created by ETP
+update cr_folders set package_id = null
+where package_id in (select package_id 
+                       from apm_packages
+                      where package_key = 'edit-this-page');
+
+-- also kill the package reference in the context_id field
+-- of ETP content
+update acs_objects set context_id = 0
+where context_id in (select package_id 
+                       from apm_packages
+                      where package_key = 'edit-this-page');
+
