@@ -490,7 +490,7 @@ ad_proc -public get_etp_url { } {
     array set site_node [site_node $url_stub]
     set urlc [regexp -all "/" $url_stub]
     if { ($site_node(package_key) == "edit-this-page" ||
-          ($site_node(package_key) == "acs-subsite" && $urlc == 1)) &&
+          $site_node(package_key) == "acs-subsite") &&
          [ad_permission_p [ad_conn package_id] write] } {
 
 	set name [etp::get_name]
@@ -499,7 +499,9 @@ ad_proc -public get_etp_url { } {
 	    return "etp?[export_vars { name }]"
 	}
     } 
+
     return ""
+
 }
 
 ad_proc -public get_etp_link { } {
