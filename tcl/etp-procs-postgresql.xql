@@ -111,18 +111,12 @@
 
 <fullquery name="etp::get_content_items.get_content_items">
 <querytext>
-     select * from (
-	select $columns
-          from cr_items i 
-                 left join 
-               cr_revisions r
-            on (i.live_revision = r.revision_id)
-         where i.parent_id = etp__get_folder_id(:package_id)
-	   and i.name != 'index'
-     ) as attributes
-     where $extra_where_clauses
-     order by $orderby
-     $limit_clause
+   select $columns
+   from cr_items i left join cr_revisions r on (i.live_revision = r.revision_id)
+   where i.parent_id = etp__get_folder_id(:package_id) and i.name != 'index'
+     $extra_where_clauses
+   order by $orderby
+   $limit_clause
 </querytext>
 </fullquery>
 
