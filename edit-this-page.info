@@ -7,7 +7,7 @@
     <initial-install-p>f</initial-install-p>
     <singleton-p>f</singleton-p>
 
-    <version name="1.8b2" url="http://openacs.org/repository/download/apm/edit-this-page-1.8b2.apm">
+    <version name="1.8b3" url="http://openacs.org/repository/download/apm/edit-this-page-1.8b3.apm">
     <database-support>
         <database>postgresql</database>
     </database-support>
@@ -17,7 +17,7 @@
         <summary>An easy-to-use content management system.</summary>
         <description format="text/html">An Easy to use publishing system with versioning and permissions.</description>
 
-        <provides url="edit-this-page" version="1.8b2"/>
+        <provides url="edit-this-page" version="1.8b3"/>
         <requires url="acs-kernel" version="4.6.2"/>
         <requires url="acs-subsite" version="4.6.3"/>
         <requires url="acs-templating" version="4.1.2"/>
