@@ -133,13 +133,16 @@ select site_node__url(node_id) as package_url from site_nodes where object_id = 
 <fullquery name="etp::get_subtopics.get_subtopics">
 <querytext>
 select child.name, child.node_id, child.object_id as package_id,
-                   etp__package_title(child.object_id) as title,
-                   etp__package_description(child.object_id) as description
-  from site_nodes parent, site_nodes child, apm_packages p
+                   etp__get_title(f.folder_id,NULL) as title,
+                   etp__get_description(f.folder_id,NULL) as description
+	           site_node__url(child.node_id) as url
+  from site_nodes parent, site_nodes child, apm_packages p,
+  cr_folders f
  where parent.object_id = :package_id
    and child.parent_id = parent.node_id
    and child.object_id = p.package_id
    and p.package_key = 'edit-this-page'
+   and f.package_id=p.package_id
 </querytext>
 </fullquery>
 
