@@ -24,7 +24,7 @@ select site_node__url(node_id) as package_url from site_nodes where object_id = 
 		'FtsContentProvider',		-- impl_contract_name
 		:content_type,			-- impl_name
 		'datasource',			-- impl_operation_name
-		'etp_page_revision__datasource',	-- impl_alias
+		'etp::revision_datasource',	-- impl_alias
 		'TCL'				-- impl_pl
 	)
     </querytext>
@@ -36,7 +36,7 @@ select site_node__url(node_id) as package_url from site_nodes where object_id = 
 		'FtsContentProvider',		-- impl_contract_name
 		:content_type,		-- impl_name
 		'url',				-- impl_operation_name
-		'etp_page_revision__url',	-- impl_alias
+		'etp::revision_url',	-- impl_alias
 		'TCL'				-- impl_pl
 	);
    </querytext>

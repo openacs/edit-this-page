@@ -442,3 +442,19 @@ begin
 end;
 /
 show errors;
+
+
+-- create a default content_type etp_page_revision
+-- DaveB
+-- this references a non-existant table
+-- which I might have to change...
+
+select content_type__create_type (
+        content_type => 'etp_page_revision',        -- content_type
+	supertype => 'content_revision',         -- supertype
+	pretty_name => 'ETP managed page',       -- pretty_name
+	pretty_plural => 'ETP managed pages',      -- pretty_plural
+	table_name => 'etp_page_revisions',            -- table_name
+	id_column => 'etp_page_revision_id',              -- id_column
+	name_method => 'content_revision__revision_name'  -- name_method
+);
