@@ -69,6 +69,8 @@ if {[exists_and_not_null widget_extra]} {
 set form_list [list revision_id:key]
 lappend form_list $widget_list
 
+lappend form_list [list page_title:text(hidden)]
+
 ad_form -export { name attribute  widget} -form $form_list -edit_request {
 
 
@@ -90,8 +92,6 @@ ad_form -export { name attribute  widget} -form $form_list -edit_request {
 
 } -new_request {
 
-
-
     if { [lsearch -exact {title description content} $attribute] >= 0 } {
 	# value is stored in cr_revisions table
 
@@ -102,11 +102,12 @@ ad_form -export { name attribute  widget} -form $form_list -edit_request {
 	set attribute_id [etp::get_attribute_id $attribute_desc]
 	db_1row get_extended_attribute ""
     }
-	if {[string equal $widget "(richtext)"]} {
-	    set $element [template::util::richtext create $value $mime_type]
-	} else {
-	    set $element $value
-	}
+
+    if {[string equal $widget "(richtext)"]} {
+        set $element [template::util::richtext create $value $mime_type]
+    } else {
+        set $element $value
+    }
 
 } -new_data {
     # usually we are creating a new revision
@@ -161,10 +162,11 @@ ad_form -export { name attribute  widget} -form $form_list -edit_request {
     }
 
     ad_returnredirect "etp?[export_url_vars name]"
+    ad_script_abort
 }
 
 
-set page_title "$attribute_title for page \"$page_title\""
+set page_title "$attribute_title for page '$page_title'"
 
 if {$name == "index"} {
     set context [list [list "etp?[export_url_vars name]" Edit] $attribute_title]
