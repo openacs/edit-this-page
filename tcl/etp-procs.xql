@@ -80,6 +80,7 @@
      ) as attributes
      where $extra_where_clauses
      order by $orderby
+     $limit_clause
 </querytext>
 </fullquery>
 

@@ -478,7 +478,7 @@ ad_proc -public get_etp_link { } {
     set url_stub [ns_conn url]
     array set site_node [site_node $url_stub]
     set urlc [regexp -all "/" $url_stub]
-    if { ($site_node(package_key) == "edit-this-page" ||
+    if { ($site_node(package_key) == "editthispage" ||
           ($site_node(package_key) == "acs-subsite" && $urlc == 1)) &&
          [ad_permission_p [ad_conn package_id] write] } {
 
@@ -528,10 +528,12 @@ ad_proc -public get_live_revision_id { package_id name } {
 
 ad_proc -public get_content_items { args } {
     @author Luke Pond
-    @creation-date 2001-06-10
+    @creation-date 2001-06-10 
     @param -orderby - what should appear in the ORDER BY clause
+    @param -limit - number of items to return
     @param -where - additional query restrictions to follow the WHERE clause
     @param -package_id - package_id to use (by default uses [ad_conn package_id])
+    @param -result_name - variable name to create in the caller's context (by default uses "content_items")
     @param args - all remaining parameters are taken to be additional page attributes to return
     Creates a variable named "content_items" in the caller's context.
     This is a multirow result set suitable for passing to an index template,
@@ -560,7 +562,8 @@ ad_proc -public get_content_items { args } {
 } {    
     set package_id [ad_conn package_id]
     set content_type [etp::get_content_type]
-    
+    set result_name "content_items"
+
     set orderby "attributes.sort_order"
     set extra_where_clauses "1 = 1"
     set columns "i.item_id, i.name, tree_sortkey as sort_order,
@@ -571,18 +574,32 @@ ad_proc -public get_content_items { args } {
                  etp_get_title(i.item_id, r.title) as title,
                  etp_get_description(i.item_id, r.description) as description
                  "
+    set limit_clause ""
 
     for {set i 0} {$i < [llength $args]} {incr i} {
 	set arg [lindex $args $i]
 
+	if { $arg == "-result_name" } {
+	    incr i 
+	    set result_name [lindex $args $i]
+	}
+
 	if { $arg == "-package_id" } {
 	    incr i 
 	    set package_id [lindex $args $i]
+	    set app [ad_parameter -package_id $package_id application default]
+	    set content_type [etp::get_application_param content_content_type $app]
 	}
 
 	if { $arg == "-orderby" } {
 	    incr i
 	    set orderby [lindex $args $i]
+	    continue
+	}
+
+	if { $arg == "-limit" } {
+	    incr i
+	    set limit_clause "limit [lindex $args $i]"
 	    continue
 	}
 
@@ -605,9 +622,9 @@ ad_proc -public get_content_items { args } {
 	}
     }
 
-    upvar content_items content_items
+    upvar $result_name $result_name
 
-    db_multirow content_items get_content_items ""
+    db_multirow $result_name get_content_items ""
 }
 
 ad_proc -public get_subtopics {} {
