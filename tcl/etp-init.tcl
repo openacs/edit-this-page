@@ -60,7 +60,7 @@ if { [catch {
     }
 
 } errmsg]} {
-    ns_log Notice "ETP: define 'Journal Issue' failed: $errmsg"
+    ns_log Warning "ETP: define 'Journal Issue' failed: $errmsg"
 }
 
 if { [catch {
@@ -73,7 +73,7 @@ if { [catch {
     }
 
 } errmsg]} {
-    ns_log Notice "ETP: define 'Journal Articles' failed: $errmsg"
+    ns_log Warning "ETP: define 'Journal Articles' failed: $errmsg"
 }
 
 
@@ -87,7 +87,7 @@ if { [catch {
     }
 
 } errmsg]} {
-    ns_log Notice "ETP: define 'News Items' failed: $errmsg"
+    ns_log Warning "ETP: define 'News Items' failed: $errmsg"
 } else {
 
     etp::define_application news {

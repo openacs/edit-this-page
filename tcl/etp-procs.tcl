@@ -95,7 +95,7 @@ ad_proc -public define_content_type { content_type pretty_name pretty_plural att
     # for each attribute, ensure an entry in acs_attributes
     foreach attribute $attribute_metadata {
 	if {[llength $attribute] != 6} {
-	    ns_log Error "etp::make_content_type ($content_type) failed:
+	    ns_log Error "etp::define_content_type ($content_type) failed:
 	    attribute_metadata record has incorrect format"
 	    return
 	}
@@ -131,7 +131,7 @@ ad_proc -public define_application { name params } {
 	array set application_params [list]
     }
     set application_params($name) $params
-    ns_log Notice "ETP application $name is $application_params($name)"
+    ns_log debug "ETP define_application name $name is $application_params($name)"
 }
 
 ad_proc -public modify_application { name params } {
@@ -142,7 +142,7 @@ ad_proc -public modify_application { name params } {
     array set param_array $application_params($name)
     array set param_array $params
     set application_params($name) [array get param_array]
-    ns_log Notice "ETP application $name is modified to $application_params($name)"
+    ns_log debug "ETP modify_application application $name is modified to $application_params($name)"
 }
 
 ad_proc -public get_defined_applications { } {
@@ -276,7 +276,7 @@ ad_proc -public get_page_attributes { } {
 	    array set pa [etp::get_pa [ad_conn package_id] $name $content_type]
 	}
     } errmsg] } {
-	ns_log Notice "Error from etp::get_pa was:\n $errmsg"
+	ns_log debug "Error from etp::get_pa was:\n$errmsg"
 
 	# Page not found.  Redirect admins to setup page;
 	# otherwise report 404 error.
@@ -435,7 +435,7 @@ ad_proc -public get_attribute_pretty_name { attribute_desc {page_name ""} } {
 	    set param_name "content_${attr_name}_attr_name"
 	}
 
-	ns_log Notice "Asking for $param_name"
+	ns_log debug "get_attribute_pretty_name: Asking for $param_name"
 	set pretty_name [etp::get_application_param $param_name]
     } 
 
@@ -610,7 +610,7 @@ ad_proc -public get_content_items { args } {
     set extra_where_clauses [db_map gci_where_clause]
     
     set columns [db_map gci_columns_clause]
-    ns_log warning "columns: $columns"
+    ns_log debug "get_content_items: columns: $columns"
     
     set limit_clause ""
 
@@ -650,10 +650,10 @@ ad_proc -public get_content_items { args } {
 	if { [lsearch -exact { item_id revision_id content publish_date } $arg] != -1 } {
 	    append columns ",\n r.$arg"
 	} else {
-	    ns_log Notice "extended attribute named $arg"
+	    ns_log debug "get_content_items: extended attribute named $arg"
 	    set attr_desc [etp::get_attribute_desc $arg $content_type]
 	    if { ![empty_string_p $attr_desc] } {
-		ns_log Notice "adding it"
+		ns_log debug "get_content_items: adding it"
 		set lookup_sql [etp::get_attribute_lookup_sql $attr_desc]
 		append columns ",\n $lookup_sql"
 	    }

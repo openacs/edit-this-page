@@ -22,7 +22,7 @@ ad_proc etp::revision_datasource {
         
     db_0or1row revision_datasource ""     -column_array datasource
     set content_type [db_string get_content_type {}]
-    ns_log notice "ETP:content_type=$content_type"
+    ns_log debug "etp::revision_datasource: content_type=$content_type"
     # call a specially named proc to extend search content for
     # this content_type if it exists
     # we pass in the name of the tcl array for the datasource
@@ -75,7 +75,7 @@ ad_proc etp::create_search_impl {
 	    db_exec_plsql install_binding {}
 	}
     } on_error {
-	ns_log error "ETP: Service contract implementation for content type \"${content_type}\" is not valid"
+	ns_log Error "etp::create_search_impl: Service contract implementation for content type \"${content_type}\" is not valid"
     }
 }
     
@@ -88,7 +88,7 @@ ad_proc etp::search_impl_exists_p {
     @author Dave Bauer
 } {
     # check for service contract here
-    ns_log notice "ETP: search_contract_exists_p content type=$content_type
+    ns_log debug "etp::search_impl_exists_p: search_contract_exists_p content type=$content_type
                    exists_p=[acs_sc_binding_exists_p FtsContentProvider $content_type]"
     return [acs_sc_binding_exists_p FtsContentProvider $content_type]
 }
@@ -104,6 +104,6 @@ ad_proc etp::search::etp_page_revision {
 } {
     if {[exists_and_not_null array_name]} {
 	upvar search_array $array_name
-	ns_log notice "ETP:search:etp_page_revision arrayname:$array_name"
+	ns_log debug "etp::search::etp_page_revision: arrayname:$array_name"
     }
 }
