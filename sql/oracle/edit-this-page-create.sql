@@ -424,41 +424,6 @@ end etp;
 /
 show errors
 
--- add the ETP parameters to the acs-subsite package so that
--- we can serve the site's home page and top level pages.
-
--- DRB: this was trying to set the parameter values to their default value but they
--- already (quite logically) are set by apm.register_parameter ...
-
-declare
-  v_parameter_id apm_parameters.parameter_id%TYPE;
-
-begin
-  v_parameter_id := apm.register_parameter(
-       package_key         => 'acs-subsite',
-       parameter_name      => 'application',
-       description         => 'Name of the ETP application to use (default, faq, wiki, or create your own with the etp::define_applicaton procedure)',
-       datatype            => 'string',
-       default_value       => 'default',
-       section_name        => 'EditThisPage',
-       min_n_values        => 1,
-       max_n_values        => 1
-  );
-
-  v_parameter_id := apm.register_parameter(
-       package_key         => 'acs-subsite',
-       parameter_name      => 'subtopic_application',
-       description         => 'Name of the ETP application to use when creating a subtopic',
-       datatype            => 'string',
-       default_value       => 'default',
-       section_name        => 'EditThisPage',
-       min_n_values        => 1,
-       max_n_values        => 1
-  );
-
-end;
-/
-show errors;
 
 -- create a folder with magic folder_id of -400 where we
 -- will put all deleted content items so they'll be recoverable.
