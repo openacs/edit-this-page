@@ -202,7 +202,7 @@ as
       into v_revision_id
       from cr_revisions r, cr_items i
       where i.name = name
-      and i.parent_id = etp.get_folder_id(package_id)
+      and i.parent_id = etp.get_folder_id(create_new_revision.package_id)
       and r.item_id = i.item_id;
 
       select object_type
