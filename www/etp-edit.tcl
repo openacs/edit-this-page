@@ -118,9 +118,11 @@ ad_form -export { name attribute  widget} -form $form_list -edit_request {
 	set date_format [etp::get_application_param date_format]
 	set value $date_string
     } else {
-	set value [template::util::richtext get_property contents [set $element]]
-	set mime_type [template::util::richtext get_property format [set $element]]
-	set extra_sql " , mime_type=:mime_type"
+	if {[string equal $widget "(richtext)"]} {
+	    set value [template::util::richtext get_property contents [set $element]]
+	    set mime_type [template::util::richtext get_property format [set $element]]
+	    set extra_sql " , mime_type=:mime_type"
+	}
     }
 
     db_exec_plsql create_new_revision ""
