@@ -44,7 +44,7 @@ ad_proc etp::revision_url {
 } {
     db_1row revision_url {}
   
-    set package_url [db_string package_url {}]
+    set package_url [db_string package_url {} -default "/"]
     
     return "[ad_url]${package_url}${url}"
 }
