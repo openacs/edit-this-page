@@ -46,7 +46,7 @@ ad_proc etp::revision_url {
   
     set package_url [db_string package_url {} -default "/"]
     
-    return "[ad_url]${package_url}${url}"
+    return [string trimright "[ad_url]${package_url}${url}" "index"]
 }
 
 ad_proc etp::create_search_impl {
