@@ -12,7 +12,7 @@
 -- If you have any other items with a NULL content_type this will capture them
 -- Please confirm and test this before running on a production database.
 
-update cr_items set content_type='etp_page_revision where content_type is NULL;
+update cr_items set content_type='etp_page_revision' where content_type is NULL;
 
 -- this is untested DAVEB
 update acs_objects set object_type='etp_page_revision'
