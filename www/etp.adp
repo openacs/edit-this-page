@@ -5,13 +5,16 @@
 <table width="100%"><tr>
 <td valign="top">
 <a href="@page_url@">@page_url@</a> 
+</td>
 <td valign="top">
 version @pa.latest_revision@
 (live version is @pa.live_revision@)
+</td>
 <td valign="top" align="right">
 <if @edit_parent_url@ not nil>
 <a href="@edit_parent_url@">Edit parent page</a>
 </if>
+</td>
 </tr></table>
 <p>
 
@@ -26,13 +29,16 @@ version @pa.latest_revision@
 <tr>
 </else>
 <td valign="top" width="12%"><b>@page_attributes.pretty_name@</b>
+</td>
 <if @page_attributes.name@ eq content>
 <td valign="top">@page_attributes.value;noquote@
 </if>
 <else>
 <td valign="top">@page_attributes.value@
 </else>
+</td>
 <td align="right" width="12%"><a href="etp-edit?name=@pa.name@&attribute=@page_attributes.name@">edit</a>
+</td>
 </tr>
 </multiple>
 </table>
@@ -88,7 +94,7 @@ or
 or
 <a href="etp-symlink">internal link</a>
 </if>
-
+</td>
 </tr>
 <multiple name="content_items">
 <if @content_items.rownum@ even>
@@ -98,23 +104,24 @@ or
 <tr>
 </else>
 <td valign="top">@content_items.title@
+</td>
 <td valign="top">
 
 <if @content_items.object_type@ eq "content_item">
-(page)<td valign="top" align="right">
+(page)</td><td valign="top" align="right">
 <a href="etp?name=@content_items.name@">edit</a>
 </if>
 <else>
 <if @content_items.object_type@ eq "content_folder">
-(subtopic)<td valign="top" align="right">
+(subtopic)</td><td valign="top" align="right">
 <a href="@content_items.name@/etp">edit</a></if>
 <else>
 <if @content_items.object_type@ eq "content_extlink">
-(external&nbsp;ref)<td valign="top" align="right">
+(external&nbsp;ref)</td><td valign="top" align="right">
 <a href="etp-extlink?item_id=@content_items.item_id@">edit</a></if>
 <else>
 <if @content_items.object_type@ eq "content_symlink">
-(internal&nbsp;ref)<td valign="top" align="right">
+(internal&nbsp;ref)</td><td valign="top" align="right">
 <a href="etp-symlink?item_id=@content_items.item_id@">edit</a></if>
 </else>
 </else>
@@ -128,5 +135,5 @@ or
 </td></tr>
 </multiple>
 </table>
-
 </if>
+
