@@ -216,7 +216,7 @@ declare
   p_item_id alias for $1;
   p_name alias for $2;
   v_item_id integer;
-  v_url varchar(400);
+  v_url varchar;
   v_object_type varchar;
   v_link_rec record;
 begin
@@ -274,7 +274,7 @@ declare
   p_item_id alias for $1;
   p_revision_title alias for $2;
   v_item_id integer;
-  v_title varchar(400);
+  v_title varchar;
   v_object_type varchar;
 begin
   if p_revision_title is not null then
@@ -327,7 +327,7 @@ declare
   p_item_id alias for $1;
   p_revision_description alias for $2;
   v_item_id integer;
-  v_description varchar(400);
+  v_description varchar;
   v_object_type varchar;
 begin
   if p_revision_description is not null then
