@@ -12,13 +12,12 @@
 <querytext>
 	select i.item_id, i.name, etp__get_title(i.item_id, null) as title,
                repeat('&nbsp;',(tree_level(i.tree_sortkey) - 1) * 4) as indent
-          from cr_items i, acs_objects o
+          from cr_items i, acs_objects o, cr_items i2
          where i.item_id = o.object_id
            and o.object_type in ('content_item', 'content_folder')
            and i.name != 'index'
-           and i.tree_sortkey not like (select tree_sortkey 
-                                          from cr_items
-                                         where item_id = -400) || '%'
+           and i2.item_id = -400
+           and i.tree_sortkey not between i2.tree_sortkey and tree_right(i2.tree_sortkey)
          order by i.tree_sortkey
 </querytext>
 </fullquery>
