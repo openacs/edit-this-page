@@ -83,7 +83,7 @@
 <a href="etp-create">@application_params.content_object_name@</a>
 <if @application_params.allow_subtopics@ eq "t">
 #edit-this-page.or#
-<a href="etp-subtopic-create">@subtopic_object_name@</a>
+<a href="etp-subtopic-create">#edit-this-page.create_new_subtopic#</a>
 </if>
 <if @application_params.allow_extlinks@ eq "t">
 #edit-this-page.or#
