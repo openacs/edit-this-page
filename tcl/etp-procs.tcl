@@ -248,6 +248,7 @@ ad_proc -public get_page_attributes { } {
     <li>revision_id
     <li>title
     <li>context_bar
+    <li>context
     <li>description
     <li>publish_date
     <li>content
@@ -320,8 +321,10 @@ ad_proc -private get_pa { package_id name {content_type ""} } {
     # add in the context bar
     if { $name == "index" } {
 	set cb [ad_context_bar]
+        set context [list]
     } else {
 	set cb [ad_context_bar $pa(title)] 
+        set context [list $pa(title)]
     }
     # remove the "Your Workspace" link, so we can cache this context
     # bar and it will work for everyone
@@ -332,6 +335,7 @@ ad_proc -private get_pa { package_id name {content_type ""} } {
 	set cb [lreplace $cb 0 1]
     }
     set pa(context_bar) $cb
+    set pa(context) $context
 
     return [array get pa]
 }
