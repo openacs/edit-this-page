@@ -26,19 +26,17 @@ if { [string index $name end] == "/" } {
     ns_returnnotfound
 }
 
-set server_root [file dirname [ns_info pageroot]]
-
 if {[empty_string_p $name] || $name == "index"} {
-    set path "$server_root/[etp::get_application_param index_template]"
+    set path "/[etp::get_application_param index_template]"
 } elseif {[string match "etp*" $name]} {
     # this trickery is for serving pages from the top level,
     # where the acs-subsite package is mounted rather than
     # the editthispage package.  normally the request processor 
     # finds these before invoking this file.
-    set path "$server_root/packages/edit-this-page/www/$name"
+    set path "/packages/edit-this-page/www/$name"
 } else {
 
-    set path "$server_root/[etp::get_application_param content_template]"
+    set path "/[etp::get_application_param content_template]"
 
     # set up form variables so we can pass the "name" 
     # variable to the content page. 
@@ -49,7 +47,7 @@ if {[empty_string_p $name] || $name == "index"} {
 
 ns_log Notice "Edit This Page index.vuh: serving $path"
 
-rp_serve_abstract_file $path
+rp_internal_redirect $path
 
 
 
