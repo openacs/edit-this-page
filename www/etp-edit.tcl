@@ -61,7 +61,7 @@ if { [info commands $default] != "" } {
     }
     append widget "</select>\n"
 } elseif {$type == "string" && [regexp -nocase {(rows|cols)} $html]} {
-    set widget "<textarea name=\"$attribute\" $html>$value</textarea>\n"
+    set widget "<textarea name=\"$attribute\" $html>[ad_quotehtml $value]</textarea>\n"
 } elseif {$type == "date"} {
     if [empty_string_p $value] {
 	set widget [ad_dateentrywidget datevalue]
