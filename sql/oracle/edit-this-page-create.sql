@@ -74,8 +74,8 @@ as
         select attr_value
         into v_value
         from acs_attribute_values
-        where object_id = object_id
-        and attribute_id = attribute_id;
+        where object_id = get_attribute_value.object_id
+        and attribute_id = get_attribute_value.attribute_id;
         return v_value;
         exception when no_data_found then return null;
     end get_attribute_value;
