@@ -50,7 +50,20 @@ ad_proc etp::search::etp_page_revision {
     }
 }</pre>
 </p>
-
+<p>
+To add previosuly created items to the search index execute the following query in psql:
+<pre>
+insert into search_observer_queue
+(select revision_id, 
+        current_timestamp, 
+        'INSERT' 
+ from cr_revisions r,
+      cr_items i 
+ where r.item_id=i.item_id 
+   and i.content_type='etp_page_revision' 
+   and r.revision_id = i.live_revision;
+</pre>
+</p>
     <hr>
     <address><a href="mailto:dave@thedesignexperience.org">Dave Bauer</a></address>
 <!-- Created: Mon Jan 27 11:12:57 EST 2003 -->
