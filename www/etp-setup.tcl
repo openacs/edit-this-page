@@ -23,8 +23,8 @@ etp::check_write_access
 set package_id [ad_conn package_id]
 
 if { $confirmed == "f" } {
-    set app [ad_parameter application "default"]
-    set subtopic_app [ad_parameter subtopic_application "default"]
+    set app [parameter::get -package_id $package_id -parameter application -default "default"]
+    set subtopic_app [parameter::get -package_id $package_id -parameter subtopic_application -default "default"]
 
     set app_options ""
     set subtopic_app_options ""
@@ -51,8 +51,9 @@ if { $confirmed == "f" } {
     ad_return_template
 
 } else {
-    db_dml set_app_param ""
-    db_dml set_subtopic_app_param ""
+    parameter::set_value -package_id $package_id -parameter application -value $app
+    parameter::set_value -package_id $package_id -parameter subtopic_application -value $subtopic_app
+
     apm_parameter_sync edit-this-page $package_id
     ad_returnredirect "etp"
     ad_script_abort
