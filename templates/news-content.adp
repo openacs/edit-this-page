@@ -1,6 +1,6 @@
 <master src="../www/etp-master">
 <property name="title">@pa.title;noquote@</property>
-<property name="context_bar">@pa.context_bar;noquote@</property>
+<property name="context">@pa.context;noquote@</property>
 
 <if @pa.subtitle@ not nil>
 <blockquote><b>@pa.subtitle@</b></blockquote>
@@ -19,6 +19,6 @@
 
 </b>
 
-@pa.content@
+@pa.content;noquote@
 
 <p>

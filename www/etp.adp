@@ -26,7 +26,12 @@ version @pa.latest_revision@
 <tr>
 </else>
 <td valign="top" width="12%"><b>@page_attributes.pretty_name@</b>
+<if @page_attributes.name@ eq content>
+<td valign="top">@page_attributes.value;noquote@
+</if>
+<else>
 <td valign="top">@page_attributes.value@
+</else>
 <td align="right" width="12%"><a href="etp-edit?name=@pa.name@&attribute=@page_attributes.name@">edit</a>
 </tr>
 </multiple>

@@ -11,6 +11,6 @@
 
 <if @etp_link@ not nil>
 <table width="100%">
-<tr><td align="right">@etp_link@</td></tr>
+<tr><td align="right">@etp_link;noquote@</td></tr>
 </table>
 </if>

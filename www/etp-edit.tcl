@@ -77,7 +77,7 @@ if { [info commands $default] != "" } {
 
 set form_vars [export_form_vars name attribute]
 
-set page_title "$attribute_title for page \"$page_title\""
+set page_title "$attribute_title for page '$page_title'"
 
 if {$name == "index"} {
     set context [list [list "etp?[export_url_vars name]" Edit] $attribute_title]

@@ -1,11 +1,11 @@
 <master src="/packages/edit-this-page/www/etp-master">
 <property name="title">@pa.title;noquote@</property>
-<property name="context_bar">@pa.context_bar;noquote@</property>
+<property name="context">@pa.context;noquote@</property>
 
 <p>
 
 <if @pa.content@ not nil>
-@pa.content@
+@pa.content;noquote@
 <p>
 </if>
 
@@ -28,7 +28,7 @@ Questions and Answers:
 <b>Q:</b> <em>@content_items.title@</em>
 <p>
 <b>A:</b> 
-@content_items.content@
+@content_items.content;noquote@
 <p>
 </li>
 </multiple>
