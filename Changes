@@ -1,5 +1,10 @@
 Edit This Page version history
 
+30 October 2001
+ETP code changed to support Oracle and OpenACS function style. No new
+functionallity has been added. 
+NOTE that prior versions are guaranteed to break if you update.
+
 24 September 2001
 ETP code checked in to the anonymous CVS server at openacs.org, and tagged
 as version 1.01.  We changed the package internal name from editthispage 
