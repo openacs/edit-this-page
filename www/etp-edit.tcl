@@ -1,3 +1,4 @@
+
 ad_page_contract {
     @author Luke Pond (dlpond@museatech.net)
     @creation-date 2001-06-10
@@ -111,18 +112,19 @@ ad_form -export { name attribute  widget} -form $form_list -edit_request {
 
 } -new_data {
     # usually we are creating a new revision
-
+    set extra_sql ""
     if {[info exists datevalue]} {
 	set date_string $datevalue(date)
 	# The date is given in YYYY-MM-DD.  Transform to desired format.
 	set date_format [etp::get_application_param date_format]
 	set value $date_string
-    } else {
-	if {[string equal $widget "(richtext)"]} {
+    } elseif {[string equal $widget "(richtext)"]} {
 	    set value [template::util::richtext get_property contents [set $element]]
 	    set mime_type [template::util::richtext get_property format [set $element]]
 	    set extra_sql " , mime_type=:mime_type"
-	}
+       
+    } else {
+	set value [set $element]
     }
 
     db_exec_plsql create_new_revision ""
