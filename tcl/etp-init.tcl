@@ -30,14 +30,14 @@ ad_library {
 
 etp::define_application default {
     index_template               packages/edit-this-page/templates/article-index
-    index_content_type           content_revision
+    index_content_type           etp_page_revision
     index_object_name           "subtopic"
     index_title_attr_name       "Title"
     index_description_attr_name "Description"
     index_content_attr_name     "Content"
 
     content_template             packages/edit-this-page/templates/article-content
-    content_content_type         content_revision
+    content_content_type         etp_page_revision
     content_object_name         "page"
     content_title_attr_name       "Title"
     content_description_attr_name "Description"

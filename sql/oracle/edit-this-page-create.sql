@@ -90,12 +90,11 @@ as
     is
         v_item_id cr_items.item_id%TYPE;
         v_revision_id cr_revisions.revision_id%TYPE;
-        v_content_type acs_objects.object_type%TYPE;
         v_folder_id cr_folders.folder_id%TYPE;
     begin
        v_item_id := acs_object.new (
            null, 
-           'content_item', 
+           create_page.content_type, 
            sysdate(), 
            null, 
            null, 
@@ -107,14 +106,17 @@ as
        insert into cr_items 
            (item_id, parent_id, name, content_type) 
        values 
-           (v_item_id, v_folder_id, name, v_content_type);
+           (v_item_id, v_folder_id, name, content_type);
 
-      -- would like to use content_type here, but since there''s 
-      -- no table that corresponds to it, we get an error from
-      -- the dynamic sql in acs_object__delete.  so just use content_revision.
+-- due to a change in acs_object__delete we can reference the actual
+-- object type we want
+-- using this we can more easily search, but we will have to create a service
+-- contract for each custom content type
+-- we define a default etp_page_revision and service contract to go with it
+-- make sure to subtype from etp_page_revision for any custom types
+-- 2003-01-12 DaveB
 
-      v_content_type := 'content_revision';
-      v_revision_id := acs_object.new(null, v_content_type);
+      v_revision_id := acs_object.new(null, content_type);
 
       insert into cr_revisions (revision_id, item_id, title, 
                             publish_date, mime_type) 

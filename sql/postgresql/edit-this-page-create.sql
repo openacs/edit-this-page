@@ -39,25 +39,27 @@ declare
   p_content_type alias for $4;  -- default null -> use content_revision
   v_item_id integer;
   v_revision_id integer;
-  v_content_type varchar;
   v_folder_id integer;
 begin
   v_item_id := acs_object__new(null, ''content_item'', now(), null, null, p_package_id);
 
   v_folder_id := etp__get_folder_id(p_package_id);
 
+-- due to a change in acs_object__delete we can reference the actual
+-- object type we want
+-- using this we can more easily search, but we will have to create a service
+-- contract for each custom content type
+-- we define a default etp_page_revision and service contract to go with it
+-- make sure to subtype from etp_page_revision for any custom types
+-- 2003-01-12 DaveB
+
   insert into cr_items (
     item_id, parent_id, name, content_type
   ) values (
-    v_item_id, v_folder_id, p_name, v_content_type
+    v_item_id, v_folder_id, p_name, p_content_type
   );
 
-  -- would like to use p_content_type here, but since there''s 
-  -- no table that corresponds to it, we get an error from
-  -- the dynamic sql in acs_object__delete.  so just use content_revision.
-
-  v_content_type := ''content_revision'';
-  v_revision_id := acs_object__new(null, v_content_type, now(), null, null, v_item_id);
+  v_revision_id := acs_object__new(null, p_content_type, now(), null, null, v_item_id);
 
   insert into cr_revisions (revision_id, item_id, title, 
                             publish_date, mime_type) 
@@ -448,3 +450,17 @@ end;
 
 select inline_1 ();
 drop function inline_1 ();
+
+-- create a default content_type etp_page_revision
+-- DaveB
+-- this references a non-existant table
+-- which I might have to change...
+select content_type__create_type (
+        'etp_page_revision',        -- content_type
+	'content_revision',         -- supertype
+	'ETP managed page',       -- pretty_name
+	'ETP managed pages',      -- pretty_plural
+	'etp_page_revisions',            -- table_name
+	'etp_page_revision_id',              -- id_column
+	'content_revision__revision_name'  -- name_method
+);

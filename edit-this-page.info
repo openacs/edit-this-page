@@ -7,15 +7,15 @@
     <initial-install-p>f</initial-install-p>
     <singleton-p>f</singleton-p>
 
-    <version name="1.1d" url="http://openacs.org/repository/download/apm/edit-this-page-1.1.d.apm">
+    <version name="1.2b" url="http://openacs.org/repository/download/apm/edit-this-page-1.2b.apm">
     <database-support>
-        <database>oracle</database>
         <database>postgresql</database>
     </database-support>
-        <owner url="mailto:luke@museatech.net">Luke Pond</owner>
+	<owner url="mailto:dave@thedesignexperience.org">Dave Bauer</owner>
+	<owner url="mailto:luke@museatech.net">Luke Pond</owner>
         <owner url="mailto:jon@mayuli.com">Jon Griffin</owner>
         <summary>An easy-to-use content management system.</summary>
-        <description format="text/html">Nothing Yet</description>
+        <description format="text/html">Easy to use publishing system</description>
 
         <requires url="acs-kernel" version="4.1"/>
         <requires url="acs-templating" version="4.1.2"/>

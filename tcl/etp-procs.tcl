@@ -80,8 +80,12 @@ ad_proc -public define_content_type { content_type pretty_name pretty_plural att
     if {![info exists content_types]} {
 	array set content_types [list]
     }
-    
+
+    # probably should use content_type functions instead
+    # DaveB
+    # anyway we make sure new types are children of etp_page_revision
     # ensure an entry in acs_object_types
+    
     if { ![db_0or1row object_type_exists ""] } {
 	db_exec_plsql object_type_create ""
     }
@@ -111,6 +115,10 @@ ad_proc -public define_content_type { content_type pretty_name pretty_plural att
     }
 
     set content_types($content_type) $attribute_metadata_with_ids
+    # add service contract implementations for content_type if necessary
+    # creates search service contract implementation if it doesn't
+    # already exist
+    etp::create_search_impl -content_type $content_type
 }    
 
 
@@ -337,7 +345,7 @@ ad_proc -public get_ext_attribute_columns { content_type } {
 } {
     set extended_attributes ""
     if { ![empty_string_p $content_type] && 
-         ![string equal $content_type "content_revision"] } {
+         ![string equal $content_type "etp_page_revision"] } {
 	variable content_types
 
 	set attributes $content_types($content_type)

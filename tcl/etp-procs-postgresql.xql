@@ -2,13 +2,19 @@
 <queryset>
    <rdbms><type>postgresql</type><version>7.1</version></rdbms>
 
+<fullquery name="etp::revision_url.package_url">
+    <querytext>
+select site_node__url(node_id) as package_url from site_nodes where object_id = (select package_id from cr_folders where folder_id= (select parent_id from cr_items where latest_revision = :object_id))
+    </querytext>
+</fullquery>
+
 <fullquery name="etp::define_content_type.object_type_create">      
 <querytext>
 	    select acs_object_type__create_type (
 	        :content_type,
 	        :pretty_name,
 	        :pretty_plural,
-	        'content_revision',
+	        'etp_page_revision',
 	        :content_type,
 	        :content_type,
 	        null,

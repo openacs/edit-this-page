@@ -1,5 +1,13 @@
 Edit This Page version history
 
+25 January 2003
+-Oracle is broken. We will fix it later.
+-Changed base content type to be etp_page_revision, all custom types should
+subtype that. There is an upgrade script, please read the notes before
+applying it. With this new types are automatically registered with a
+search service contract. 
+
+
 30 October 2001
 ETP code changed to support Oracle and OpenACS function style. No new
 functionallity has been added. 
