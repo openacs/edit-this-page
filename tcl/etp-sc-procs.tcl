@@ -22,7 +22,7 @@ ad_proc etp::revision_datasource {
         
     db_0or1row revision_datasource ""     -column_array datasource
     set content_type [db_string get_content_type {}]
-    ns_log notice "ETP:content_type=$content_Type"
+    ns_log notice "ETP:content_type=$content_type"
     # call a specially named proc to extend search content for
     # this content_type if it exists
     # we pass in the name of the tcl array for the datasource
