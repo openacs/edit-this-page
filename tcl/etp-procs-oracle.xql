@@ -138,7 +138,7 @@ select child.name, child.node_id, child.object_id as package_id,
 </fullquery>
  
 
-<partialquery name="etp::get_attribute_lookup_sql.archive_where_clause">
+<partialquery name="etp::get_attribute_lookup_sql.lookup_sql_clause">
   <querytext>
     etp.get_attribute_value(r.revision_id, $attribute_id)
   </querytext>
