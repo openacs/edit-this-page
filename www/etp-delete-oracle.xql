@@ -5,7 +5,7 @@
 <fullquery name="revert_to_revision">
 <querytext>
 begin
-  content_item.delete(:revision_id)
+  content_item.del(:revision_id)
 end;
 </querytext>
 </fullquery>

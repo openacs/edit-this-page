@@ -457,4 +457,4 @@ select content_type__create_type (
 	table_name => 'etp_page_revisions',            -- table_name
 	id_column => 'etp_page_revision_id',              -- id_column
 	name_method => 'content_revision__revision_name'  -- name_method
-);
+) from dual;

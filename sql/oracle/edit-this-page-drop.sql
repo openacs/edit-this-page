@@ -29,7 +29,7 @@ declare
 
 begin
   for cur_val in subsite_values loop
-      apm_parameter_value.delete (
+      apm_parameter_value.del (
         value_id           => cur_val.value_id
       );
   end loop;   
