@@ -359,7 +359,7 @@ begin
     select target_id into v_item_id
       from cr_symlinks
      where symlink_id = p_item_id;
-    return etp__get_description(p_item_id, null);
+    return etp__get_description(v_item_id, null);
   end if;
 
   if v_object_type = ''content_item'' then
