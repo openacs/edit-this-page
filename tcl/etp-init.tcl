@@ -117,3 +117,20 @@ etp::define_application faq {
     allow_symlinks                f
     auto_page_name                "number"
 }
+
+etp::define_application subnav-article {
+    index_template                packages/edit-this-page/templates/subnav-article-index
+    index_object_name             "Subnavbar Index"
+
+    content_template              packages/edit-this-page/templates/subnav-article-content
+    content_object_name           "Subnavbar Article"
+
+    allow_subtopics               f
+    allow_extlinks                f
+    allow_symlinks                f
+    auto_page_name                "number"
+}
+
+set custom_file "[file join [acs_root_dir] packages edit-this-page tcl etp-custom-init.tcl]"
+
+source $custom_file
