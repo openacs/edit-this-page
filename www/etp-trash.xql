@@ -1,6 +1,14 @@
 <?xml version="1.0"?>
 <queryset>
 
+<fullquery name="site_node_children">
+<querytext>
+  select count(1)
+    from site_nodes
+   where parent_id = :node_id
+</querytext>
+</fullquery>
+
 <fullquery name="get_node_id">
 <querytext>
   select node_id
