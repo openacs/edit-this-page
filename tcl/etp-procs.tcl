@@ -705,7 +705,7 @@ ad_proc -public check_write_access {} {
 
 ad_proc -public get_folder_id { package_id } {
     @param package_id
-    @returns content folder associated with package_id etp package instance
+    @return content folder associated with package_id etp package instance
 } {
     return [db_exec_plsql get_folder_id ""]
 }
