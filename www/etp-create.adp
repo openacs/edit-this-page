@@ -1,6 +1,6 @@
 <master src="etp-master">
-<property name="title">@page_title@</property>
-<property name="context">@context@</property>
+<property name="title">@page_title;noquote@</property>
+<property name="context">@context;noquote@</property>
 
 <form method="post" action="etp-create-2">
 <table width="100%" cellspacing="0" cellpadding="6">
