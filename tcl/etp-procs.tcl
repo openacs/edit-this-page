@@ -80,8 +80,12 @@ ad_proc -public define_content_type { content_type pretty_name pretty_plural att
     if {![info exists content_types]} {
 	array set content_types [list]
     }
-    
+
+    # probably should use content_type functions instead
+    # DaveB
+    # anyway we make sure new types are children of etp_page_revision
     # ensure an entry in acs_object_types
+    
     if { ![db_0or1row object_type_exists ""] } {
 	db_exec_plsql object_type_create ""
     }
@@ -111,6 +115,10 @@ ad_proc -public define_content_type { content_type pretty_name pretty_plural att
     }
 
     set content_types($content_type) $attribute_metadata_with_ids
+    # add service contract implementations for content_type if necessary
+    # creates search service contract implementation if it doesn't
+    # already exist
+    etp::create_search_impl -content_type $content_type
 }    
 
 
@@ -240,6 +248,7 @@ ad_proc -public get_page_attributes { } {
     <li>revision_id
     <li>title
     <li>context_bar
+    <li>context
     <li>description
     <li>publish_date
     <li>content
@@ -312,8 +321,10 @@ ad_proc -private get_pa { package_id name {content_type ""} } {
     # add in the context bar
     if { $name == "index" } {
 	set cb [ad_context_bar]
+        set context [list]
     } else {
 	set cb [ad_context_bar $pa(title)] 
+        set context [list $pa(title)]
     }
     # remove the "Your Workspace" link, so we can cache this context
     # bar and it will work for everyone
@@ -324,6 +335,7 @@ ad_proc -private get_pa { package_id name {content_type ""} } {
 	set cb [lreplace $cb 0 1]
     }
     set pa(context_bar) $cb
+    set pa(context) $context
 
     return [array get pa]
 }
@@ -337,14 +349,13 @@ ad_proc -public get_ext_attribute_columns { content_type } {
 } {
     set extended_attributes ""
     if { ![empty_string_p $content_type] && 
-         ![string equal $content_type "content_revision"] } {
+         ![string equal $content_type "etp_page_revision"] } {
 	variable content_types
 
 	set attributes $content_types($content_type)
 
 	foreach attribute_desc $attributes {
 	    set lookup_sql [etp::get_attribute_lookup_sql $attribute_desc]
-            ns_log Error "LU: $lookup_sql"
 	    append extended_attributes ",\n $lookup_sql"
 	}
     }
@@ -460,14 +471,13 @@ ad_proc -public get_attribute_lookup_sql { attribute_desc } {
     return "$lookup_sql as $attribute_name"
 }
 
-ad_proc -public get_etp_link { } {
+ad_proc -public get_etp_url { } {
     @author Luke Pond
     @creation-date 2001-05-31
 
     If the current package is an instance of Edit This Page,
     and the user has write access, returns 
-    the html "Edit This Page" link which should be
-    displayed at the bottom of the page.
+    the URL to where you can edit the current page.
     <p>
     This may be called either from your master template,
     or from individual pages that are used within an ETP 
@@ -486,10 +496,33 @@ ad_proc -public get_etp_link { } {
 	set name [etp::get_name]
 
 	if { ![regexp "^etp" $name] } {
-	    return "<a href=\"etp?name=$name\">Edit This Page</a>\n"
+	    return "etp?[export_vars { name }]"
 	}
     } 
     return ""
+}
+
+ad_proc -public get_etp_link { } {
+    @author Luke Pond
+    @creation-date 2001-05-31
+
+    If the current package is an instance of Edit This Page,
+    and the user has write access, returns 
+    the html "Edit This Page" link which should be
+    displayed at the bottom of the page.
+    <p>
+    This may be called either from your master template,
+    or from individual pages that are used within an ETP 
+    package instance.  It incurs 1 database hit to
+    do the permissions check.  The package type is acquired
+    via the in-memory copy of the site-nodes layout.
+
+} {
+    set etp_url [get_etp_url]
+    if { ![empty_string_p $etp_url] } {
+        return "<a href=\"$etp_url\">Edit This Page</a>\n"
+    } 
+    return {}
 }
 
 ad_proc -public get_name { } {
