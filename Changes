@@ -1,0 +1,14 @@
+Edit This Page version history
+
+24 September 2001
+ETP code checked in to the anonymous CVS server at openacs.org, and tagged
+as version 1.01.  We changed the package internal name from editthispage 
+to edit-this-page, which is more standard.  Unfortunately, the design of 
+the APM tables prevents you from changing the package name in an existing 
+database, so you'll need to reinstall the package and recreate any content 
+items you may have.
+
+30 August 2001
+Version 1.0 released at http://etp.museatech.net/download/editthispage-1.0.apm.
+
+
