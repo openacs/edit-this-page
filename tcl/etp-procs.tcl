@@ -446,7 +446,7 @@ ad_proc -public get_attribute_lookup_sql { attribute_desc } {
     set attribute_name [etp::get_attribute_name $attribute_desc]
     set default [etp::get_attribute_default $attribute_desc]
 
-    set lookup_sql "etp_get_attribute_value(r.revision_id, $attribute_id)"
+    set lookup_sql "etp__get_attribute_value(r.revision_id, $attribute_id)"
 
     # see if a select-list callback function was specified
     if { [info commands $default] != "" } {
@@ -570,9 +570,9 @@ ad_proc -public get_content_items { args } {
                  to_char(r.publish_date, 'Mon DD, YYYY') as publish_date,
                  (select object_type from acs_objects 
                    where object_id = i.item_id) as object_type,
-                 etp_get_relative_url(i.item_id, i.name) as url,
-                 etp_get_title(i.item_id, r.title) as title,
-                 etp_get_description(i.item_id, r.description) as description
+                 etp__get_relative_url(i.item_id, i.name) as url,
+                 etp__get_title(i.item_id, r.title) as title,
+                 etp__get_description(i.item_id, r.description) as description
                  "
     set limit_clause ""
 

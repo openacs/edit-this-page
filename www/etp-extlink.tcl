@@ -27,7 +27,7 @@ if { $confirmed == "t" } {
     } else {
 	if { [empty_string_p $item_id] } {
 	    db_exec_plsql create_extlink {
-		select etp_create_extlink(:package_id, :url, :label, :description);
+
 	    }
 	} else {
 	    db_dml update_extlink {
