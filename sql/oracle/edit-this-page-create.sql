@@ -121,7 +121,7 @@ as
 
       insert into cr_revisions (revision_id, item_id, title, 
                             publish_date, mime_type) 
-      values (v_revision_id, v_item_id, title, sysdate, 'text/html');
+      values (v_revision_id, v_item_id, title, sysdate, 'text/enhanced');
 
       update cr_items 
           set live_revision = v_revision_id
