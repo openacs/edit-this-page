@@ -140,4 +140,21 @@ select child.name, child.node_id, child.object_id as package_id,
 </querytext>
 </fullquery>
 
+   <partialquery name="etp::get_attribute_lookup_sql.archive_where_clause">
+      <querytext>
+        etp__get_attribute_value(r.revision_id, $attribute_id)
+      </querytext>
+   </partialquery>
+
+   <partialquery name="etp::get_content_items.gci_columns_clause">
+      <querytext>
+         i.item_id, i.name, tree_sortkey as sort_order,
+           to_char(r.publish_date, 'Mon DD, YYYY') as publish_date,
+           (select object_type from acs_objects 
+            where object_id = i.item_id) as object_type,
+                 etp__get_relative_url(i.item_id, i.name) as url,
+                 etp__get_title(i.item_id, r.title) as title,
+                 etp__get_description(i.item_id, r.description) as description      
+      </querytext>
+   </partialquery>
 </queryset>

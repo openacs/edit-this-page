@@ -344,6 +344,7 @@ ad_proc -public get_ext_attribute_columns { content_type } {
 
 	foreach attribute_desc $attributes {
 	    set lookup_sql [etp::get_attribute_lookup_sql $attribute_desc]
+            ns_log Error "LU: $lookup_sql"
 	    append extended_attributes ",\n $lookup_sql"
 	}
     }
@@ -446,7 +447,7 @@ ad_proc -public get_attribute_lookup_sql { attribute_desc } {
     set attribute_name [etp::get_attribute_name $attribute_desc]
     set default [etp::get_attribute_default $attribute_desc]
 
-    set lookup_sql "etp__get_attribute_value(r.revision_id, $attribute_id)"
+    set lookup_sql [db_map lookup_sql_clause]
 
     # see if a select-list callback function was specified
     if { [info commands $default] != "" } {
@@ -478,7 +479,7 @@ ad_proc -public get_etp_link { } {
     set url_stub [ns_conn url]
     array set site_node [site_node $url_stub]
     set urlc [regexp -all "/" $url_stub]
-    if { ($site_node(package_key) == "editthispage" ||
+    if { ($site_node(package_key) == "edit-this-page" ||
           ($site_node(package_key) == "acs-subsite" && $urlc == 1)) &&
          [ad_permission_p [ad_conn package_id] write] } {
 
@@ -565,15 +566,12 @@ ad_proc -public get_content_items { args } {
     set result_name "content_items"
 
     set orderby "attributes.sort_order"
+
     set extra_where_clauses "1 = 1"
-    set columns "i.item_id, i.name, tree_sortkey as sort_order,
-                 to_char(r.publish_date, 'Mon DD, YYYY') as publish_date,
-                 (select object_type from acs_objects 
-                   where object_id = i.item_id) as object_type,
-                 etp__get_relative_url(i.item_id, i.name) as url,
-                 etp__get_title(i.item_id, r.title) as title,
-                 etp__get_description(i.item_id, r.description) as description
-                 "
+    
+    set columns [db_map gci_columns_clause]
+    ns_log warning "columns: $columns"
+    
     set limit_clause ""
 
     for {set i 0} {$i < [llength $args]} {incr i} {
@@ -617,11 +615,12 @@ ad_proc -public get_content_items { args } {
 	    if { ![empty_string_p $attr_desc] } {
 		ns_log Notice "adding it"
 		set lookup_sql [etp::get_attribute_lookup_sql $attr_desc]
+                nslog Error "LU: $lookup_sql"
 		append columns ",\n $lookup_sql"
 	    }
 	}
     }
-
+  
     upvar $result_name $result_name
 
     db_multirow $result_name get_content_items ""
