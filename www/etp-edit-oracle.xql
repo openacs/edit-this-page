@@ -16,7 +16,7 @@
          where i.parent_id = etp.get_folder_id(:package_id)
            and i.name = :name
            and i.item_id = r.item_id
-	   and r.revision_id = :revision_id
+	   and r.revision_id = :old_revision_id
 </querytext>
 </fullquery>
 
@@ -28,7 +28,7 @@
 	 where i.parent_id = etp.get_folder_id(:package_id)
 	   and i.name = :name
 	   and i.item_id = r.item_id
-	   and r.revision_id = :revision_id
+	   and r.revision_id = :old_revision_id
 </querytext>
 </fullquery>
 
