@@ -64,7 +64,7 @@ set page_title "Attributes for page \"$pa(title)\""
 if { $name == "index" } {
     set context [list "Edit"]
 } else {
-    set context [list [list $name $name] "Edit"]
+    set context [list [list $name $pa(title)] "Edit"]
 }
 
 set url_dir "[file dirname [ad_conn url]]"

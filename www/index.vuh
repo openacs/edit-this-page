@@ -18,7 +18,7 @@ ad_conn -set revision_id $revision_id
 # get the portion of the url following the package directory
 set name [ad_conn path_info]
 
-ns_log Notice "index.vuh: request for $name" 
+#ns_log Notice "index.vuh: request for $name" 
 
 if { [string index $name end] == "/" } {
     # it's in a subdirectory, and we know there's no
@@ -45,7 +45,7 @@ if {[empty_string_p $name] || $name == "index"} {
     ns_set put [ns_getform] "name" $name
 }
 
-ns_log Notice "Edit This Page index.vuh: serving $path"
+#ns_log Notice "Edit This Page index.vuh: serving $path"
 
 rp_internal_redirect $path
 

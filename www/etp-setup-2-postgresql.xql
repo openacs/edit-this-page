@@ -4,7 +4,7 @@
 
 <fullquery name="create_folder">
 <querytext>
-select content_folder__new(:name, :title, '', etp__get_folder_id(:parent_package_id));
+select content_folder__new(:name, :title, '', coalesce(etp__get_folder_id(:parent_package_id), NULL));
 </querytext>
 </fullquery>
  

@@ -7,17 +7,17 @@
     <initial-install-p>f</initial-install-p>
     <singleton-p>f</singleton-p>
 
-    <version name="1.1d" url="http://openacs.org/repository/download/apm/edit-this-page-1.1.d.apm">
+    <version name="1.2" url="http://openacs.org/repository/download/apm/edit-this-page-1.2.apm">
     <database-support>
-        <database>oracle</database>
         <database>postgresql</database>
     </database-support>
-        <owner url="mailto:luke@museatech.net">Luke Pond</owner>
+	<owner url="mailto:dave@thedesignexperience.org">Dave Bauer</owner>
+	<owner url="mailto:luke@museatech.net">Luke Pond</owner>
         <owner url="mailto:jon@mayuli.com">Jon Griffin</owner>
         <summary>An easy-to-use content management system.</summary>
-        <description format="text/html">Nothing Yet</description>
+        <description format="text/html">Easy to use publishing system</description>
 
-        <requires url="acs-kernel" version="4.1"/>
+        <requires url="acs-kernel" version="4.6.2"/>
         <requires url="acs-templating" version="4.1.2"/>
 
         <files>
@@ -27,6 +27,7 @@
             <file type="data_model_drop" db_type="oracle" path="sql/oracle/edit-this-page-drop.sql"/>
             <file type="data_model_create" db_type="postgresql" path="sql/postgresql/edit-this-page-create.sql"/>
             <file type="data_model_drop" db_type="postgresql" path="sql/postgresql/edit-this-page-drop.sql"/>
+	    <file type="data_model_upgrade" db_type="postgresql" path="sql/postgresql/upgrade/upgrade-1.1d-1.2b.sql"/>
             <file type="tcl_util" path="tcl/etp-gc.tcl"/>
             <file type="tcl_init" path="tcl/etp-init.tcl"/>
             <file type="query_file" db_type="oracle" path="tcl/etp-procs-oracle.xql"/>
@@ -118,7 +119,8 @@
             <parameter datatype="string"  min_n_values="1"  max_n_values="1"  name="application"  default="default" description="Name of the ETP application to use (default, faq, news, or create your own with the etp::define_applicaton procedure)"/>
             <parameter datatype="number"  min_n_values="1"  max_n_values="1"  name="cache_max_age"  default="600" description="number of seconds to keep requested page attributes in the cache"/>
             <parameter datatype="string"  min_n_values="1"  max_n_values="1"  name="subtopic_application"  default="default" description="Name of the ETP application to use when creating a subtopic"/>
-        </parameters>
+	<parameter datatype="number" min_n_values="1" max_n_values="1" name="CommentsEnabledP" default="0" description="Are General Comments Enabled for this Subtopic?"/>
+	</parameters>
 
     </version>
 </package>
