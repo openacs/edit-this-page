@@ -1,39 +1,17 @@
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>Content Types</title></head>
-<body bgcolor="white"><table border="1" width="100%"><tbody><tr><td><table border="1" bgcolor="#ffffff" cellpadding="10" cellspacing="0" width="100%" color="#ffffff"><tbody><tr><td><font face="arial,sans-serif" color="black" size="-1">This is <b><font color="#0039b6">G</font> <font color="#c41200">o</font> <font color="#f3c518">o</font> <font color="#0039b6">g</font> <font color="#30a72f">l</font> <font color="#c41200">e</font></b>'s <a href="http://www.google.com/help/features.html#cached"><font color="blue">cache</font></a> of <a href="http://etp.museatech.net/etpdoc/contenttypes"><font color="blue">http://etp.museatech.net/etpdoc/contenttypes</font></a>.<br>
-<b><font color="#0039b6">G</font> <font color="#c41200">o</font> <font color="#f3c518">o</font> <font color="#0039b6">g</font> <font color="#30a72f">l</font> <font color="#c41200">e</font></b>'s cache is the snapshot that we took of the page as we crawled the web.<br>
-The page may have changed since that time.  Click here for the <a href="http://etp.museatech.net/etpdoc/contenttypes"><font color="blue">current page</font></a> without highlighting.<br>To link to or bookmark this page, use the following url: <code>http://www.google.com/search?q=cache:k8Vr8F1LNI4C:etp.museatech.net/etpdoc/contenttypes+etp+documentation+site:etp.museatech.net&amp;hl=en&amp;ie=UTF-8</code></font><br><br><center><font size="-2"><i>Google is not affiliated with the authors of this page nor responsible for its content.</i></font></center></td></tr>
-<tr><td>
-<table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td><font face="arial,sans-serif" color="black" size="-1">These search terms have been highlighted: </font></td><td bgcolor="#ffff66"><b><font face="arial,sans-serif" color="black" size="-1">etp </font></b></td><td bgcolor="#a0ffff"><b><font face="arial,sans-serif" color="black" size="-1">documentation </font></b></td></tr></tbody></table>
-</td></tr></tbody></table></td></tr></tbody></table>
-<hr>
- 
+<body bgcolor="white">
 
-
-
-
-
-
-<a href="http://www.museatech.net/">
-<img border="0" align="right" width="179" height="115" src="contenttypes_files/musealogo.jpg" alt="A Musea Technologies Project">
-</a>
-
-<h2>Content Types</h2>
-
-<span class="text">
-<a href="http://etp.museatech.net/">Edit This Page Demonstration</a> : <a href="http://etp.museatech.net/etpdoc/"><b style="color: black; background-color: rgb(255, 255, 102);">ETP </b><b style="color: black; background-color: rgb(160, 255, 255);">Documentation</b></a> : Content Types
-</span>
+<h2>ETP Content Types</h2>
 
 <br clear="right">
+<a href="./">ETP Documentation</a>:ETP Content Types
 <hr>
-
-<span class="text">
-
 
 <h3>Standard page attributes</h3>
 
-The content repository data model (a standard part of OpenACS 4) primarily keeps track of <i>content items</i>, each of which may have multiple <i>content revisions</i>.  The <code>content_revision</code> object type refers to a row in the <code>cr_revisions</code> table.  Each revision contains the standard attributes of the pages you create with <b style="color: black; background-color: rgb(255, 255, 102);">ETP</b>, such as Title, Description, and Content.  Additionally, the standard <code>acs_object</code> attributes are stored for each revision, such as the creation date and creating user.
+The content repository data model (a standard part of OpenACS 4) primarily keeps track of <i>content items</i>, each of which may have multiple <i>content revisions</i>.  The <code>content_revision</code> object type refers to a row in the <code>cr_revisions</code> table.  Each revision contains the standard attributes of the pages you create with ETP, such as Title, Description, and Content.  Additionally, the standard <code>acs_object</code> attributes are stored for each revision, such as the creation date and creating user.
 <p>
-Referring back to the definition of the default <b style="color: black; background-color: rgb(255, 255, 102);">ETP</b> application, you'll notice that it specifies that the <code>content_revision</code>
+Referring back to the definition of the default ETP application, you'll notice that it specifies that the <code>content_revision</code>
 content type is to be used for the index page and for all content pages.
  This means that the page templates used by the default application may refer
 to only the standard page attributes stored in the <code>cr_revisions</code> table.
@@ -54,11 +32,11 @@ by the journal templates, we need to define some extended page attributes.
 and journal articles need to have a section and an abstract. </p><h3>Defining a new content type</h3>
 Creating a new content type is done by calling the <code><b style="color: black; background-color: rgb(255, 255, 102);">etp</b>::define_content_type</code> procedure from one of your tcl library files.  Here's how you would accomplish the journal example discussed above:
 
-<blockquote><pre><b style="color: black; background-color: rgb(255, 255, 102);">etp</b>::define_content_type journal_issue "Journal Issue" "Journal Issues" {
+<blockquote><pre>etp::define_content_type journal_issue "Journal Issue" "Journal Issues" {
     { publication_date "Publication Date" "Publication Dates" string "size=60" "" }
 }
 
-<b style="color: black; background-color: rgb(255, 255, 102);">etp</b>::define_content_type journal_article "Journal Article" "Journal Articles" {
+etp::define_content_type journal_article "Journal Article" "Journal Articles" {
     { section Section Sections string "" "" }
     { abstract Abstract Abstracts string "rows=24 cols=80" "" }
 }
@@ -82,13 +60,13 @@ values (in sequence):<ul>
                     rows or cols.)
           </li><li>default_value (can either be a string denoting a single default
                              value, or the name of a callback function you've
-                             defined in the <b style="color: black; background-color: rgb(255, 255, 102);">etp</b> namespace which is used to
+                             defined in the etp namespace which is used to
                              provide values for select lists).
 </li></ul>
 
-Once you've defined a content type, you may refer to it when calling the <code><b style="color: black; background-color: rgb(255, 255, 102);">etp</b>::define_application</code> procedure to set up a new application.  To continue with our journal example, you'd want to do this as follows:
+Once you've defined a content type, you may refer to it when calling the <code>etp::define_application</code> procedure to set up a new application.  To continue with our journal example, you'd want to do this as follows:
 
-<blockquote><pre><b style="color: black; background-color: rgb(255, 255, 102);">etp</b>::define_application journal {
+<blockquote><pre>etp::define_application journal {
     index_template                www/templates/journal-issue
     index_object_name             "Journal Issue"
     index_content_type            journal_issue
@@ -99,9 +77,9 @@ Once you've defined a content type, you may refer to it when calling the <code><
 }
 </pre></blockquote>
 
-Creating the templates that make use of your custom content types is the subject of the <a href="http://etp.museatech.net/etpdoc/templates">next page</a>.
+Creating the templates that make use of your custom content types is the subject of the <a href="templates">next page</a>.
  After that's been done, the authors of the journal will be able to create
-a new issue of the journal simply by creating a new instance of the <b style="color: black; background-color: rgb(255, 255, 102);">ETP</b> package (a process that's automated within the <b style="color: black; background-color: rgb(255, 255, 102);">ETP</b>
+a new issue of the journal simply by creating a new instance of the ETP package (a process that's automated within the ETP
 interface by the "create subtopic" command) and ensuring that the new content
 section is using the journal application.  This setup can be automated, since
 it's possible to specify the application to use for any subtopic created
