@@ -356,7 +356,6 @@ ad_proc -public get_ext_attribute_columns { content_type } {
 
 	foreach attribute_desc $attributes {
 	    set lookup_sql [etp::get_attribute_lookup_sql $attribute_desc]
-            ns_log Error "LU: $lookup_sql"
 	    append extended_attributes ",\n $lookup_sql"
 	}
     }
