@@ -213,6 +213,7 @@ returns varchar as '
 declare
   p_item_id alias for $1;
   p_name alias for $2;
+  v_item_id integer;
   v_url varchar(400);
   v_object_type varchar;
   v_link_rec record;
@@ -227,7 +228,11 @@ begin
   end if;
 
   if v_object_type = ''content_folder'' then
-    return p_name || ''/'';
+    select s.name || ''/'' into v_url
+    from cr_folders f, site_nodes s
+    where f.folder_id = p_item_id
+    and s.object_id = f.package_id;
+    return v_url;
   end if;
 
   if v_object_type = ''content_extlink'' then
@@ -238,14 +243,14 @@ begin
   end if;
 
   if v_object_type = ''content_symlink'' then
-    select target_id into p_item_id
+    select target_id into v_item_id
       from cr_symlinks
      where symlink_id = p_item_id;
 
     select f.package_id, i.name
       into v_link_rec
       from cr_items i, cr_folders f
-     where i.item_id = p_item_id
+     where i.item_id = v_item_id
        and i.parent_id = f.folder_id;
 
     select site_node__url(s.node_id) into v_url
@@ -266,6 +271,7 @@ returns varchar as '
 declare
   p_item_id alias for $1;
   p_revision_title alias for $2;
+  v_item_id integer;
   v_title varchar(400);
   v_object_type varchar;
 begin
@@ -294,7 +300,7 @@ begin
   end if;
 
   if v_object_type = ''content_symlink'' then
-    select target_id into p_item_id
+    select target_id into v_item_id
       from cr_symlinks
      where symlink_id = p_item_id;
     return etp__get_title(p_item_id, null);
@@ -303,7 +309,7 @@ begin
   if v_object_type = ''content_item'' then
     select r.title into v_title
       from cr_items i, cr_revisions r
-     where i.item_id = p_item_id
+     where i.item_id = v_item_id
        and i.live_revision = r.revision_id;
     return v_title;
   end if;  
@@ -318,6 +324,7 @@ returns varchar as '
 declare
   p_item_id alias for $1;
   p_revision_description alias for $2;
+  v_item_id integer;
   v_description varchar(400);
   v_object_type varchar;
 begin
@@ -347,7 +354,7 @@ begin
   end if;
 
   if v_object_type = ''content_symlink'' then
-    select target_id into p_item_id
+    select target_id into v_item_id
       from cr_symlinks
      where symlink_id = p_item_id;
     return etp__get_description(p_item_id, null);
@@ -356,15 +363,14 @@ begin
   if v_object_type = ''content_item'' then
     select r.description into v_description
       from cr_items i, cr_revisions r
-     where i.item_id = p_item_id
+     where i.item_id = v_item_id
        and i.live_revision = r.revision_id;
     return v_description;
   end if;  
 
   return null;
 
-end;
-' language 'plpgsql';
+end;' language 'plpgsql';
 
 
 
