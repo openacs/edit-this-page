@@ -67,4 +67,57 @@ begin
 end;
 ' language 'plpgsql';
 
+create or replace function etp__get_description(integer, varchar)
+returns varchar as '
+declare
+  p_item_id alias for $1;
+  p_revision_description alias for $2;
+  v_item_id integer;
+  v_description varchar(400);
+  v_object_type varchar;
+begin
+  if p_revision_description is not null then
+    return p_revision_description;
+  end if;
+
+  select object_type from acs_objects into v_object_type
+   where object_id = p_item_id;
+
+  if v_object_type = ''content_folder'' then
+    select r.description 
+      into v_description
+      from cr_items i, cr_revisions r
+     where i.parent_id = p_item_id
+       and i.name = ''index''
+       and i.live_revision = r.revision_id
+       and i.item_id = r.item_id;
+    return v_description;    
+  end if;
+
+  if v_object_type = ''content_extlink'' then
+    select description into v_description
+      from cr_extlinks
+     where extlink_id = p_item_id;
+    return v_description;
+  end if;
+
+  if v_object_type = ''content_symlink'' then
+    select target_id into v_item_id
+      from cr_symlinks
+     where symlink_id = p_item_id;
+    return etp__get_description(v_item_id, null);
+  end if;
+
+  if v_object_type = ''content_item'' then
+    select r.description into v_description
+      from cr_items i, cr_revisions r
+     where i.item_id = v_item_id
+       and i.live_revision = r.revision_id;
+    return v_description;
+  end if;  
+
+  return null;
+
+end;' language 'plpgsql';
+
 /i ../edit-this-page-sc-create.sql
