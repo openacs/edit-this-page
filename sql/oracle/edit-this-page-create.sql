@@ -35,7 +35,8 @@ as
     function create_new_revision (
       package_id in apm_packages.package_id%TYPE,
       name in varchar,
-      user_id    in users.user_id%TYPE
+      user_id    in users.user_id%TYPE,
+      revision_id in cr_revisions.revision_id%TYPE
     ) return integer;
 
     function get_folder_id (
@@ -190,7 +191,8 @@ as
     function create_new_revision (
       package_id in apm_packages.package_id%TYPE,
       name in varchar,
-      user_id    in users.user_id%TYPE
+      user_id    in users.user_id%TYPE,
+      revision_id in cr_revisions.revision_id%TYPE
     ) return integer
     is
       v_revision_id cr_revisions.revision_id%TYPE;
@@ -212,9 +214,13 @@ as
 
      -- cannot use acs_object__new because it creates attributes with their
     -- default values, which is not what we want.
+      if create_new_revision.revision_id is NULL then
 
-      select acs_object_id_seq.nextval
-      into v_new_revision_id from dual;
+	      select acs_object_id_seq.nextval
+	      into v_new_revision_id from dual;
+      else
+	      v_new_revison_id := create_new_revision.revision_id;
+      end if;
 
       insert into acs_objects 
         ( object_id, object_type, creation_date, creation_user)
