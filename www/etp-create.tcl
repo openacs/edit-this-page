@@ -26,4 +26,4 @@ if {$auto_page_name == "number"} {
 }
 
 set page_title "Create a new content page"
-set context [list [list "etp" "Edit"] "New page"]
+set context [list [list "etp" "[_ acs-kernel.common_Edit]"] "[_ edit-this-page.New_page]"]

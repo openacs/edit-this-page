@@ -1,17 +1,17 @@
 <master src="etp-master">
-<property name="title">Confirm revert operation for @name;noquote@</property>
-Are you sure you want to go back to version @version_number@?
-In order to do so, the <b>
+<property name="title">#edit-this-page.lt_Confirm_revert_operat#</property>
+#edit-this-page.lt_Are_you_sure_you_want_1# <b>
 <if @revision_count@ eq 1>
-most recent version
+#edit-this-page.most_recent_version#
 </if>
 <else>
-@revision_count@ more recent versions 
+#edit-this-page.lt_revision_count_more_recent_versions# 
 </else>
-will be deleted</b>.
+#edit-this-page.will_be_deleted#</b>.
 <p>
 <form method="post" action="etp-revert">
 @form_vars;noquote@
 <input type="submit" value="Yes, I'm sure">
 </form>
+
 

@@ -17,15 +17,24 @@
 
 <fullquery name="register_types">
     <querytext>
-      select
-      content_folder.register_content_type(:folder_id,'content_revision','t')
+    begin
+      content_folder.register_content_type(
+      folder_id => :folder_id,
+      content_type => 'content_revision',
+      include_subtypes => 't'
+      );
+    end;
     </querytext>
 </fullquery>
 
 <fullquery name="register_folders">
     <querytext>
-      select
-      content_folder.register_content_type(:folder_id,'content_folder','f')
+    begin
+      content_folder.register_content_type(
+      folder_id => :folder_id,
+      content_type => 'content_folder',
+      include_subtypes => 'f');
+    end;
     </querytext>
 </fullquery>
 

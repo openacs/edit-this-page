@@ -23,12 +23,12 @@ set package_id [ad_conn package_id]
 
 set live_revision_id [etp::get_live_revision_id $package_id $name]
 
-set page_title "Revision history for $name"
+set page_title [_ edit-this-page.revision_history_for]
 
 if {$name == "index"} {
-    set context [list [list "etp?[export_url_vars name]" Edit] "History"]
+    set context [list [list "etp?[export_url_vars name]" "[_ acs-kernel.common_Edit]"] "[_ edit-this-page.History]"]
 } else {
-    set context [list [list $name $name] [list "etp?[export_url_vars name]" Edit] "History"]
+    set context [list [list $name $name] [list "etp?[export_url_vars name]" "[_ acs-kernel.common_Edit]"] "[_ edit-this-page.History]"]
 }
 
 

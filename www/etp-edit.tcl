@@ -1,3 +1,4 @@
+
 ad_page_contract {
     @author Luke Pond (dlpond@museatech.net)
     @creation-date 2001-06-10
@@ -169,7 +170,7 @@ ad_form -name etp_edit -export { name attribute  widget} -form $form_list -edit_
     ad_script_abort
 }
 
-set page_title "$attribute_title for page '$page_title'"
+set page_title [_ edit-this-page.atribute_for_page_title]
 
 if {$name == "index"} {
     set context [list [list "etp?[export_url_vars name]" Edit] $attribute_title]

@@ -2,10 +2,7 @@
 <property name="title">@page_title;noquote@</property>
 <property name="context">@context;noquote@</property>
 
-The ETP application in use for a content section determines the
-appearance and content of its pages.  You may also specify the
-application that should be used when a subtopic is created within
-this content section.
+#edit-this-page.lt_The_ETP_application#
 
 <p>
 <center>
@@ -13,23 +10,24 @@ this content section.
 <input type="hidden" name="confirmed" value="t">
 <table width="90%">
 <tr>
-<th valign="top">Application:</th>
+<th valign="top">#edit-this-page.Application#</th>
 <td>
 <select name="app">@app_options;noquote@</select>
 </td></tr>
 <tr>
-<th valign="top">Subtopic Application:</th>
+<th valign="top">#edit-this-page.Subtopic_Application#</th>
 <td>
 <select name="subtopic_app">@subtopic_app_options;noquote@</select>
 <p>
 </td></tr>
 <tr>
 <td colspan="2" align="center">
-<input type="submit" value="Save changes">
+<input type="submit" value=#edit-this-page.save_changes#>
 </td></tr>
 </table>
 </form>
 </center>
 <p>
+
 
 

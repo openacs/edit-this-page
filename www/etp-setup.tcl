@@ -45,8 +45,8 @@ if { $confirmed == "f" } {
 	    append subtopic_app_options "<option value=\"$app_name\">$app_name</option>\n"
 	}
     }
-    set page_title "Change ETP application in use for content section \"$page_title\""
-    set context [list {"etp" "Edit"} "Setup"]
+    set page_title  [_ edit-this-page.change_ETP_application_in_use_for]
+    set context [list [list "etp" "[_ acs-kernel.common_Edit]"] "[_ edit-this-page.Setup]"]
     
     ad_return_template
 

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<message_catalog package_key="edit-this-page" package_version="1.7" locale="en_US" charset="ISO-8859-1">
+
+  <msg key="A">A:</msg>
+  <msg key="Application">Application:</msg>
+  <msg key="atribute_for_page_title">%attribute_title% for page '%page_title%'</msg>
+  <msg key="Attributes">Attributes for page '%pa.title%'</msg>
+  <msg key="attributes_for_page">Attributes for page'$pa(title)'</msg>
+  <msg key="auto_page_name">auto_page_name</msg>
+  <msg key="change_ETP_application">Change ETP application in use for content section \&quot;%page_title%\&quot;</msg>
+  <msg key="change_ETP_application_in_use_for">Change ETP application in use for content section &quot;%page_title%&quot;</msg>
+  <msg key="Commit_your_work">Commit your work</msg>
+  <msg key="Create_a_link_to_local_content">Create a link to local content</msg>
+  <msg key="Create_a_new">Create a new</msg>
+  <msg key="Create_a_new_external_link">Create a new external link</msg>
+  <msg key="Create_a_new_subtopic">Create a new subtopic</msg>
+  <msg key="Created">Created</msg>
+  <msg key="current">current</msg>
+  <msg key="current_news_items">current news items</msg>
+  <msg key="delete">delete</msg>
+  <msg key="Description">Description</msg>
+  <msg key="edit">edit</msg>
+  <msg key="Edit_a_link_to_local_content">Edit a link to local content</msg>
+  <msg key="Edit_an_external_link">Edit an external link</msg>
+  <msg key="Edit_internal_link">Edit internal link</msg>
+  <msg key="Edit_parent_page">Edit parent page</msg>
+  <msg key="expired">expired</msg>
+  <msg key="expired_news">expired news</msg>
+  <msg key="external_link">external link</msg>
+  <msg key="external_ref">(external&amp;nbsp;ref)</msg>
+  <msg key="External_URL">External URL</msg>
+  <msg key="History">History</msg>
+  <msg key="internal_link">internal link</msg>
+  <msg key="internal_ref">(internal&amp;nbsp;ref)</msg>
+  <msg key="LIVE">(LIVE)</msg>
+  <msg key="lt_All_editable_attributes">All editable attributes</msg>
+  <msg key="lt_Are_you_sure_you_want">Are you sure you want to delete the page &quot;%title%&quot; at %page_url% ?
+This operation cannot be undone.</msg>
+  <msg key="lt_Are_you_sure_you_want_1">Are you sure you want to go back to version %version_number%?
+In order to do so, the</msg>
+  <msg key="lt_Are_you_sure_you_want_2">Are you sure you want to delete version %version_number%?</msg>
+  <msg key="lt_Change_ETP_application">Change ETP application</msg>
+  <msg key="lt_changes_will_go_live_immediately">(changes will go live immediately)</msg>
+  <msg key="lt_Configuration_of_this">Configuration of this content section</msg>
+  <msg key="lt_Confirm_delete_operat">Confirm delete operation for %name;noquote%</msg>
+  <msg key="lt_Confirm_revert_operat">Confirm revert operation for %name;noquote%</msg>
+  <msg key="lt_Confirm_revert_operation">Confirm revert operation for %name;noquote%</msg>
+  <msg key="lt_Content_items_in_this">Content items in this section</msg>
+  <msg key="lt_Frequently_Asked_Ques">Frequently Asked Questions:</msg>
+  <msg key="lt_If_youre_looking_for_">If you're looking for an old news article, check the</msg>
+  <msg key="lt_parameter_the_page_name">parameter, the page name be
+be pre-filled with a unique number or with a number representing today's date.</msg>
+  <msg key="lt_Questions_and_Answers">Questions and Answers:</msg>
+  <msg key="lt_revision_count_more_recent_versions">%revision_count% more recent versions</msg>
+  <msg key="lt_The_ETP_application">The ETP application in use for a content section determines the
+appearance and content of its pages.  You may also specify the
+application that should be used when a subtopic is created within
+this content section.</msg>
+  <msg key="lt_This_is_the_text_of_t">This is the text of the link that will be generated.</msg>
+  <msg key="lt_This_is_the_url_of_th">This is the url of the link destination.  If the link is to another site,
+it must be fully qualified beginning with</msg>
+  <msg key="lt_This_must_be_a_short_">This must be a short identifier containing 
+no spaces.  It will be the final name in the URL that identifies this page.
+Depending on the</msg>
+  <msg key="lt_This_must_be_a_short_identifier">This must be a short identifier containing no spaces.  It will be the 
+final part of the URL that identifies this subtopic.</msg>
+  <msg key="lt_This_will_be_the_title">This will be the title of the top-level page in this subtopic.  You
+may change it later if you like.</msg>
+  <msg key="lt_version_palatest_revi">version %pa.latest_revision%
+(live version is %pa.live_revision%)</msg>
+  <msg key="lt_View_revision_history">View revision history</msg>
+  <msg key="lt_You_may_change_the_ti">You may change the title later if you like.</msg>
+  <msg key="most_recent_version">most recent version</msg>
+  <msg key="move_up">move up</msg>
+  <msg key="New_external_link">New external link</msg>
+  <msg key="New_internal_link">New internal link</msg>
+  <msg key="New_page">New page</msg>
+  <msg key="New_subtopic">New subtopic</msg>
+  <msg key="news_items">news items</msg>
+  <msg key="on">on</msg>
+  <msg key="or">or</msg>
+  <msg key="page">page</msg>
+  <msg key="Page_name">Page&amp;nbsp;name</msg>
+  <msg key="Page_title">Page&amp;nbsp;title</msg>
+  <msg key="Preview_changes">Preview changes</msg>
+  <msg key="Published">Published</msg>
+  <msg key="Publishing_options">Publishing options</msg>
+  <msg key="Q">Q:</msg>
+  <msg key="Return_to_the">Return to the</msg>
+  <msg key="revert">revert</msg>
+  <msg key="revision_history_for">Revision history for %name%</msg>
+  <msg key="save_changes">Save changes</msg>
+  <msg key="Set_parameters">Set parameters</msg>
+  <msg key="Set_permissions">Set permissions</msg>
+  <msg key="Setup">Setup</msg>
+  <msg key="Site_map">Site map</msg>
+  <msg key="subtopic">(subtopic)</msg>
+  <msg key="Subtopic_Application">Subtopic Application:</msg>
+  <msg key="Subtopic_name">Subtopic&amp;nbsp;name</msg>
+  <msg key="Subtopic_title">Subtopic&amp;nbsp;title</msg>
+  <msg key="The_subtopic_name_must_be_a_short_identifier">The subtopic name must be a short identifier containing no spaces. It will be the final part of the URL that identifies this subtopic.</msg>
+  <msg key="There_are_no">There are no</msg>
+  <msg key="Title">Title</msg>
+  <msg key="Version">Version</msg>
+  <msg key="view">view</msg>
+  <msg key="will_be_deleted">will be deleted</msg>
+  <msg key="You_must_fill_out_all_fields">You must fill out all fields in this form.</msg>
+</message_catalog>

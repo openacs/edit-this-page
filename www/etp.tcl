@@ -24,7 +24,7 @@ etp::check_write_access
 # get the cloest ancestor acs-subsite
 set subsite_url [site_node_closest_ancestor_package_url -package_key "acs-subsite"]
 array set application_params [etp::get_application_params]
-set subtopic_object_name [etp::get_application_param index_object_name [ad_parameter subtopic_application "default"]]
+set subtopic_object_name [_ "edit-this-page.[etp::get_application_param index_object_name [ad_parameter subtopic_application "default"]]"]
 
 set package_id [ad_conn package_id]
 set content_type [etp::get_content_type $name]
@@ -60,11 +60,11 @@ foreach attribute $attributes {
 }
 
 
-set page_title "Attributes for page '$pa(title)'"
+set page_title [_ edit-this-page.Attributes]
 if { $name == "index" } {
-    set context [list "Edit"]
+    set context [list "[_ acs-kernel.common_Edit]"]
 } else {
-    set context [list [list $name $pa(title)] "Edit"]
+    set context [list [list $name $pa(title)] "[_ acs-kernel.common_Edit]"]
 }
 
 set url_dir "[file dirname [ad_conn url]]"

@@ -23,7 +23,7 @@ set user_id [ad_conn user_id]
 
 if { $confirmed == "t" } {
     if { [empty_string_p $url] || [empty_string_p $label] } {
-	ad_return_complaint 1 "You must fill out all fields in this form."
+	ad_return_complaint 1 "[_ edit-this-page.You_must_fill_out_all_fields]"
     } else {
 	if { [empty_string_p $item_id] } {
 	    db_exec_plsql create_extlink {
@@ -49,11 +49,11 @@ if { $confirmed == "t" } {
 	    from cr_extlinks 
 	    where extlink_id = :item_id
 	}
-	set page_title "Edit an external link"
-	set context [list [list "etp" "Edit"] "Edit external link"]
+	set page_title "[_ edit-this-page.Edit_an_external_link]"
+	set context [list [list "etp" "[_ acs-kernel.common_Edit]"] "[_ edit-this-page.Edit_an_external_link]"]
     } else {
-	set page_title "Create a new external link"
-	set context [list [list "etp" "Edit"] "New external link"]
+	set page_title "[_ edit-this-page.Create_a_new_external_link]"
+	set context [list [list "etp" "[_ acs-kernel.common_Edit]"] "[_ edit-this-page.New_external_link]"]
     }
 }
 
