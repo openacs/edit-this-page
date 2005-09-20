@@ -134,7 +134,7 @@ select site_node__url(node_id) as package_url from site_nodes where object_id = 
 <querytext>
 select child.name, child.node_id, child.object_id as package_id,
                    etp__get_title(f.folder_id,NULL) as title,
-                   etp__get_description(f.folder_id,NULL) as description
+                   etp__get_description(f.folder_id,NULL) as description,
 	           site_node__url(child.node_id) as url
   from site_nodes parent, site_nodes child, apm_packages p,
   cr_folders f
