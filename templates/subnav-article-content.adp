@@ -12,9 +12,11 @@
                 </div>
               </if>
               <else>
+		<if @content_items.title@ ne "">
                 <div class="tab">
                     <a href="@content_items.name@" title="@content_items.title@">@content_items.title@</a>
                 </div>
+		</if>
               </else>
             </multiple>
           </div>
