@@ -12,7 +12,8 @@
         <owner url="mailto:luke@museatech.net">Luke Pond</owner>
         <owner url="mailto:dave@thedesignexperience.org">Dave Bauer</owner>
         <summary>An easy-to-use content management system.</summary>
-        <release-date>2006-02-12</release-date>
+        <release-date>2006-02-18</release-date>
+        <vendor url="http://www.openacs.org">OpenACS</vendor>
         <description format="text/html">An Easy to use publishing system with versioning and permissions.</description>
         <maturity>0</maturity>
 
