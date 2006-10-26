@@ -672,7 +672,7 @@ ad_proc -public get_content_items { args } {
     }
   
     upvar $result_name $result_name
-
+    append extra_where_clauses "and title is not null"
     db_multirow $result_name get_content_items ""
 }
 
