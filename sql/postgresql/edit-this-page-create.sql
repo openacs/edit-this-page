@@ -135,7 +135,7 @@ begin
   insert into cr_items (
     item_id, parent_id, name, content_type
   ) values (
-    v_item_id, v_folder_id, ''extlink '' || etp_auto_page_number_seq.nextval, ''content_extlink''
+    v_item_id, v_folder_id, ''extlink '' || nextval(''t_etp_auto_page_number_seq''), ''content_extlink''
   );
 
   insert into cr_extlinks
@@ -161,7 +161,7 @@ begin
   insert into cr_items (
     item_id, parent_id, name, content_type
   ) values (
-    v_item_id, v_folder_id, ''symlink '' || etp_auto_page_number_seq.nextval, ''content_symlink''
+    v_item_id, v_folder_id, ''symlink '' || nextval(''t_etp_auto_page_number_seq''), ''content_symlink''
   );
 
   insert into cr_symlinks
@@ -205,7 +205,7 @@ begin
   -- cannot use acs_object__new because it creates attributes with their
   -- default values, which is not what we want.
 
-  select acs_object_id_seq.nextval
+  select nextval(''t_acs_object_id_seq'')
     into v_new_revision_id from dual;
 
   insert into acs_objects (object_id, object_type, creation_date, creation_user, context_id)
@@ -293,7 +293,7 @@ begin
           from site_nodes
          where object_id = p_package_id;
         if found and v_parent_id is null then
-            v_folder_id := content_item_globals.c_root_folder_id;
+            v_folder_id := content_item__get_root_folder(null);
         else
             -- This is probably an ETP app instance that
             -- was created through the Site Map; by returning
