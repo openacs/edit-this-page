@@ -170,7 +170,7 @@ ad_proc -public get_application_params { {app ""} } {
     variable application_params
 
     if { [empty_string_p $app] } {
-	set app [ad_parameter application "default"]
+	set app [parameter::get -parameter application -default "default"]
     }
 
     array set params $application_params(default)
@@ -261,7 +261,7 @@ ad_proc -public get_page_attributes {
     # items that are out of date.  Must find out or risk
     # running out of memory
 
-    set max_age [ad_parameter cache_max_age edit-this-page]
+    set max_age [parameter::get -parameter cache_max_age -default edit-this-page]
     
 if {![exists_and_not_null package_id]} {
     set package_id [ad_conn package_id]
@@ -287,7 +287,7 @@ if {![exists_and_not_null package_id]} {
 	# Page not found.  Redirect admins to setup page;
 	# otherwise report 404 error.
 	if { $name == "index" && 
-	     [ad_permission_p [ad_conn package_id] admin] } {
+	     [permission::permission_p -object_id [ad_conn package_id] -privilege admin] } {
 	    # set up the new content section
 	    ad_returnredirect "etp-setup-2"
 	} else {
@@ -505,7 +505,7 @@ ad_proc -public get_etp_url { } {
     set urlc [regexp -all "/" $url_stub]
     if { ($site_node(package_key) == "edit-this-page" ||
           $site_node(package_key) == "acs-subsite") &&
-         [ad_permission_p [ad_conn package_id] write] } {
+         [permission::permission_p -object_id [ad_conn package_id] -privilege write] } {
 
 	set name [etp::get_name]
 
@@ -636,7 +636,7 @@ ad_proc -public get_content_items { args } {
 	if { $arg == "-package_id" } {
 	    incr i 
 	    set package_id [lindex $args $i]
-	    set app [ad_parameter -package_id $package_id application default]
+	    set app [parameter::get -package_id $package_id -parameter application -default default]
 	    set content_type [etp::get_application_param content_content_type $app]
 	}
 
@@ -706,7 +706,7 @@ ad_proc -public check_write_access {} {
     if the user doesn't have "write" permission for the current
     package.
 } {
-    if { ![ad_permission_p [ad_conn package_id] write] } {
+    if { ![permission::permission_p -object_id [ad_conn package_id] -privilege write] } {
 	ad_return_forbidden "Access Denied" "Sorry, you haven't been
 	given permission to work on this area of the website.  Please
 	contact your webmaster if you believe this to be in error."

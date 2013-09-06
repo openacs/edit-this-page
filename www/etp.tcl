@@ -24,7 +24,7 @@ etp::check_write_access
 # get the cloest ancestor acs-subsite
 set subsite_url [site_node_closest_ancestor_package_url -package_key "acs-subsite"]
 array set application_params [etp::get_application_params]
-set subtopic_name [etp::get_application_param index_object_name [ad_parameter subtopic_application "default"]]
+set subtopic_name [etp::get_application_param index_object_name [parameter::get -parameter subtopic_application -default "default"]]
 set subtopic_object_name "[_ edit-this-page.subtopic]"
 
 set package_id [ad_conn package_id]
