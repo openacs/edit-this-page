@@ -62,20 +62,20 @@ foreach attribute $attributes {
 
 
 set page_title [_ edit-this-page.Attributes]
-if { $name == "index" } {
+if { $name eq "index" } {
     set context [list "[_ acs-kernel.common_Edit]"]
 } else {
     set context [list [list $name $pa(title)] "[_ acs-kernel.common_Edit]"]
 }
 
 set url_dir "[file dirname [ad_conn url]]"
-if { $url_dir == "/" } {
+if { $url_dir eq "/" } {
     set page_url "/$name"
     set edit_parent_url ""
 } else {
     set page_url "$url_dir/$name"
 
-    if { $name == "index" } {
+    if { $name eq "index" } {
 	regsub {/[^/]*/[^/]*$} $page_url "" parent_url
     } else {
 	set parent_url $url_dir
@@ -83,7 +83,7 @@ if { $url_dir == "/" } {
     set edit_parent_url "$parent_url/etp"
 }
 
-if {$name == "index"} {
+if {$name eq "index"} {
     # Get the list of content items in this directory
     etp::get_content_items
 

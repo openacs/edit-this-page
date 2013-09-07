@@ -20,13 +20,13 @@ set name [ad_conn path_info]
 
 #ns_log Notice "index.vuh: request for $name" 
 
-if { [string index $name end] == "/" } {
+if { [string index $name end] eq "/" } {
     # it's in a subdirectory, and we know there's no
     # other package mounted on that subdirectory.
     ns_returnnotfound
 }
 
-if {[empty_string_p $name] || $name == "index"} {
+if {$name eq "" || $name eq "index"} {
     set path "/[etp::get_application_param index_template]"
 } elseif {[string match "etp*" $name]} {
     # this trickery is for serving pages from the top level,

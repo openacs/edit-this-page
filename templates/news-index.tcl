@@ -19,7 +19,7 @@ ad_page_contract {
     content_pages:multirow
 }
 
-if { $archive_p == "f" } {
+if { $archive_p eq "f" } {
     set where [db_map archive_where_clause]
 } else {
     set where [db_map no_archive_where_clause]

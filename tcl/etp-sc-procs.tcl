@@ -102,7 +102,7 @@ ad_proc etp::search::etp_page_revision {
     We are allowed to add/modify the elements for the
     search compatible datasource array via upvar
 } {
-    if {[exists_and_not_null array_name]} {
+    if {([info exists array_name] && $array_name ne "")} {
 	upvar search_array $array_name
 	ns_log debug "etp::search::etp_page_revision: arrayname:$array_name"
     }

@@ -15,7 +15,7 @@ etp::check_write_access
 
 set auto_page_name [etp::get_application_param auto_page_name]
 
-if {$auto_page_name == "number"} {
+if {$auto_page_name eq "number"} {
     set new_page_name [db_nextval etp_auto_page_number_seq]
 } elseif {$auto_page_name =="date"} {
     set new_page_name [ns_fmttime [ns_time] "%Y%m%d"]

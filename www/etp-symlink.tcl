@@ -18,13 +18,13 @@ ad_page_contract {
 set package_id [ad_conn package_id]
 set user_id [ad_conn user_id]
 
-if { ![empty_string_p $target_id] } {
+if { $target_id ne "" } {
 
     # if the target is a folder, find the item_id for its index page
     if { [db_string get_object_type {
 	select object_type from acs_objects
          where object_id = :target_id
-    }] == "content_folder" } {
+    }] eq "content_folder" } {
 	set target_id [db_string get_index_id {
 	    select item_id from cr_items
              where parent_id = :target_id
@@ -32,7 +32,7 @@ if { ![empty_string_p $target_id] } {
 	}]
     }
 
-    if { [empty_string_p $item_id] } {
+    if { $item_id eq "" } {
 	db_exec_plsql create_symlink {
 	}
     } else {
@@ -46,7 +46,7 @@ if { ![empty_string_p $target_id] } {
     ad_script_abort
 } else {
 
-    if {![empty_string_p $item_id]} {
+    if {$item_id ne ""} {
 	db_1row get_symlink_info {
 	    select target_id
 	    from cr_symlinks 

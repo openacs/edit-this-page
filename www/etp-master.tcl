@@ -13,7 +13,7 @@ if { ![info exists signatory] } {
 }
 
 set filename [file tail [ad_conn url]]
-if { [string compare $filename "etp*"] != 0 } {
+if { $filename ne "etp*"  } {
     set etp_link [etp::get_etp_link]
 } else {
     set etp_link ""

@@ -169,7 +169,7 @@ ad_proc -public get_application_params { {app ""} } {
 } {
     variable application_params
 
-    if { [empty_string_p $app] } {
+    if { $app eq "" } {
 	set app [parameter::get -parameter application -default "default"]
     }
 
@@ -212,7 +212,7 @@ ad_proc -public get_content_type { {name ""} } {
 
     Returns the content_type specified in the package parameters.
 } {
-    if { $name == "index" } {
+    if { $name eq "index" } {
 	set content_type [etp::get_application_param index_content_type]
     } else {
 	set content_type [etp::get_application_param content_content_type]
@@ -263,7 +263,7 @@ ad_proc -public get_page_attributes {
 
     set max_age [parameter::get -parameter cache_max_age -default edit-this-page]
     
-if {![exists_and_not_null package_id]} {
+if {(![info exists package_id] || $package_id eq "")} {
     set package_id [ad_conn package_id]
 }
     set name [etp::get_name]
@@ -286,7 +286,7 @@ if {![exists_and_not_null package_id]} {
 
 	# Page not found.  Redirect admins to setup page;
 	# otherwise report 404 error.
-	if { $name == "index" && 
+	if { $name eq "index" && 
 	     [permission::permission_p -object_id [ad_conn package_id] -privilege admin] } {
 	    # set up the new content section
 	    ad_returnredirect "etp-setup-2"
@@ -317,7 +317,7 @@ ad_proc -private get_pa { package_id name {content_type ""} } {
     set extended_attributes [get_ext_attribute_columns $content_type]
 
     set revision_id [ad_conn revision_id]
-    if {[empty_string_p $revision_id]} {
+    if {$revision_id eq ""} {
 	# this will throw an error if the page does not exist
 	db_1row get_page_attributes "" -column_array pa
     } else {
@@ -325,15 +325,15 @@ ad_proc -private get_pa { package_id name {content_type ""} } {
 	db_1row get_page_attributes_other_revision "" -column_array pa
     }
 
-    if {[empty_string_p $pa(mime_type)]} {
+    if {$pa(mime_type) eq ""} {
 	set pa(mime_type) "text/html"
     }
 
-    if {![string equal "text/html" $pa(mime_type)]} {
+    if {"text/html" ne $pa(mime_type) } {
 	set pa(content) [template::util::richtext get_property html_value [list $pa(content) $pa(mime_type)]]
     }
     # add in the context bar
-    if { $name == "index" } {
+    if { $name eq "index" } {
 	set cb [ad_context_bar]
         set context [list]
     } else {
@@ -345,7 +345,7 @@ ad_proc -private get_pa { package_id name {content_type ""} } {
 
     regsub {^<a href="/pvt/home">Your Workspace</a> : } $cb "" cb
 
-    if {[lindex $cb 1] == "Your Workspace"} {
+    if {[lindex $cb 1] eq "Your Workspace"} {
 	set cb [lreplace $cb 0 1]
     }
     set pa(context_bar) $cb
@@ -362,8 +362,8 @@ ad_proc -public get_ext_attribute_columns { content_type } {
 	 on the live revision id, not on the item id.
 } {
     set extended_attributes ""
-    if { ![empty_string_p $content_type] && 
-         ![string equal $content_type "etp_page_revision"] } {
+    if { $content_type ne "" && 
+         $content_type ne "etp_page_revision" } {
 	variable content_types
 
 	set attributes $content_types($content_type)
@@ -438,7 +438,7 @@ ad_proc -public get_attribute_pretty_name { attribute_desc {page_name ""} } {
     # which are set up with etp application parameters
     set attr_name [lindex $attribute_desc 0]
     if { [lsearch -exact { title description content } $attr_name] != -1 } {
-	if { $page_name == "index" } {
+	if { $page_name eq "index" } {
 	    set param_name "index_${attr_name}_attr_name"
 	} else {
 	    set param_name "content_${attr_name}_attr_name"
@@ -475,10 +475,10 @@ ad_proc -public get_attribute_lookup_sql { attribute_desc } {
     set lookup_sql [db_map lookup_sql_clause]
 
     # see if a select-list callback function was specified
-    if { [info commands $default] != "" } {
+    if { [info commands $default] ne "" } {
 	set transformed_lookup_sql [eval $default transform_during_query $attribute_id {$lookup_sql}]
 
-	if {$transformed_lookup_sql != ""} {
+	if {$transformed_lookup_sql ne ""} {
 	    set lookup_sql $transformed_lookup_sql
 	}
     }
@@ -503,8 +503,8 @@ ad_proc -public get_etp_url { } {
     set url_stub [ns_conn url]
     array set site_node [site_node::get -url $url_stub]
     set urlc [regexp -all "/" $url_stub]
-    if { ($site_node(package_key) == "edit-this-page" ||
-          $site_node(package_key) == "acs-subsite") &&
+    if { ($site_node(package_key) eq "edit-this-page" ||
+          $site_node(package_key) eq "acs-subsite") &&
          [permission::permission_p -object_id [ad_conn package_id] -privilege write] } {
 
 	set name [etp::get_name]
@@ -535,7 +535,7 @@ ad_proc -public get_etp_link { } {
 
 } {
     set etp_url [get_etp_url]
-    if { ![empty_string_p $etp_url] } {
+    if { $etp_url ne "" } {
         return "<a href=\"$etp_url\">Edit This Page</a>\n"
     } 
     return {}
@@ -548,7 +548,7 @@ ad_proc -public get_name { } {
     Returns the canonical page name for the current request.
 } {
     set url_stub [ad_conn url]
-    if { [string index $url_stub end] == "/" } {
+    if { [string index $url_stub end] eq "/" } {
 	set name index
     } else {
 	set name [file rootname [file tail $url_stub]]
@@ -610,7 +610,7 @@ ad_proc -public get_content_items { args } {
     and currently is never cached.  
 
 } {    
-    if ![exists_and_not_null package_id] {
+    if {(![info exists package_id] || $package_id eq "")} {
         set package_id [ad_conn package_id]
     }
     set content_type [etp::get_content_type]
@@ -628,31 +628,31 @@ ad_proc -public get_content_items { args } {
     for {set i 0} {$i < [llength $args]} {incr i} {
 	set arg [lindex $args $i]
 
-	if { $arg == "-result_name" } {
+	if { $arg eq "-result_name" } {
 	    incr i 
 	    set result_name [lindex $args $i]
 	}
 
-	if { $arg == "-package_id" } {
+	if { $arg eq "-package_id" } {
 	    incr i 
 	    set package_id [lindex $args $i]
 	    set app [parameter::get -package_id $package_id -parameter application -default default]
 	    set content_type [etp::get_application_param content_content_type $app]
 	}
 
-	if { $arg == "-orderby" } {
+	if { $arg eq "-orderby" } {
 	    incr i
 	    set orderby [lindex $args $i]
 	    continue
 	}
 
-	if { $arg == "-limit" } {
+	if { $arg eq "-limit" } {
 	    incr i
 	    set limit_clause "limit [lindex $args $i]"
 	    continue
 	}
 
-	if { $arg == "-where" } {
+	if { $arg eq "-where" } {
 	    incr i
 	    set extra_where_clauses [lindex $args $i]
 	    continue
@@ -663,7 +663,7 @@ ad_proc -public get_content_items { args } {
 	} else {
 	    ns_log debug "get_content_items: extended attribute named $arg"
 	    set attr_desc [etp::get_attribute_desc $arg $content_type]
-	    if { ![empty_string_p $attr_desc] } {
+	    if { $attr_desc ne "" } {
 		ns_log debug "get_content_items: adding it"
 		set lookup_sql [etp::get_attribute_lookup_sql $attr_desc]
 		append columns ",\n $lookup_sql"

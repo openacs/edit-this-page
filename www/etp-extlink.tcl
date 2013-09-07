@@ -21,11 +21,11 @@ etp::check_write_access
 set package_id [ad_conn package_id]
 set user_id [ad_conn user_id]
 
-if { $confirmed == "t" } {
-    if { [empty_string_p $url] || [empty_string_p $label] } {
+if { $confirmed eq "t" } {
+    if { $url eq "" || $label eq "" } {
 	ad_return_complaint 1 "[_ edit-this-page.You_must_fill_out_all_fields]"
     } else {
-	if { [empty_string_p $item_id] } {
+	if { $item_id eq "" } {
 	    db_exec_plsql create_extlink {
 
 	    }
@@ -43,7 +43,7 @@ if { $confirmed == "t" } {
     set confirmed "t"
     set form_vars [export_form_vars item_id confirmed]
 
-    if {![empty_string_p $item_id]} {
+    if {$item_id ne ""} {
 	db_1row get_extlink_info {
 	    select url, label, description
 	    from cr_extlinks 

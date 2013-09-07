@@ -18,7 +18,7 @@ db_1row get_section_name ""
 
 set site_node_url [file dirname [ad_conn url]]
 
-if { $site_node_url == "/" } {
+if { $site_node_url eq "/" } {
     # -100 is the magic number for the "root folder".
     set folder_id -100
     db_transaction {
@@ -34,7 +34,7 @@ if { $site_node_url == "/" } {
     set parent_package_id $parent_site_node(object_id)
 
 #    set parent_package_id [site_node_closest_ancestor_package -url "$parent_url" "edit-this-page"]
-#    if {[empty_string_p $parent_package_id]} {
+#    if {$parent_package_id eq ""} {
 #	set parent_package_id [site_node_closest_ancestor_package -url "$parent_url" "acs-subsite"]
 #    }
 

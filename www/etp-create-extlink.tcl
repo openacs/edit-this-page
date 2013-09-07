@@ -15,8 +15,8 @@ ad_page_contract {
     form_vars:onevalue
 }
 
-if { $confirmed == "t" } {
-    if { [empty_string_p $subtopic_name] ||
+if { $confirmed eq "t" } {
+    if { $subtopic_name eq "" ||
          [regexp {[^a-zA-Z0-9\-_]} $subtopic_name] } {
 	ad_return_complaint 1 "The subtopic name must be a short identifier
 	containing no spaces.  It will be the final part of the URL that 

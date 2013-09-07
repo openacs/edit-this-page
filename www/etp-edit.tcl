@@ -35,11 +35,11 @@ set default [etp::get_attribute_default $attribute_desc]
 set element $attribute
 
 # see if a select-list callback function was specified
-if { [info commands $default] != "" } {
+if { [info commands $default] ne "" } {
     set query_results [eval $default option_list $attribute_id]
     set widget select
-} elseif {$type == "string" && [regexp -nocase {(rows|cols)} $html]} {
-    if {[string equal $attribute content]} {
+} elseif {$type eq "string" && [regexp -nocase {(rows|cols)} $html]} {
+    if {$attribute eq "content"} {
 
     set widget "(richtext)"
 
@@ -48,7 +48,7 @@ if { [info commands $default] != "" } {
     set widget "(textarea)"
 }
    
-} elseif {$type == "date"} {
+} elseif {$type eq "date"} {
 	set widget "(date),to_sql(linear_date),from_sql(sql_date)"
     set widget_extra [list format "Month DD YYYY"]
     set element datevalue
@@ -61,7 +61,7 @@ if { [info commands $default] != "" } {
 
 set widget_list [list $element:${type}${widget} [list label "$attribute_title"] [list html $html] ]
 
-if {[exists_and_not_null widget_extra]} {
+if {([info exists widget_extra] && $widget_extra ne "")} {
     lappend widget_list $widget_extra
 }
 
@@ -85,7 +85,7 @@ ad_form -name etp_edit -export { name attribute  widget} -form $form_list -edit_
 	set attribute_id [etp::get_attribute_id $attribute_desc]
 	db_1row get_extended_attribute ""
     }
-    if {[string equal $widget "(richtext)"]} {
+    if {$widget eq "(richtext)"} {
 	set $element [template::util::richtext create $value $mime_type]
     } else {
 	set $element $value
@@ -104,7 +104,7 @@ ad_form -name etp_edit -export { name attribute  widget} -form $form_list -edit_
 	db_1row get_extended_attribute ""
     }
 
-    if {[string equal $widget "(richtext)"]} {
+    if {$widget eq "(richtext)"} {
         set $element [template::util::richtext create $value $mime_type]
     } else {
         set $element $value
@@ -119,7 +119,7 @@ ad_form -name etp_edit -export { name attribute  widget} -form $form_list -edit_
 	# The date is given in YYYY-MM-DD.  Transform to desired format.
 #	set date_format [etp::get_application_param date_format]
 	set value "[template::util::date::get_property year $datevalue]-[template::util::date::get_property month $datevalue]-[template::util::date::get_property day $datevalue]"
-    } elseif {[string equal $widget "(richtext)"]} {
+    } elseif {$widget eq "(richtext)"} {
 	    set value [template::util::richtext get_property contents [set $element]]
 	    set mime_type [template::util::richtext get_property format [set $element]]
 	    set extra_sql " , mime_type=:mime_type"
@@ -162,7 +162,7 @@ ad_form -name etp_edit -export { name attribute  widget} -form $form_list -edit_
     # reflects the new title.  Note this is something you can't do through
     # the Site Map UI.
 
-    if { $name == "index" && $attribute == "title" } {
+    if { $name eq "index" && $attribute eq "title" } {
 	db_dml update_package_instance_name ""
     }
 
@@ -172,7 +172,7 @@ ad_form -name etp_edit -export { name attribute  widget} -form $form_list -edit_
 
 set page_title [_ edit-this-page.atribute_for_page_title]
 
-if {$name == "index"} {
+if {$name eq "index"} {
     set context [list [list "etp?[export_url_vars name]" Edit] $attribute_title]
 } else {
     set context [list [list $name $name] [list "etp?[export_url_vars name]" Edit] $attribute_title]

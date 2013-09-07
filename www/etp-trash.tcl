@@ -37,7 +37,7 @@ if {![db_0or1row get_node_id ""]} {
 
 db_transaction {
 
-    if {![empty_string_p $node_id]} {
+    if {$node_id ne ""} {
 	site_map_unmount_application -delete_p "t" $node_id    
     }
 

@@ -22,7 +22,7 @@ etp::check_write_access
 
 set package_id [ad_conn package_id]
 
-if { $confirmed == "f" } {
+if { $confirmed eq "f" } {
     set app [parameter::get -package_id $package_id -parameter application -default "default"]
     set subtopic_app [parameter::get -package_id $package_id -parameter subtopic_application -default "default"]
 
