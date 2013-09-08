@@ -22,7 +22,7 @@ etp::check_write_access
 
 # lets make etp subsite aware
 # get the cloest ancestor acs-subsite
-set subsite_url [site_node_closest_ancestor_package_url -package_key "acs-subsite"]
+set subsite_url [lindex [site_node::get_url_from_object_id -object_id [site_node::closest_ancestor_package -include_self -package_key "acs-subsite"]] 0]
 array set application_params [etp::get_application_params]
 set subtopic_name [etp::get_application_param index_object_name [parameter::get -parameter subtopic_application -default "default"]]
 set subtopic_object_name "[_ edit-this-page.subtopic]"
