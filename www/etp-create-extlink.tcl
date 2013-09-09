@@ -30,12 +30,12 @@ if { $confirmed eq "t" } {
 	    db_dml copy_parameter ""
 	}
 	set title $subtopic_title
-	ad_returnredirect "$subtopic_name/etp-setup-2?[export_url_vars title]"
+	ad_returnredirect "$subtopic_name/etp-setup-2?[export_vars -url {title}]"
     }
     ad_script_abort
 } else {
     set confirmed "t"
-    set form_vars [export_form_vars confirmed]
+    set form_vars [export_vars -form {confirmed}]
 }
 
 set page_title "Create a new subtopic"

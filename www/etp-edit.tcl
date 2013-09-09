@@ -166,14 +166,14 @@ ad_form -name etp_edit -export { name attribute  widget} -form $form_list -edit_
 	db_dml update_package_instance_name ""
     }
 
-    ad_returnredirect "etp?[export_url_vars name]"
+    ad_returnredirect "etp?[export_vars -url {name}]"
     ad_script_abort
 }
 
 set page_title [_ edit-this-page.atribute_for_page_title]
 
 if {$name eq "index"} {
-    set context [list [list "etp?[export_url_vars name]" Edit] $attribute_title]
+    set context [list [list "etp?[export_vars -url {name}]" Edit] $attribute_title]
 } else {
-    set context [list [list $name $name] [list "etp?[export_url_vars name]" Edit] $attribute_title]
+    set context [list [list $name $name] [list "etp?[export_vars -url {name}]" Edit] $attribute_title]
 }

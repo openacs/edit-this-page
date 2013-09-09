@@ -38,12 +38,12 @@ if { $confirmed eq "t" } {
 
 	apm_parameter_sync "edit-this-page" $new_package_id
 	set title $subtopic_title
-	ad_returnredirect "$subtopic_name/etp-setup-2?[export_url_vars title]"
+	ad_returnredirect "$subtopic_name/etp-setup-2?[export_vars -url {title}]"
     }
     ad_script_abort
 } else {
     set confirmed "t"
-    set form_vars [export_form_vars confirmed]
+    set form_vars [export_vars -form {confirmed}]
 }
 
 set page_title "[_ edit-this-page.Create_a_new_subtopic]"

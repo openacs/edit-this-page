@@ -41,7 +41,7 @@ if { $confirmed eq "t" } {
     ad_script_abort
 } else {
     set confirmed "t"
-    set form_vars [export_form_vars item_id confirmed]
+    set form_vars [export_vars -form {item_id confirmed}]
 
     if {$item_id ne ""} {
 	db_1row get_extlink_info {

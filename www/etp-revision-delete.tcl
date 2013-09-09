@@ -26,7 +26,7 @@ if {$confirmed eq "t"} {
 
     db_exec_plsql delete_revision {}
 
-    ad_returnredirect "etp?[export_url_vars name]"
+    ad_returnredirect "etp?[export_vars -url {name}]"
     ad_script_abort
 } else {
     set form_vars [export_vars -form { name revision_id version_number { confirmed t }}]

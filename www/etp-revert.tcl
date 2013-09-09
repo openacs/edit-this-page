@@ -34,7 +34,7 @@ if { $confirmed eq "t" } {
 	    db_exec_plsql delete_revision ""
 	}
     }
-    ad_returnredirect "etp?[export_url_vars name]"
+    ad_returnredirect "etp?[export_vars -url {name}]"
     ad_script_abort
 
 } else {
@@ -42,5 +42,5 @@ if { $confirmed eq "t" } {
     db_1row get_revision_count ""
 
     set confirmed "t"
-    set form_vars [export_form_vars name revision_id version_number confirmed]
+    set form_vars [export_vars -form {name revision_id version_number confirmed}]
 }

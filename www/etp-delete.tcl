@@ -30,7 +30,7 @@ if { $confirmed eq "t" } {
     ad_script_abort
 } else {
     set confirmed "t"
-    set form_vars [export_form_vars name confirmed]
+    set form_vars [export_vars -form {name confirmed}]
     set page_url "[file dirname [ad_conn url]]/$name"
     db_0or1row get_title "" 
     if {![info exists title]} {
