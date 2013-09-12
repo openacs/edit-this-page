@@ -1,5 +1,5 @@
 <master src="etp-master">
-<property name="title">#edit-this-page.lt_Confirm_revert_operat#</property>
+<property name="doc(title)">#edit-this-page.lt_Confirm_revert_operat#</property>
 #edit-this-page.lt_Are_you_sure_you_want_1# <b>
 <if @revision_count@ eq 1>
 #edit-this-page.most_recent_version#

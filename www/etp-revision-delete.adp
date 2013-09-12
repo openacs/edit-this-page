@@ -1,5 +1,5 @@
 <master src="etp-master">
- <property name="title">#edit-this-page.lt_Confirm_revert_operation#</property>
+ <property name="doc(title)">#edit-this-page.lt_Confirm_revert_operation#</property>
 
 <p>
   #edit-this-page.lt_Are_you_sure_you_want_2#

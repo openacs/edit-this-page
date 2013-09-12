@@ -1,5 +1,5 @@
 <master src="/packages/edit-this-page/www/etp-master">
-<property name="title">@pa.title;noquote@</property>
+<property name="doc(title)">@pa.title;noquote@</property>
 <property name="context">@pa.context;noquote@</property>
 
 <blockquote>
