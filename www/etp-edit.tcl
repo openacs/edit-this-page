@@ -75,7 +75,7 @@ lappend form_list [list page_title:text(hidden)]
 ad_form -name etp_edit -export { name attribute  widget} -form $form_list -edit_request {
 
 
-    if { [lsearch -exact {title description content} $attribute] >= 0 } {
+    if {$attribute in {title description content}} {
 	# value is stored in cr_revisions table
 
 	db_1row get_standard_attribute ""
@@ -93,7 +93,7 @@ ad_form -name etp_edit -export { name attribute  widget} -form $form_list -edit_
 
 } -new_request {
 
-    if { [lsearch -exact {title description content} $attribute] >= 0 } {
+    if {$attribute in {title description content}} {
 	# value is stored in cr_revisions table
 
 	db_1row get_standard_attribute ""

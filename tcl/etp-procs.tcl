@@ -437,7 +437,7 @@ ad_proc -public get_attribute_pretty_name { attribute_desc {page_name ""} } {
     # handle customized standard attribute names
     # which are set up with etp application parameters
     set attr_name [lindex $attribute_desc 0]
-    if { [lsearch -exact { title description content } $attr_name] != -1 } {
+    if {$attr_name in { title description content }} {
 	if { $page_name eq "index" } {
 	    set param_name "index_${attr_name}_attr_name"
 	} else {
@@ -658,7 +658,7 @@ ad_proc -public get_content_items { args } {
 	    continue
 	}
 
-	if { [lsearch -exact { item_id revision_id content publish_date } $arg] != -1 } {
+	if {$arg in { item_id revision_id content publish_date }} {
 	    append columns ",\n r.$arg"
 	} else {
 	    ns_log debug "get_content_items: extended attribute named $arg"
