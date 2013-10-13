@@ -17,7 +17,7 @@ ad_page_contract {
 
 etp::check_write_access
 
-if { $confirmed eq "t" } {
+if { $confirmed == "t" } {
     if { $subtopic_name eq "" ||
          [regexp {[^a-zA-Z0-9\-_]} $subtopic_name] } {
 	ad_return_complaint 1 "[_ edit-this-page.The_subtopic_name_must_be_a_short_identifier]"

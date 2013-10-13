@@ -576,7 +576,14 @@ ad_proc -public get_live_revision_id { package_id name } {
     return $revision_id
 }
 
-ad_proc -public get_content_items { args } {
+ad_proc -public get_content_items { 
+    {-orderby ""}
+    {-limit ""}
+    {-where ""}
+    {-package_id ""}
+    {-result_name "content_items"}
+    args
+ } {
     @author Luke Pond
     @creation-date 2001-06-10 
     @param -orderby - what should appear in the ORDER BY clause
@@ -610,53 +617,37 @@ ad_proc -public get_content_items { args } {
     and currently is never cached.  
 
 } {    
-    if {(![info exists package_id] || $package_id eq "")} {
-        set package_id [ad_conn package_id]
-    }
+
     set content_type [etp::get_content_type]
-    set result_name "content_items"
 
-    set orderby [db_map gci_orderby]
+    if {$orderby eq ""} {
+	set orderby [db_map gci_orderby]
+    }
 
-    set extra_where_clauses [db_map gci_where_clause]
-    
+    if {$limit ne ""} {
+	set limit_clause "limit $limit"
+    } else {
+	set limit_clause ""
+    }
+
+    if {$where ne ""} {
+	set extra_where_clauses $where
+    } else {
+	set extra_where_clauses [db_map gci_where_clause]
+    }
+
+    if {$package_id eq ""} {
+	set package_id [ad_conn package_id]
+    } else {
+	set app [parameter::get -package_id $package_id -parameter application -default default]
+	set content_type [etp::get_application_param content_content_type $app]
+    }
+
     set columns [db_map gci_columns_clause]
     ns_log debug "get_content_items: columns: $columns"
     
-    set limit_clause ""
-
     for {set i 0} {$i < [llength $args]} {incr i} {
-	set arg [lindex $args $i]
-
-	if { $arg eq "-result_name" } {
-	    incr i 
-	    set result_name [lindex $args $i]
-	}
-
-	if { $arg eq "-package_id" } {
-	    incr i 
-	    set package_id [lindex $args $i]
-	    set app [parameter::get -package_id $package_id -parameter application -default default]
-	    set content_type [etp::get_application_param content_content_type $app]
-	}
-
-	if { $arg eq "-orderby" } {
-	    incr i
-	    set orderby [lindex $args $i]
-	    continue
-	}
-
-	if { $arg eq "-limit" } {
-	    incr i
-	    set limit_clause "limit [lindex $args $i]"
-	    continue
-	}
-
-	if { $arg eq "-where" } {
-	    incr i
-	    set extra_where_clauses [lindex $args $i]
-	    continue
-	}
+	set arg [lindex $args i]
 
 	if {$arg in { item_id revision_id content publish_date }} {
 	    append columns ",\n r.$arg"
@@ -672,6 +663,7 @@ ad_proc -public get_content_items { args } {
     }
   
     upvar $result_name $result_name
+    set folder_id [etp::get_folder_id $package_id]
 
     db_multirow $result_name get_content_items ""
 }

@@ -21,7 +21,7 @@ etp::check_write_access
 set package_id [ad_conn package_id]
 set user_id [ad_conn user_id]
 
-if { $confirmed eq "t" } {
+if { $confirmed == "t" } {
     if { $url eq "" || $label eq "" } {
 	ad_return_complaint 1 "[_ edit-this-page.You_must_fill_out_all_fields]"
     } else {

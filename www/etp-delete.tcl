@@ -19,7 +19,7 @@ etp::check_write_access
 
 set package_id [ad_conn package_id]
 
-if { $confirmed eq "t" } {
+if { $confirmed == "t" } {
     # TODO: the clear_revisions statement below should be unnecessary.
     # It's there because content_item__delete was throwing an error
     # (possibly due to the data-change violation, basically a postgresql bug)

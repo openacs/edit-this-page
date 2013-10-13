@@ -121,7 +121,7 @@ select site_node__url(node_id) as package_url from site_nodes where object_id = 
    select * from
      (select $columns
       from cr_items i left join cr_revisions r on (i.live_revision = r.revision_id)
-      where i.parent_id = etp__get_folder_id(:package_id) and i.name != 'index'
+      where i.parent_id = :folder_id and i.name != 'index'
      ) attributes
    where $extra_where_clauses
    order by $orderby

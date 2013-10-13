@@ -113,7 +113,7 @@
      (select * from (
 	select $columns
           from cr_items i, cr_revisions r
-         where i.parent_id = etp.get_folder_id(:package_id)
+         where i.parent_id = :folder_id
 	   and i.name != 'index'
            and i.live_revision = r.revision_id(+)
      ) attributes

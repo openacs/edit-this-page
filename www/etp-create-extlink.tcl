@@ -15,7 +15,7 @@ ad_page_contract {
     form_vars:onevalue
 }
 
-if { $confirmed eq "t" } {
+if { $confirmed == "t" } {
     if { $subtopic_name eq "" ||
          [regexp {[^a-zA-Z0-9\-_]} $subtopic_name] } {
 	ad_return_complaint 1 "The subtopic name must be a short identifier

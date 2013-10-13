@@ -22,7 +22,7 @@ etp::check_write_access
 
 set package_id [ad_conn package_id]
 
-if {$confirmed eq "t"} {
+if {$confirmed == "t"} {
 
     db_exec_plsql delete_revision {}
 
