@@ -222,7 +222,7 @@ ad_proc -public get_content_type { {name ""} } {
 
 
 ad_proc -public get_page_attributes { 
-    {-package_id}
+    {-package_id ""}
 } {
     @author Luke Pond
     @creation-date 2001-05-31
@@ -261,13 +261,12 @@ ad_proc -public get_page_attributes {
     # items that are out of date.  Must find out or risk
     # running out of memory
 
-    set max_age [parameter::get -parameter cache_max_age -default edit-this-page]
+    set max_age [parameter::get -parameter cache_max_age -default 600]
     
-if {(![info exists package_id] || $package_id eq "")} {
-    set package_id [ad_conn package_id]
-}
+    if {$package_id eq ""} {
+        set package_id [ad_conn package_id]
+    }
     set name [etp::get_name]
-
     set content_type [etp::get_content_type $name]
 
     upvar pa pa
@@ -282,7 +281,7 @@ if {(![info exists package_id] || $package_id eq "")} {
 	    array set pa [etp::get_pa [ad_conn package_id] $name $content_type]
 	}
     } errmsg] } {
-	ns_log debug "Error from etp::get_pa was:\n$errmsg"
+	ns_log warning "Error from etp::get_pa was:\n$errmsg"
 
 	# Page not found.  Redirect admins to setup page;
 	# otherwise report 404 error.
