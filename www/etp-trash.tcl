@@ -9,7 +9,7 @@ ad_page_contract {
     confirmation message.
 
 } {
-    item_id:integer
+    item_id:naturalnum,notnull
 }
 
 etp::check_write_access

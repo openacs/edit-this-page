@@ -6,8 +6,8 @@ ad_page_contract {
     (which is a link to another page or folder in the CMS)
 
 } {
-    { target_id "" }
-    { item_id "" }
+    { target_id:naturalnum "" }
+    { item_id:naturalnum "" }
 } -properties {
     page_title:onevalue
     context:onevalue

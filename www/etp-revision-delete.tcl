@@ -7,7 +7,7 @@ ad_page_contract {
     Asks for confirmation before deleting an unpublished revision
 } {
     name
-    revision_id:integer
+    revision_id:naturalnum,notnull
     version_number:integer
     {confirmed "f"}
 } -properties {

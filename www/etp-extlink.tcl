@@ -8,7 +8,7 @@ ad_page_contract {
     { url "" }
     { label "" }
     { description "" }
-    { item_id "" }
+    { item_id:naturalnum "" }
     { confirmed "f" }
 } -properties {
     page_title:onevalue

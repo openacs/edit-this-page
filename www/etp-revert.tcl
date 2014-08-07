@@ -8,7 +8,7 @@ ad_page_contract {
 
 } {
     name
-    revision_id:integer
+    revision_id:naturalnum,notnull
     version_number:integer
     { confirmed "f" }
 } -properties {
