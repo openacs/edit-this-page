@@ -22,7 +22,7 @@
 </td></tr>
 <tr>
 <td colspan="2" align="center">
-<input type="submit" value=#edit-this-page.save_changes#>
+<input type="submit" value="#edit-this-page.save_changes#">
 </td></tr>
 </table>
 </form>

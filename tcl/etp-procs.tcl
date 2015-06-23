@@ -535,7 +535,7 @@ ad_proc -public get_etp_link { } {
 } {
     set etp_url [get_etp_url]
     if { $etp_url ne "" } {
-        return "<a href=\"$etp_url\">Edit This Page</a>\n"
+        return [subsr {<a href="[ns_quotehtml $etp_url]">Edit This Page</a>\n}]
     } 
     return {}
 }

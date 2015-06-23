@@ -8,7 +8,7 @@ e@all_pages.indent;noquote@
 <em>@all_pages.title@</em><br>
 </if>
 <else>
-<a href="etp-symlink?item_id=@item_id@&target_id=@all_pages.item_id@">@all_pages.title@</a><br>
+<a href="etp-symlink?item_id=@item_id@&amp;target_id=@all_pages.item_id@">@all_pages.title@</a><br>
 </else>
 </multiple>
 

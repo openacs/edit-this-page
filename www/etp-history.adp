@@ -36,10 +36,10 @@
       <td valign="top" align="right">
         <a href="@name@?revision_id=@revisions.revision_id@">#edit-this-page.view#</a>
         <if @revisions.revision_id@ lt @live_revision_id@>
-         | <a href="etp-revert?name=@name@&revision_id=@revisions.revision_id@&version_number=@revisions.version_number@">#edit-this-page.revert#</a>
+         | <a href="etp-revert?name=@name@&amp;revision_id=@revisions.revision_id@&amp;version_number=@revisions.version_number@">#edit-this-page.revert#</a>
         </if> 
         <if @revisions.revision_id@ gt @live_revision_id@>
-         | <a href="etp-revision-delete?name=@name@&revision_id=@revisions.revision_id@&version_number=@revisions.version_number@">#edit-this-page.delete#</a>
+         | <a href="etp-revision-delete?name=@name@&amp;revision_id=@revisions.revision_id@&amp;version_number=@revisions.version_number@">#edit-this-page.delete#</a>
         </if> 
       </td>
     </tr>
