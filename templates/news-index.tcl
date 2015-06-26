@@ -13,7 +13,7 @@ ad_page_contract {
     which the release date is in the past.
 
 } {
-    {archive_p "f"}
+    {archive_p:boolean "f"}
 } -properties {
     pa:onerow
     content_pages:multirow
