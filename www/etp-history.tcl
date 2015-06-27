@@ -26,9 +26,9 @@ set live_revision_id [etp::get_live_revision_id $package_id $name]
 set page_title [_ edit-this-page.revision_history_for]
 
 if {$name eq "index"} {
-    set context [list [list "etp?[export_vars -url {name}]" "[_ acs-kernel.common_Edit]"] "[_ edit-this-page.History]"]
+    set context [list [list [export_vars -base etp {name}] "[_ acs-kernel.common_Edit]"] "[_ edit-this-page.History]"]
 } else {
-    set context [list [list $name $name] [list "etp?[export_vars -url {name}]" "[_ acs-kernel.common_Edit]"] "[_ edit-this-page.History]"]
+    set context [list [list $name $name] [list [export_vars -base etp {name}] "[_ acs-kernel.common_Edit]"] "[_ edit-this-page.History]"]
 }
 
 

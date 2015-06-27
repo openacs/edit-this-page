@@ -17,5 +17,5 @@ if { [regexp {[^a-zA-Z0-9\-_]} $name] } {
     identifies this subtopic."
 } else {
     etp::make_page $name $title
-    ad_returnredirect "etp?[export_vars -url {name}]"
+    ad_returnredirect [export_vars -base etp {name}]
 }

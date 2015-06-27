@@ -509,7 +509,7 @@ ad_proc -public get_etp_url { } {
 	set name [etp::get_name]
 
 	if { ![regexp "^etp" $name] } {
-	    return "etp?[export_vars { name }]"
+	    return [export_vars -base etp { name }]
 	}
     } 
 

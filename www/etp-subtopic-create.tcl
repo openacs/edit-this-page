@@ -38,7 +38,7 @@ if { $confirmed == "t" } {
 
 	apm_parameter_sync "edit-this-page" $new_package_id
 	set title $subtopic_title
-	ad_returnredirect "$subtopic_name/etp-setup-2?[export_vars -url {title}]"
+	ad_returnredirect [export_vars -base $subtopic_name/etp-setup-2 {title}]
     }
     ad_script_abort
 } else {

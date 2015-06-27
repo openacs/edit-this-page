@@ -28,5 +28,5 @@ if { $latest_revision_id > $live_revision_id } {
     util_memoize_flush $key
 }
 
-ad_returnredirect "etp?[export_vars -url {name}]"
+ad_returnredirect [export_vars -base etp {name}]
 

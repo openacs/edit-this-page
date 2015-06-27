@@ -34,7 +34,7 @@ if { $confirmed == "t" } {
 	    db_exec_plsql delete_revision ""
 	}
     }
-    ad_returnredirect "etp?[export_vars -url {name}]"
+    ad_returnredirect [export_vars -base etp {name}]
     ad_script_abort
 
 } else {
