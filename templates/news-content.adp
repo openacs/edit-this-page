@@ -1,6 +1,6 @@
 <master src="../www/etp-master">
-<property name="doc(title)">@pa.title;noquote@</property>
-<property name="context">@pa.context;noquote@</property>
+<property name="doc(title)">@pa.title;literal@</property>
+<property name="context">@pa.context;literal@</property>
 
 <if @pa.subtitle@ not nil>
 <blockquote><b>@pa.subtitle@</b></blockquote>
