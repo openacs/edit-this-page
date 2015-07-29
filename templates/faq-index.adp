@@ -23,11 +23,9 @@ Frequently Asked Questions:
 Questions and Answers:
 <ol>
 <multiple name="content_items">
-<a name="@content_items.rownum@"></a>
-<li>
-<b>Q:</b> <em>@content_items.title@</em>
-<p>
-<b>A:</b> 
+<li><a name="@content_items.rownum@"></a>
+<p><b>Q:</b> <em>@content_items.title@</em>
+<p><b>A:</b> 
 @content_items.content;noquote@
 <p>
 </li>

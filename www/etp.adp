@@ -1,6 +1,11 @@
 <master src="etp-master">
 <property name="doc(title)">@page_title;literal@</property>
 <property name="context">@context;literal@</property>
+<property name="head">
+<style type="text/css">
+tr.grey {background-color: #ececec;}
+</style>
+</property>
 
 <table width="100%"><tr>
 <td valign="top">
@@ -22,12 +27,12 @@
 <table width="100%" cellspacing="0" cellpadding="4">
 <multiple name="page_attributes">
 <if @page_attributes.rownum@ odd>
-<tr bgcolor="#ececec">
+<tr class="grey">
 </if>
 <else>
 <tr>
 </else>
-<td valign="top" width="12%"><b>@page_attributes.pretty_name@</b>
+<td valign="top" style="width:12%"><b>@page_attributes.pretty_name@</b>
 </td>
 <if @page_attributes.name@ eq content>
 <td valign="top">@page_attributes.value;noquote@
@@ -36,7 +41,7 @@
 <td valign="top">@page_attributes.value@
 </else>
 </td>
-<td align="right" width="12%"><a href="etp-edit?name=@pa.name@&attribute=@page_attributes.name@">#edit-this-page.edit#</a>
+<td align="right" style="width:12%"><a href="etp-edit?name=@pa.name@&amp;attribute=@page_attributes.name@">#edit-this-page.edit#</a>
 </td>
 </tr>
 </multiple>
@@ -66,6 +71,7 @@
 <!-- <li><a href="/admin/site-map/parameter-set?package_id=@package_id@">#edit-this-page.Set_parameters#</a> -->
 <li><a href="/permissions/one?object_id=@package_id@">#edit-this-page.Set_permissions#</a>
 <li><a href="/admin/site-map/">#edit-this-page.Site_map#</a>
+</ul>
 </if>
 </td>
 
@@ -77,7 +83,7 @@
 <if @pa.name@ eq "index">
 <h3>#edit-this-page.lt_Content_items_in_this#</h3>
 <table width="100%" cellspacing="0" cellpadding="4">
-<tr bgcolor="#ececec">
+<tr class="grey">
 <td colspan="3">
 #edit-this-page.Create_a_new# 
 <a href="etp-create">@application_params.content_object_name@</a>
