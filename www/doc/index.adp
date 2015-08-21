@@ -4,7 +4,7 @@
 <master>
 
 <body>
-<h2>ETP Documentation</h2><br clear="right"><blockquote>
+<h1>ETP Documentation</h1><br clear="right"><blockquote>
 <a href="install">Installation instructions</a><br><a href="applications">ETP applications</a> - Describes the default
 behavior of the ETP package, and how it can be extended and
 customized.<br><a href="contenttypes">Content Types</a> - How to specialize the
