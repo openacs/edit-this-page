@@ -44,7 +44,7 @@ if {![db_0or1row get_current_page_attributes "" -column_array pa]} {
 template::multirow create page_attributes name pretty_name value
 
 proc truncate {str} {
-    set str [ad_quotehtml $str]
+    set str [ns_quotehtml $str]
     if {[string length $str] > 100} {
 	set str "[string range $str 0 100]..."
     }
