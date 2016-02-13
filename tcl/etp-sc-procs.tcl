@@ -21,7 +21,8 @@ ad_proc etp::revision_datasource {
 } {
         
     db_0or1row revision_datasource ""     -column_array datasource
-    set content_type [db_string get_content_type {}]
+    set content_type [acs_object_type $object_id]
+    
     ns_log debug "etp::revision_datasource: content_type=$content_type"
     # call a specially named proc to extend search content for
     # this content_type if it exists
@@ -62,20 +63,19 @@ ad_proc etp::create_search_impl {
     attributes of the default type will be used to create the datasource.
     @author Dave Bauer
 } {
-
-    db_transaction {
-	# create the implementation if it does not exist
-	if {[db_0or1row get_contract_id {}] == 0} { 
-	    db_exec_plsql create_search_impl {}
-	    db_exec_plsql create_datasource_alias {}
-	    db_exec_plsql create_url_alias {}
-	}
-	# install the binding if it does not exist
-	if {[acs_sc_binding_exists_p "FtsContentProvider" $content_type] != 1} {
-	    db_exec_plsql install_binding {}
-	}
+     db_transaction {
+        # create the implementation if it does not exist
+        if {![etp::search_impl_exists_p -content_type $content_type]} {
+            db_exec_plsql create_search_impl {}
+            db_exec_plsql create_datasource_alias {}
+            db_exec_plsql create_url_alias {}
+        }
+        # install the binding if it does not exist
+        if {[acs_sc_binding_exists_p "FtsContentProvider" $content_type] != 1} {
+            db_exec_plsql install_binding {}
+        }
     } on_error {
-	ns_log Error "etp::create_search_impl: Service contract implementation for content type \"${content_type}\" is not valid"
+        ns_log Error "etp::create_search_impl: Service contract implementation for content type \"${content_type}\" is not valid"
     }
 }
     
