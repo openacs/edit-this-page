@@ -99,13 +99,8 @@ ad_proc -public define_content_type { content_type pretty_name pretty_plural att
 	    attribute_metadata record has incorrect format"
 	    return
 	}
-		
-	set a_name [lindex $attribute 0]
-	set a_pretty_name [lindex $attribute 1]
-	set a_pretty_plural [lindex $attribute 2]
-	set a_datatype [lindex $attribute 3]
-	set a_html [lindex $attribute 4]
-	set a_default [lindex $attribute 5]
+
+	lassign $attribute a_name a_pretty_name a_pretty_plural a_datatype a_html a_default
 
 	if { ![db_0or1row attribute_exists ""] } {
 	    set attribute_id [db_exec_plsql attribute_create ""]

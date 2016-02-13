@@ -29,7 +29,7 @@ ad_proc etp::revision_datasource {
     # which the proc can modify if it likes to add additional
     # content to be indexed.
 
-    if {[llength [info procs "etp::search::$content_type"]]==1} {
+    if {[info commands "etp::search::$content_type"] ne ""} {
 	[etp::search::$content_type -array_name "datasource"]
     }
 
@@ -65,13 +65,13 @@ ad_proc etp::create_search_impl {
 
     db_transaction {
 	# create the implementation if it does not exist
-	if {![etp::search_impl_exists_p -content_type $content_type]==1} {
+	if {[db_0or1row get_contract_id {}] == 0} { 
 	    db_exec_plsql create_search_impl {}
 	    db_exec_plsql create_datasource_alias {}
 	    db_exec_plsql create_url_alias {}
 	}
 	# install the binding if it does not exist
-	if {![acs_sc_binding_exists_p "FtsContentProvider" $content_type]==1} {
+	if {[acs_sc_binding_exists_p "FtsContentProvider" $content_type] != 1} {
 	    db_exec_plsql install_binding {}
 	}
     } on_error {
