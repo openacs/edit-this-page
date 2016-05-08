@@ -261,6 +261,15 @@ ad_proc -public get_page_attributes {
     if {$package_id eq ""} {
         set package_id [ad_conn package_id]
     }
+    if {![string is integer -strict $package_id]} {
+       ad_log Warning "package_id <$package_id> is not an integer"
+       #
+       # This might happen, when no package_id could be determined
+       # via [ad_conn package_id]
+       #
+       ns_returnnotfound
+       ad_script_abort
+    }
     set name [etp::get_name]
     set content_type [etp::get_content_type $name]
 
