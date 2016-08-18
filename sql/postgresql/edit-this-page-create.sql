@@ -7,13 +7,19 @@ create sequence t_etp_auto_page_number_seq;
 create view etp_auto_page_number_seq as
 select nextval('t_etp_auto_page_number_seq') as nextval;
 
-create function etp__get_attribute_value (integer, integer) 
-returns varchar as '
-declare
-  p_object_id alias for $1;
-  p_attribute_id alias for $2;
+
+
+select define_function_args('etp__get_attribute_value','object_id,attribute_id');
+--
+-- procedure etp__get_attribute_value/2
+--
+CREATE OR REPLACE FUNCTION etp__get_attribute_value(
+   p_object_id integer,
+   p_attribute_id integer
+) RETURNS varchar AS $$
+DECLARE
   v_value varchar;
-begin
+BEGIN
   select attr_value
     into v_value
     from acs_attribute_values
@@ -21,27 +27,34 @@ begin
      and attribute_id = p_attribute_id;
 
   if not found then
-    v_value := '''';
+    v_value := '';
   end if;
 
   return v_value;
-end;
-' language 'plpgsql';
+END;
+
+$$ LANGUAGE plpgsql;
 
 
 
-create function etp__create_page(integer, varchar, varchar, varchar)
-returns integer as '
-declare
-  p_package_id alias for $1;
-  p_name alias for $2;
-  p_title alias for $3;
-  p_content_type alias for $4;  -- default null -> use content_revision
+
+
+--
+-- procedure etp__create_page/4
+--
+CREATE OR REPLACE FUNCTION etp__create_page(
+   p_package_id integer,
+   p_name varchar,
+   p_title varchar,
+   p_content_type varchar -- default null -> use content_revision
+
+) RETURNS integer AS $$
+DECLARE
   v_item_id integer;
   v_revision_id integer;
   v_folder_id integer;
-begin
-  v_item_id := acs_object__new(null, ''content_item'', now(), null, null, p_package_id);
+BEGIN
+  v_item_id := acs_object__new(null, 'content_item', now(), null, null, p_package_id);
 
   v_folder_id := etp__get_folder_id(p_package_id);
 
@@ -63,31 +76,40 @@ begin
 
   insert into cr_revisions (revision_id, item_id, title, 
                             publish_date, mime_type) 
-  values (v_revision_id, v_item_id, p_title, now(), ''text/enhanced'');
+  values (v_revision_id, v_item_id, p_title, now(), 'text/enhanced');
 
   update cr_items set live_revision = v_revision_id
                   where item_id = v_item_id;
 
   return 1;
-end;
-' language 'plpgsql';
+END;
+$$ LANGUAGE plpgsql;
 
-create or replace function etp__create_page(integer, integer, varchar, varchar, varchar)
-returns integer as '
-declare
-  p_item_id alias for $1;	
-  p_package_id alias for $2;
-  p_name alias for $3;
-  p_title alias for $4;
-  p_content_type alias for $5;  -- default null -> use content_revision
+
+
+
+select define_function_args('etp__create_page','item_id,package_id,name,title,content_type;null');
+
+--
+-- procedure etp__create_page/5
+--
+CREATE OR REPLACE FUNCTION etp__create_page(
+   p_item_id integer,
+   p_package_id integer,
+   p_name varchar,
+   p_title varchar,
+   p_content_type varchar -- default null -> use content_revision
+
+) RETURNS integer AS $$
+DECLARE
   v_item_id integer;
   v_revision_id integer;
   v_folder_id integer;
-begin
+BEGIN
   if p_item_id is null then
-      v_item_id := acs_object__new(null, ''content_item'', now(), null, null, p_package_id);
+      v_item_id := acs_object__new(null, 'content_item', now(), null, null, p_package_id);
   else 
-      v_item_id := acs_object__new(p_item_id, ''content_item'', now(), null, null, p_package_id);
+      v_item_id := acs_object__new(p_item_id, 'content_item', now(), null, null, p_package_id);
   end if;
 
   v_folder_id := etp__get_folder_id(p_package_id);
@@ -110,58 +132,88 @@ begin
 
   insert into cr_revisions (revision_id, item_id, title, 
                             publish_date, mime_type) 
-  values (v_revision_id, v_item_id, p_title, now(), ''text/enhanced'');
+  values (v_revision_id, v_item_id, p_title, now(), 'text/enhanced');
 
   update cr_items set live_revision = v_revision_id
                   where item_id = v_item_id;
 
   return 1;
-end;
-' language 'plpgsql';
+END;
+
+$$ LANGUAGE plpgsql;
  
-create function etp__create_extlink(integer, varchar, varchar, varchar)
-returns integer as '
-declare
-  p_package_id alias for $1;
-  p_url alias for $2;
-  p_title alias for $3;
-  p_description alias for $4; 
+
+
+select define_function_args('etp__create_extlink','item_id;null,package_id,url,title,description');
+
+--
+-- procedure etp__create_extlink/5
+--
+CREATE OR REPLACE FUNCTION etp__create_extlink(
+   p_item_id integer,
+   p_package_id integer,
+   p_url varchar,
+   p_title varchar,
+   p_description varchar
+) RETURNS integer AS $$
+DECLARE
   v_item_id integer;
   v_folder_id integer;
-begin
-  v_item_id := acs_object__new(null, ''content_extlink'');
-  v_folder_id := etp__get_folder_id(p_package_id);
-
-  insert into cr_items (
-    item_id, parent_id, name, content_type
-  ) values (
-    v_item_id, v_folder_id, ''extlink '' || nextval(''t_etp_auto_page_number_seq''), ''content_extlink''
-  );
-
-  insert into cr_extlinks
-    (extlink_id, url, label, description)
-  values
-    (v_item_id, p_url, p_title, p_description);
-
+BEGIN
+      v_item_id := acs_object__new(p_item_id, 'content_extlink');
+      v_folder_id := etp__get_folder_id(p_package_id);
+    
+      insert into cr_items (
+        item_id, parent_id, name, content_type
+      ) values (
+        v_item_id, v_folder_id, 'extlink ' || nextval('t_etp_auto_page_number_seq'), 'content_extlink'
+      );
+      insert into cr_extlinks
+        (extlink_id, url, label, description)
+      values
+        (v_item_id, p_url, p_title, p_description);
+    
   return 1;
-end;
-' language 'plpgsql';
+END;
+$$ LANGUAGE plpgsql;
 
-create function etp__create_symlink(integer, integer)
-returns integer as '
-declare
-  p_package_id alias for $1;
-  p_target_id alias for $2;
+--
+-- procedure etp__create_extlink/4
+--
+CREATE OR REPLACE FUNCTION etp__create_extlink(
+   p_package_id integer,
+   p_url varchar,
+   p_title varchar,
+   p_description varchar
+) RETURNS integer AS $$
+DECLARE
   v_item_id integer;
   v_folder_id integer;
-begin
-  v_item_id := acs_object__new(null, ''content_symlink'');
+BEGIN
+  return etp__create_extlink(null::integer, p_package_id, p_url, p_title, p_description);
+END;
+$$ LANGUAGE plpgsql;
+
+
+select define_function_args('etp__create_symlink','package_id,target_id');
+--
+-- procedure etp__create_symlink/2
+--
+CREATE OR REPLACE FUNCTION etp__create_symlink(
+   p_package_id integer,
+   p_target_id integer
+) RETURNS integer AS $$
+DECLARE
+  v_item_id integer;
+  v_folder_id integer;
+BEGIN
+  v_item_id := acs_object__new(null, 'content_symlink');
   v_folder_id := etp__get_folder_id(p_package_id);
 
   insert into cr_items (
     item_id, parent_id, name, content_type
   ) values (
-    v_item_id, v_folder_id, ''symlink '' || nextval(''t_etp_auto_page_number_seq''), ''content_symlink''
+    v_item_id, v_folder_id, 'symlink ' || nextval('t_etp_auto_page_number_seq'), 'content_symlink'
   );
 
   insert into cr_symlinks
@@ -170,20 +222,27 @@ begin
     (v_item_id, p_target_id);
 
   return 1;
-end;
-' language 'plpgsql';
+END;
 
-create or replace function etp__create_new_revision(integer, varchar, integer)
-returns integer as '
-declare
-  p_package_id alias for $1;
-  p_name alias for $2;
-  p_user_id alias for $3;
+$$ LANGUAGE plpgsql;
+
+
+
+
+--
+-- procedure etp__create_new_revision/3
+--
+CREATE OR REPLACE FUNCTION etp__create_new_revision(
+   p_package_id integer,
+   p_name varchar,
+   p_user_id integer
+) RETURNS integer AS $$
+DECLARE
   v_revision_id integer;
   v_item_id integer;
   v_new_revision_id integer;
   v_content_type varchar;
-begin
+BEGIN
 
   select max(r.revision_id)
     into v_revision_id
@@ -205,7 +264,7 @@ begin
   -- cannot use acs_object__new because it creates attributes with their
   -- default values, which is not what we want.
 
-  select nextval(''t_acs_object_id_seq'')
+  select nextval('t_acs_object_id_seq')
     into v_new_revision_id from dual;
 
   insert into acs_objects (object_id, object_type, creation_date, creation_user, context_id)
@@ -223,20 +282,27 @@ begin
    where object_id = v_revision_id;
 
   return 1;
-end;
-' language 'plpgsql';
+END;
 
-create or replace function etp__create_new_revision(integer, varchar, integer, integer)
-returns integer as '
-declare
-  p_package_id alias for $1;
-  p_name alias for $2;
-  p_user_id alias for $3;
-  p_revision_id alias for $4;
+$$ LANGUAGE plpgsql;
+
+
+
+select define_function_args('etp__create_new_revision','package_id,name,user_id,revision_id');
+--
+-- procedure etp__create_new_revision/4
+--
+CREATE OR REPLACE FUNCTION etp__create_new_revision(
+   p_package_id integer,
+   p_name varchar,
+   p_user_id integer,
+   p_revision_id integer
+) RETURNS integer AS $$
+DECLARE
   v_revision_id integer;
   v_item_id integer;
   v_content_type varchar;
-begin
+BEGIN
 
   select max(r.revision_id)
     into v_revision_id
@@ -274,17 +340,24 @@ begin
    where object_id = v_revision_id;
 
   return 1;
-end;
-' language 'plpgsql';
+END;
+
+$$ LANGUAGE plpgsql;
 
 
-create function etp__get_folder_id (integer)
-returns integer as '
-declare
-    p_package_id alias for $1;
+
+
+select define_function_args('etp__get_folder_id','package_id');
+--
+-- procedure etp__get_folder_id/1
+--
+CREATE OR REPLACE FUNCTION etp__get_folder_id(
+   p_package_id integer
+) RETURNS integer AS $$
+DECLARE
     v_folder_id integer;
     v_parent_id integer;
-begin
+BEGIN
     select folder_id into v_folder_id
       from cr_folders
      where package_id = p_package_id;
@@ -304,45 +377,52 @@ begin
     end if;
 
     return v_folder_id;
-end;
-' language 'plpgsql';
+END;
+
+$$ LANGUAGE plpgsql;
 
 
-create function etp__get_relative_url(integer, varchar)
-returns varchar as '
-declare
-  p_item_id alias for $1;
-  p_name alias for $2;
+
+
+select define_function_args('etp__get_relative_url','item_id,name');
+--
+-- procedure etp__get_relative_url/2
+--
+CREATE OR REPLACE FUNCTION etp__get_relative_url(
+   p_item_id integer,
+   p_name varchar
+) RETURNS varchar AS $$
+DECLARE
   v_item_id integer;
   v_url varchar;
   v_object_type varchar;
   v_link_rec record;
-begin
+BEGIN
 
   select object_type into v_object_type
     from acs_objects
    where object_id = p_item_id;
 
-  if v_object_type = ''content_item'' then
+  if v_object_type = 'content_item' then
     return p_name;
   end if;
 
-  if v_object_type = ''content_folder'' then
-    select s.name || ''/'' into v_url
+  if v_object_type = 'content_folder' then
+    select s.name || '/' into v_url
     from cr_folders f, site_nodes s
     where f.folder_id = p_item_id
     and s.object_id = f.package_id;
     return v_url;
   end if;
 
-  if v_object_type = ''content_extlink'' then
+  if v_object_type = 'content_extlink' then
     select url into v_url
       from cr_extlinks
      where extlink_id = p_item_id;
     return v_url;
   end if;
 
-  if v_object_type = ''content_symlink'' then
+  if v_object_type = 'content_symlink' then
     select target_id into v_item_id
       from cr_symlinks
      where symlink_id = p_item_id;
@@ -363,18 +443,26 @@ begin
 
   return null;
 
-end;
-' language 'plpgsql';
+END;
 
-create function etp__get_title(integer, varchar)
-returns varchar as '
-declare
-  p_item_id alias for $1;
-  p_revision_title alias for $2;
+$$ LANGUAGE plpgsql;
+
+
+
+
+select define_function_args('etp__get_title','item_id,revision_title');
+--
+-- procedure etp__get_title/2
+--
+CREATE OR REPLACE FUNCTION etp__get_title(
+   p_item_id integer,
+   p_revision_title varchar
+) RETURNS varchar AS $$
+DECLARE
   v_item_id integer;
   v_title varchar;
   v_object_type varchar;
-begin
+BEGIN
   if p_revision_title is not null then
     return p_revision_title;
   end if;
@@ -382,31 +470,31 @@ begin
   select object_type from acs_objects into v_object_type
    where object_id = p_item_id;
 
-  if v_object_type = ''content_folder'' then
+  if v_object_type = 'content_folder' then
     select r.title 
       into v_title
       from cr_items i, cr_revisions r
      where i.parent_id = p_item_id
-       and i.name = ''index''
+       and i.name = 'index'
        and i.live_revision = r.revision_id;
     return v_title;    
   end if;
 
-  if v_object_type = ''content_extlink'' then
+  if v_object_type = 'content_extlink' then
     select label into v_title
       from cr_extlinks
      where extlink_id = p_item_id;
     return v_title;
   end if;
 
-  if v_object_type = ''content_symlink'' then
+  if v_object_type = 'content_symlink' then
     select target_id into v_item_id
       from cr_symlinks
      where symlink_id = p_item_id;
     return etp__get_title(v_item_id, null);
   end if;
 
-  if v_object_type = ''content_item'' then
+  if v_object_type = 'content_item' then
     select r.title into v_title
       from cr_items i, cr_revisions r
      where i.item_id = v_item_id
@@ -416,18 +504,25 @@ begin
    
   return null;
 
-end;
-' language 'plpgsql';
+END;
 
-create function etp__get_description(integer, varchar)
-returns varchar as '
-declare
-  p_item_id alias for $1;
-  p_revision_description alias for $2;
+$$ LANGUAGE plpgsql;
+
+
+
+select define_function_args('etp__get_description','item_id,revision_description');
+--
+-- procedure etp__get_description/2
+--
+CREATE OR REPLACE FUNCTION etp__get_description(
+   p_item_id integer,
+   p_revision_description varchar
+) RETURNS varchar AS $$
+DECLARE
   v_item_id integer;
   v_description varchar;
   v_object_type varchar;
-begin
+BEGIN
   if p_revision_description is not null then
     return p_revision_description;
   end if;
@@ -435,32 +530,32 @@ begin
   select object_type from acs_objects into v_object_type
    where object_id = p_item_id;
 
-  if v_object_type = ''content_folder'' then
+  if v_object_type = 'content_folder' then
     select r.description 
       into v_description
       from cr_items i, cr_revisions r
      where i.parent_id = p_item_id
-       and i.name = ''index''
+       and i.name = 'index'
        and i.live_revision = r.revision_id
        and i.item_id = r.item_id;
     return v_description;    
   end if;
 
-  if v_object_type = ''content_extlink'' then
+  if v_object_type = 'content_extlink' then
     select description into v_description
       from cr_extlinks
      where extlink_id = p_item_id;
     return v_description;
   end if;
 
-  if v_object_type = ''content_symlink'' then
+  if v_object_type = 'content_symlink' then
     select target_id into v_item_id
       from cr_symlinks
      where symlink_id = p_item_id;
     return etp__get_description(v_item_id, null);
   end if;
 
-  if v_object_type = ''content_item'' then
+  if v_object_type = 'content_item' then
     select r.description into v_description
       from cr_items i, cr_revisions r
      where i.item_id = v_item_id
@@ -470,7 +565,8 @@ begin
 
   return null;
 
-end;' language 'plpgsql';
+END;
+$$ LANGUAGE plpgsql;
 
 
 
@@ -479,17 +575,18 @@ end;' language 'plpgsql';
 -- create a folder with magic folder_id of -400 where we
 -- will put all deleted content items so they'll be recoverable.
 
-create function inline_1 () 
-returns integer as '
-declare
+CREATE OR REPLACE FUNCTION inline_1(
+
+) RETURNS integer AS $$
+DECLARE
   v_folder_id integer;
-begin
+BEGIN
 select folder_id into v_folder_id from cr_folders where folder_id = -400;
 if not found then 
   perform content_folder__new (
-    ''trash'',
-    ''Trash'', 
-    ''Deleted content items get put here'',
+    'trash',
+    'Trash', 
+    'Deleted content items get put here',
     0,
     null,
     -400,
@@ -499,8 +596,9 @@ if not found then
   );
 end if;
 return 0;
-end;
-' language 'plpgsql';
+END;
+
+$$ LANGUAGE plpgsql;
 
 select inline_1 ();
 drop function inline_1 ();
