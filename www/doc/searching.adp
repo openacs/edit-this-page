@@ -13,9 +13,9 @@ are defined using etp::define_application.</p>
 <p>By default it will allow indexing of the title, content, and
 description attributes of an item. To add indexing of custom
 content_type attributes a developer creates a specially named Tcl
-proc: <code>etp::search::content_type where <i>content_type</i> is
-the customer content type you have created. For a sample Tcl proc
-see edit-this-page/tcl/etp-sc-procs.tcl for
+proc: <code>etp::search::content_type where <em>content_type</em>
+is the customer content type you have created. For a sample Tcl
+proc see edit-this-page/tcl/etp-sc-procs.tcl for
 etp::search::etp_page_revision. The calling proc will pass in an
 array name. The custom search proc should modify the passed in
 array using upvar as per the example. The elements of that array

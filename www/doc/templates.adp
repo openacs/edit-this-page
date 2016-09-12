@@ -7,66 +7,69 @@
 <a href="./">ETP Documentation</a>
 :ETP Templates
 
-To use ETP, or in fact to effectively use OpenACS 4, it's essential
-that you become familiar with the <a href="/doc/acs-templating/">OpenACS Templating System</a>
-. ETP's support
-for rapid application development includes procedures for creating
-the data sources that will be used by your page templates. You can
-copy code from the examples in the
+To use ETP, or in fact to effectively use OpenACS 4, it&#39;s
+essential that you become familiar with the <a href="/doc/acs-templating/">OpenACS Templating System</a>
+. ETP&#39;s
+support for rapid application development includes procedures for
+creating the data sources that will be used by your page templates.
+You can copy code from the examples in the
 <code>packages/editthispage/templates</code>
  directory to get
-started, but here's an overview of what you need to know.
+started, but here&#39;s an overview of what you need to know.
 <h3>Providing the "Edit this page" link</h3>
 
 As demonstrated in
 <code>packages/editthispage/www/master.tcl</code>
 , you should call
-the procedure <b>etp::get_etp_link</b>
- from your own master
-template, in order to determine whether or not to present the user
-with the "Edit this page" option. The procedure returns the html
-link only within an instance of the ETP package, and then only if
-the user has write access. Otherwise an empty string is returned.
+the procedure <strong>etp::get_etp_link</strong>
+ from your own
+master template, in order to determine whether or not to present
+the user with the "Edit this page" option. The procedure
+returns the html link only within an instance of the ETP package,
+and then only if the user has write access. Otherwise an empty
+string is returned.
 <h3>Retrieving page attributes for the template to display</h3>
 
 Every ETP template will make use of the
-<b>etp::get_page_attributes</b>
- procedure. It creates an array
-variable called <code>pa</code>
- in the caller's stack frame,
-containing all the attributes necessary to render the current page.
-These attributes include the standard elements from the
-cr_revisions table such as title, description, and content. If the
-page is using a <a href="contenttypes">custom content type</a>
-, any
-extended page attributes that correspond to it will be included.
+<strong>etp::get_page_attributes</strong>
+ procedure. It creates an
+array variable called <code>pa</code>
+ in the caller&#39;s stack
+frame, containing all the attributes necessary to render the
+current page. These attributes include the standard elements from
+the cr_revisions table such as title, description, and content. If
+the page is using a <a href="contenttypes">custom content type</a>
+,
+any extended page attributes that correspond to it will be
+included.
 <p>The complete list of standard attributes in the pa array is as
 follows:</p>
 <ul>
-<li>item_id</li><li>name</li><li>revision_id</li><li>title</li><li>context_bar</li><li>description</li><li>publish_date</li><li>content</li><li><i>extended attributes, if any, defined by
-etp::make_content_type</i></li>
+<li>item_id</li><li>name</li><li>revision_id</li><li>title</li><li>context_bar</li><li>description</li><li>publish_date</li><li>content</li><li><em>extended attributes, if any, defined by
+etp::make_content_type</em></li>
 </ul>
 
 The procedure is designed to be efficient under heavy load. The
 database is accessed once to retrieve the attributes, and a second
-time to generate the page's context bar. The resulting array is
-then cached in the server's memory until someone edits it.
+time to generate the page&#39;s context bar. The resulting array is
+then cached in the server&#39;s memory until someone edits it.
 <p>Once the <code>pa</code> array variable has been created as a
 template data source, the template itself may reference the values
-it contains using the standard syntax for "onerow" data sources;
-for example, <code>\@pa.content\@</code>.</p>
+it contains using the standard syntax for "onerow" data
+sources; for example, <code>\@pa.content\@</code>.</p>
 <h3>Retrieving the list of pages in a content section</h3>
 
 ETP templates used for the index page will almost always make use
-of the <b>etp::get_content_items</b>
- procedure. It creates a
-variable called <code>content_items</code>
- in the caller's stack
-frame. This is a multirow result set suitable for passing to an
-index template, containing all the structured data necessary to
-present a list of links to content pages, folders, extlinks, or
-symlinks. By making use of the procedure's switches you may modify
-the query results it produces:
+of the <strong>etp::get_content_items</strong>
+ procedure. It
+creates a variable called <code>content_items</code>
+ in the
+caller&#39;s stack frame. This is a multirow result set suitable
+for passing to an index template, containing all the structured
+data necessary to present a list of links to content pages,
+folders, extlinks, or symlinks. By making use of the
+procedure&#39;s switches you may modify the query results it
+produces:
 <ul>
 <li><code>-attributes [list] - list of additional page attributes
 to return (when required for display)</code></li><li><code>-orderby [list] - list of columns on which to
