@@ -286,7 +286,7 @@ as
         return name;
       end if;
 
-      -- is this portable? wouldn't seperator be better
+      -- is this portable? wouldn't separator be better
       if v_object_type = 'content_folder' then
         return name || '/';
       end if;
@@ -452,7 +452,7 @@ show errors;
 
 -- create a default content_type etp_page_revision
 -- DaveB
--- this references a non-existant table
+-- this references a non-existent table
 -- which I might have to change...
 
 begin

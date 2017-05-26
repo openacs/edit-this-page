@@ -605,7 +605,7 @@ drop function inline_1 ();
 
 -- create a default content_type etp_page_revision
 -- DaveB
--- this references a non-existant table
+-- this references a non-existent table
 -- which I might have to change...
 select content_type__create_type (
         'etp_page_revision',        -- content_type
