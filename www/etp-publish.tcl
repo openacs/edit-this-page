@@ -29,4 +29,4 @@ if { $latest_revision_id > $live_revision_id } {
 }
 
 ad_returnredirect [export_vars -base etp {name}]
-
+ad_script_abort

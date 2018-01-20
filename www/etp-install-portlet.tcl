@@ -48,3 +48,4 @@ set site_node_url [file dirname [ad_conn url]]
     }
 set fs_package_id [site_node::instantiate_and_mount -parent_node_id $node_id -package_key "file-storage" -package_name "file-storage"]
 ad_returnredirect "etp"
+ad_script_abort

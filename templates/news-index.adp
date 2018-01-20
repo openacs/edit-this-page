@@ -10,7 +10,7 @@
 
 <if @content_items:rowcount@ eq 0>
 <em>There are no 
-<if @archive_p@ eq "f">current</if><else>expired</else>
+<if @archive_p;literal@ false>current</if><else>expired</else>
 news items</em>
 </if>
 
@@ -22,7 +22,7 @@ news items</em>
 
 </ul>
 
-<if @archive_p@ eq "f">
+<if @archive_p;literal@ false>
 If you're looking for an old news article, check the <a href="?archive_p=t">expired news</a>.
 </if>
 <else>

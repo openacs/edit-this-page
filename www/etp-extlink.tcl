@@ -37,6 +37,7 @@ if { $confirmed == "t" } {
 	    }
 	}
 	ad_returnredirect "etp"
+	
     }
     ad_script_abort
 } else {

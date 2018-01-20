@@ -44,3 +44,4 @@ db_foreach get_all_keys "" {
 }
 
 ad_returnredirect "etp"
+ad_script_abort

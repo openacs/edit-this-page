@@ -49,3 +49,4 @@ if { $site_node_url eq "/" } {
 }
 
 ad_returnredirect "etp"
+ad_script_abort

@@ -19,3 +19,4 @@ if { [regexp {[^a-zA-Z0-9\-_]} $name] } {
     etp::make_page $name $title
     ad_returnredirect [export_vars -base etp {name}]
 }
+ad_script_abort

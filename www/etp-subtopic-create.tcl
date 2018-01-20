@@ -21,6 +21,7 @@ if { $confirmed == "t" } {
     if { $subtopic_name eq "" ||
          [regexp {[^a-zA-Z0-9\-_]} $subtopic_name] } {
 	ad_return_complaint 1 "[_ edit-this-page.The_subtopic_name_must_be_a_short_identifier]"
+	ad_script_abort
     } else {
 	set new_package_id [subsite::auto_mount_application \
 	    -instance_name $subtopic_name \
@@ -39,6 +40,7 @@ if { $confirmed == "t" } {
 	apm_parameter_sync "edit-this-page" $new_package_id
 	set title $subtopic_title
 	ad_returnredirect [export_vars -base $subtopic_name/etp-setup-2 {title}]
+	ad_script_abort
     }
     ad_script_abort
 } else {
