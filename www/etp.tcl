@@ -38,7 +38,10 @@ set extended_attributes [etp::get_ext_attribute_columns $content_type]
 
 set revision_id [etp::get_latest_revision_id $package_id $name]
 if {![db_0or1row get_current_page_attributes "" -column_array pa]} {
-    ad_return_warning "Page $name does not exist" "No page by the name of $name exists"
+    ad_return_warning \
+	"Page $name does not exist" \
+	"No page by the name of $name exists"
+    ad_script_abort
 }
 
 template::multirow create page_attributes name pretty_name value
