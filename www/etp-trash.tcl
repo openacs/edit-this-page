@@ -21,14 +21,14 @@ if {![db_0or1row get_node_id ""]} {
 } else {
 
     # You can't delete a site node if it has any children 
-    if {[db_string site_node_children ""] > 0} {
-	ad_return_warning "Unable to delete content section" "
-	Sorry, this subtopic contains other subtopics.
-	You should remove them first; then you'll be able to
-	remove this one.  If Edit This Page isn't showing any
-	subtopics, you
-	may need to use the <a href=\"/admin/site-map/\">Site Map</a>.
-	"
+    if {[llength [site_node::get_children -node_id $node_id]] > 0} {
+	ad_return_warning "Unable to delete content section" {
+	    Sorry, this subtopic contains other subtopics.
+	    You should remove them first; then you'll be able to
+	    remove this one.  If Edit This Page isn't showing any
+	    subtopics, you may need to use the
+	    <a href="/admin/site-map/">Site Map</a>.
+	}
 	ad_script_abort
     }
 }
@@ -38,7 +38,8 @@ if {![db_0or1row get_node_id ""]} {
 db_transaction {
 
     if {$node_id ne ""} {
-	site_map_unmount_application -delete_p "t" $node_id    
+	site_node::unmount -node_id $node_id
+	site_node::delete -node_id $node_id
     }
 
     # If an item with the same name is already in the trash,
