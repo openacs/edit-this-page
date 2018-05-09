@@ -78,7 +78,7 @@ ad_proc -public define_content_type { content_type pretty_name pretty_plural att
 } {
     variable content_types
     if {![info exists content_types]} {
-	array set content_types {}
+	array set content_types [list]
     }
 
     # probably should use content_type functions instead
@@ -90,7 +90,7 @@ ad_proc -public define_content_type { content_type pretty_name pretty_plural att
 	db_exec_plsql object_type_create ""
     }
 
-    set attribute_metadata_with_ids {}
+    set attribute_metadata_with_ids [list]
 
     # for each attribute, ensure an entry in acs_attributes
     foreach attribute $attribute_metadata {
@@ -123,7 +123,7 @@ ad_proc -public define_application { name params } {
 } {
     variable application_params
     if {![info exists application_params]} {
-	array set application_params {}
+	array set application_params [list]
     }
     set application_params($name) $params
     ns_log debug "ETP define_application name $name is $application_params($name)"
@@ -338,7 +338,7 @@ ad_proc -private get_pa { package_id name {content_type ""} } {
     # add in the context bar
     if { $name eq "index" } {
 	set cb [ad_context_bar]
-        set context {}
+        set context [list]
     } else {
 	set cb [ad_context_bar $pa(title)] 
         set context [list $pa(title)]
