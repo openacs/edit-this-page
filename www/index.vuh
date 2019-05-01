@@ -7,10 +7,10 @@ ad_page_contract {
   Virtual URL Handler to serve files from an
   instance of the Edit This Page package.
 
-  Helpful .vuh example at 
+  Helpful .vuh example at
   http://rhea.redhat.com/bboard-archive/webdb/000JTn.html
 } {
-	{revision_id ""}
+        {revision_id ""}
 }
 
 ad_conn -set revision_id $revision_id
@@ -18,12 +18,13 @@ ad_conn -set revision_id $revision_id
 # get the portion of the url following the package directory
 set name [ad_conn path_info]
 
-#ns_log Notice "index.vuh: request for $name" 
+#ns_log Notice "index.vuh: request for $name"
 
 if { [string index $name end] eq "/" } {
     # it's in a subdirectory, and we know there's no
     # other package mounted on that subdirectory.
     ns_returnnotfound
+    ad_script_abort
 }
 
 if {$name eq "" || $name eq "index"} {
@@ -31,15 +32,15 @@ if {$name eq "" || $name eq "index"} {
 } elseif {[string match "etp*" $name]} {
     # this trickery is for serving pages from the top level,
     # where the acs-subsite package is mounted rather than
-    # the editthispage package.  normally the request processor 
+    # the editthispage package.  normally the request processor
     # finds these before invoking this file.
     set path "/packages/edit-this-page/www/$name"
 } else {
 
     set path "/[etp::get_application_param content_template]"
 
-    # set up form variables so we can pass the "name" 
-    # variable to the content page. 
+    # set up form variables so we can pass the "name"
+    # variable to the content page.
     global _ns_form
     set _ns_form [ns_set create]
     ns_set put [ns_getform] "name" $name
@@ -49,7 +50,8 @@ if {$name eq "" || $name eq "index"} {
 
 rp_internal_redirect $path
 
-
-
-
-
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:
