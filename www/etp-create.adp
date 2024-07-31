@@ -8,14 +8,14 @@
 <td valign="top">
 <b>#edit-this-page.Page_name#</b>
 <td valign="top">
-<input name="name" value="@new_page_name@">
+<input name="name" value="@new_page_name@" required>
 <td valign="top" style="width:50%;">
 #edit-this-page.lt_This_must_be_a_short_# <code>#edit-this-page.auto_page_name#</code> #edit-this-page.lt_parameter_the_page_name#
 </tr><tr>
 <td valign="top">
 <b>#edit-this-page.Page_title#</b>
 <td valign="top">
-<input name="title">
+<input name="title" required>
 <td valign="top" style="width:50%;">
 #edit-this-page.lt_You_may_change_the_ti#
 </tr>

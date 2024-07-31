@@ -5,8 +5,8 @@ ad_page_contract {
     Handles the form submission and creates a new content page
 
 } {
-    name
-    title
+    name:notnull
+    title:notnull
 }
 
 etp::check_write_access
