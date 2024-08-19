@@ -3,8 +3,8 @@
 -- @creation-date 2001-11-01
 --
 
-drop sequence t_etp_auto_page_number_seq;
 drop view etp_auto_page_number_seq;
+drop sequence t_etp_auto_page_number_seq;
 drop function etp__get_attribute_value (integer, integer);
 drop function etp__create_page(integer, varchar, varchar, varchar);
 drop function etp__create_extlink(integer, varchar, varchar, varchar);
