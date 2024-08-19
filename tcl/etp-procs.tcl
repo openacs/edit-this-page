@@ -14,8 +14,8 @@ namespace eval etp {
         {content Content Content string {rows=24 cols=80} "" -1}
     }
 
-    ad_proc -public make_content_type { content_type pretty_name pretty_plural attribute_metadata } {
-        obsolete name; use define_content_type instead
+    ad_proc -deprecated make_content_type { content_type pretty_name pretty_plural attribute_metadata } {
+        @see define_content_type
     } {
         return [define_content_type $content_type $pretty_name $pretty_plural $attribute_metadata]
     }
