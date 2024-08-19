@@ -1,9 +1,8 @@
-
 ad_page_contract {
     @author Luke Pond (dlpond@museatech.net)
     @creation-date 2001-06-10
 
-    Presents a form for editing a single page attribute 
+    Presents a form for editing a single page attribute
 
 } {
     name
@@ -47,7 +46,7 @@ if { [info commands $default] ne "" } {
 } else {
     set widget "(textarea)"
 }
-   
+
 } elseif {$type eq "date"} {
 	set widget "(date),to_sql(linear_date),from_sql(sql_date)"
     set widget_extra [list format "Month DD YYYY"]
@@ -115,7 +114,7 @@ ad_form -name etp_edit -export { name attribute  widget} -form $form_list -edit_
     set extra_sql ""
     if {[info exists datevalue]} {
 	ns_log notice "DAVEB! new_data datevalue = $datevalue"
-	
+
 	# The date is given in YYYY-MM-DD.  Transform to desired format.
 #	set date_format [etp::get_application_param date_format]
 	set value "[template::util::date::get_property year $datevalue]-[template::util::date::get_property month $datevalue]-[template::util::date::get_property day $datevalue]"
@@ -123,7 +122,7 @@ ad_form -name etp_edit -export { name attribute  widget} -form $form_list -edit_
 	    set value [template::util::richtext get_property contents [set $element]]
 	    set mime_type [template::util::richtext get_property format [set $element]]
 	    set extra_sql " , mime_type=:mime_type"
-       
+
     } else {
 	set value [set $element]
     }
@@ -157,7 +156,7 @@ ad_form -name etp_edit -export { name attribute  widget} -form $form_list -edit_
 	}
     }
 
-    # As a convenience, if you change the Title of an index page, 
+    # As a convenience, if you change the Title of an index page,
     # we also update the package instance name so that the context bar
     # reflects the new title.  Note this is something you can't do through
     # the Site Map UI.
