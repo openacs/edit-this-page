@@ -274,7 +274,7 @@ namespace eval etp {
         upvar pa pa
 
         if { [catch {
-            if {[empty_string_p [ad_conn -get revision_id]]} {
+            if {[ad_conn -get revision_id] eq ""} {
                 # asking for the live published revision
                 set code "etp::get_pa $package_id $name $content_type"
                 array set pa [util_memoize $code $max_age]

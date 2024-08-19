@@ -142,7 +142,7 @@ ad_form -name etp_edit -export { name attribute  widget} -form $form_list -edit_
 	# encapsulated in the query file.    So maybe it's not quite as ugly a hack
 	# as I make it out to be ... you decide!
 
-	if { ![empty_string_p [db_map update_${attribute}_attribute_clob]] } {
+	if { [db_map update_${attribute}_attribute_clob] ne "" } {
 	    db_dml update_${attribute}_attribute_clob "" -blobs  [list $value]
 	} else {
 	    db_dml update_attribute ""
