@@ -276,14 +276,16 @@ namespace eval etp {
         if { [catch {
             if {[ad_conn -get revision_id] eq ""} {
                 # asking for the live published revision
-                set code "etp::get_pa $package_id $name $content_type"
-                array set pa [util_memoize $code $max_age]
+                array set pa [util_memoize \
+                                  [list etp::get_pa $package_id $name $content_type] \
+                                  $max_age]
             } else {
                 # an admin is browsing other revisions - do not use caching.
                 array set pa [etp::get_pa [ad_conn package_id] $name $content_type]
             }
         } errmsg] } {
-            ns_log warning "Error from etp::get_pa was:\n$errmsg"
+            ns_log warning "etp::get_pa revision_id '[ad_conn -get revision_id]'" \
+                "package_id '[ad_conn package_id]' raised exception:" $errmsg
 
             # Page not found.  Redirect admins to setup page;
             # otherwise report 404 error.
