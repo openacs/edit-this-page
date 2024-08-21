@@ -283,9 +283,19 @@ namespace eval etp {
                 # an admin is browsing other revisions - do not use caching.
                 array set pa [etp::get_pa [ad_conn package_id] $name $content_type]
             }
-        } errmsg] } {
-            ns_log warning "etp::get_pa revision_id '[ad_conn -get revision_id]'" \
-                "package_id '[ad_conn package_id]' raised exception:" $errmsg
+        } errorMsg] } {
+            #
+            # This part of the code is a weird construct: If the page
+            # does not exist, an exception is raised. In practice,
+            # requests for non-existing pages happens quite often and
+            # should not raise exceptions. Since unfortunately, no
+            # exception code is set, we check here for the error
+            # message.
+            #
+            if {$errorMsg ne "Query did not return any rows"} {
+                ns_log warning "etp::get_pa revision_id '[ad_conn -get revision_id]'" \
+                    "package_id '[ad_conn package_id]' raised exception:" $errorMsg
+            }
 
             # Page not found.  Redirect admins to setup page;
             # otherwise report 404 error.
