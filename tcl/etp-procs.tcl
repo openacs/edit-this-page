@@ -292,7 +292,7 @@ namespace eval etp {
             # exception code is set, we check here for the error
             # message.
             #
-            if {$errorMsg ne "Query did not return any rows"} {
+            if {$errorMsg ne "Query did not return any rows."} {
                 ns_log warning "etp::get_pa revision_id '[ad_conn -get revision_id]'" \
                     "package_id '[ad_conn package_id]' raised exception:" $errorMsg
             }
